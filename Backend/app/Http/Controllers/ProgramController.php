@@ -24,7 +24,6 @@ class ProgramController extends Controller
         } else {
             return new ProgramCollection(Program::where($query_items)->paginate()->appends($request->query()));
         }
-        
     }
 
     /**

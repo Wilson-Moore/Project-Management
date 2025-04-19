@@ -2,28 +2,29 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class SubProgram extends Model
+class Subprogram extends Model
 {
-    /** @use HasFactory<\Database\Factories\SubProgramFactory> */
-    use HasFactory;
+    protected $primaryKey='code';
+    public $incrementing=false;
+    protected $keyType='string';
 
     protected $fillable = [
         'code',
         'title',
+        'program_code',
     ];
 
-    public function program(): BelongsTo
+    public function wallet(): BelongsTo
     {
-        return $this->belongsTo(Program::class,"program_code");
+        return $this->belongsTo(Wallet::class,"wallet_code");
     }
 
-    public function actions(): HasMany
+    public function sub_programs(): HasMany
     {
-        return $this->hasMany(Action::class,"action_code");
+        return $this->hasMany(Program::class,"sub_program_code");
     }
 }

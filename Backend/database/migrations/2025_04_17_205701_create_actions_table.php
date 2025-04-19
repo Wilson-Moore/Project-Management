@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('actions', function (Blueprint $table) {
             $table->string("code")->primary();
             $table->string("type");
-            $table->string("sub_program_code");
+            $table->string("subprogram_code");
             $table->timestamps();
             
-            $table->foreign("sub_program_code")->references("code")->on("sub_programs")->onDelete("cascade");
+            $table->foreign("subprogram_code")->references("code")->on("subprograms")->onDelete("cascade");
         });
     }
 

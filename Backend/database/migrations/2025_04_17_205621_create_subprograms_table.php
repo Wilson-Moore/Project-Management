@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sub_programs', function (Blueprint $table) {
+        Schema::create('subprograms', function (Blueprint $table) {
             $table->string("code")->primary();
             $table->string("title");
             $table->string("program_code");
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sub_programs');
+        Schema::dropIfExists('subprograms');
     }
 };
