@@ -11,6 +11,10 @@ class Wallet extends Model
     /** @use HasFactory<\Database\Factories\WalletFactory> */
     use HasFactory;
 
+    protected $primaryKey='code';
+    public $incrementing=false;
+    protected $keyType='string';
+
     protected $fillable = [
         'code',
         'title',
