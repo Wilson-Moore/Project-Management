@@ -12,9 +12,14 @@ class Program extends Model
     /** @use HasFactory<\Database\Factories\ProgramFactory> */
     use HasFactory;
 
+    protected $primaryKey='code';
+    public $incrementing=false;
+    protected $keyType='string';
+
     protected $fillable = [
         'code',
         'title',
+        'wallet_code',
     ];
 
     public function wallet(): BelongsTo
