@@ -11,7 +11,7 @@ class StoreSubProgramRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,14 @@ class StoreSubProgramRequest extends FormRequest
         return [
             'code'=>['required','alpha_num','size:2'],
             'title'=>['required'],
-            'program_code'=>['required'],
+            'program'=>['required'],
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'program_code'=>$this->program
+        ]);
     }
 }

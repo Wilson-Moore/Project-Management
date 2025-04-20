@@ -11,7 +11,7 @@ class UpdateProgramRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,14 +26,21 @@ class UpdateProgramRequest extends FormRequest
             return [
                 'code'=>['required','alpha_num','size:3'],
                 'title'=>['required'],
-                'wallet_code'=>['required']
+                'wallet'=>['required']
             ];
         } else {
             return [
                 'code'=>['sometimes','required','alpha_num','size:3'],
                 'title'=>['sometimes','required'],
-                'wallet_code'=>['sometimes','required']
+                'wallet'=>['sometimes','required']
             ];
         }
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'wallet_code'=>$this->wallet
+        ]);
     }
 }

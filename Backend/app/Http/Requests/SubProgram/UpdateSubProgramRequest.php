@@ -11,7 +11,7 @@ class UpdateSubProgramRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,14 +26,21 @@ class UpdateSubProgramRequest extends FormRequest
             return [
                 'code'=>['required','alpha_num','size:2'],
                 'title'=>['required'],
-                'program_code'=>['required'],
+                'program'=>['required'],
             ];
         } else {
             return [
                 'code'=>['sometimes','required','alpha_num','size:2'],
                 'title'=>['sometimes','required'],
-                'program_code'=>['sometimes','required'],
+                'program'=>['sometimes','required'],
             ];
         }
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'program_code'=>$this->program
+        ]);
     }
 }

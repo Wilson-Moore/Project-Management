@@ -11,7 +11,7 @@ class StoreProgramRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,14 @@ class StoreProgramRequest extends FormRequest
         return [
             'code'=>['required','alpha_num','size:3'],
             'title'=>['required'],
-            'wallet_code'=>['required'],
+            'wallet'=>['required'],
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'wallet_code'=>$this->wallet
+        ]);
     }
 }
