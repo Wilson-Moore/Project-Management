@@ -26,13 +26,13 @@ class UpdateSubProgramRequest extends FormRequest
             return [
                 'code'=>['required','alpha_num','size:2'],
                 'title'=>['required'],
-                'program'=>['required'],
+                'program'=>['required','exists:programs,code'],
             ];
         } else {
             return [
                 'code'=>['sometimes','required','alpha_num','size:2'],
                 'title'=>['sometimes','required'],
-                'program'=>['sometimes','required'],
+                'program'=>['sometimes','required','exists:programs,code'],
             ];
         }
     }

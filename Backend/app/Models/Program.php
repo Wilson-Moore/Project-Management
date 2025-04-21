@@ -23,8 +23,8 @@ class Program extends Model
         return $this->belongsTo(Wallet::class,"wallet_code");
     }
 
-    public function sub_programs(): HasMany
+    public function subprograms(): HasMany
     {
-        return $this->hasMany(Program::class,"sub_program_code");
+        return $this->hasMany(Program::class,"subprogram_code");
     }
 }

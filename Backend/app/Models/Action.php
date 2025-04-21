@@ -8,14 +8,30 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Action extends Model
 {
+    protected $primaryKey='code';
+    public $incrementing=false;
+    protected $keyType='string';
+    
     protected $fillable = [
         'code',
-        'title',
+        'type',
+        'subprogram_code',
     ];
 
-    public function sub_program(): BelongsTo
+    public function getTypeLabelAttribute(): string
     {
-        return $this->belongsTo(SubProgram::class,"sub_program_code");
+        return match ($this->type) 
+        {
+            '1'=>'internal',
+            '2'=>'external',
+            '3'=>'unique',
+            default=>'unknown',
+        };
+    }
+
+    public function subprogram(): BelongsTo
+    {
+        return $this->belongsTo(SubProgram::class,"subprogram_code");
     }
 
     public function operations(): HasMany

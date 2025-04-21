@@ -24,7 +24,7 @@ class StoreSubProgramRequest extends FormRequest
         return [
             'code'=>['required','alpha_num','size:2'],
             'title'=>['required'],
-            'program'=>['required'],
+            'program'=>['required','exists:programs,code'],
         ];
     }
 

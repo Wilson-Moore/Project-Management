@@ -26,13 +26,13 @@ class UpdateProgramRequest extends FormRequest
             return [
                 'code'=>['required','alpha_num','size:3'],
                 'title'=>['required'],
-                'wallet'=>['required']
+                'wallet'=>['required','exists:wallets,code']
             ];
         } else {
             return [
                 'code'=>['sometimes','required','alpha_num','size:3'],
                 'title'=>['sometimes','required'],
-                'wallet'=>['sometimes','required']
+                'wallet'=>['sometimes','required','exists:wallets,code']
             ];
         }
     }

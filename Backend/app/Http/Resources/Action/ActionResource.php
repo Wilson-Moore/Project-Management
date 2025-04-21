@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Http\Resources\Action;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class ActionResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'code'=>$this->code,
+            'type'=>$this->type_label,
+            'subprogram'=>$this->subprogram_code,
+        ];
+    }
+}
