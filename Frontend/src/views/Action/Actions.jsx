@@ -3,33 +3,32 @@ import axiosClient from "../../axios-client.js";
 import {Link} from "react-router-dom";
 import {NotificationStateContext} from "../../contexts/NotificationContextProvider.jsx";
 
-export default function programs() {
-  const [programs,setprograms]=useState([]);
+export default function actions() {
+  const [actions,setactions]=useState([]);
   const [loading,setLoading]=useState(false);
   const [currentpage,setcurrentpage]=useState(1);
   const [totalpages,settotalpages]=useState(1);
   const {setNotification}=NotificationStateContext()
 
-  useEffect(()=>{getprograms();},[currentpage])
+  useEffect(()=>{getactions();},[currentpage])
 
-  const onDeleteClick=program=>{
-    if (!window.confirm("Are you sure you want to delete this program?")) {
+  const onDeleteClick=action=>{
+    if (!window.confirm("Are you sure you want to delete this action?")) {
       return
     }
-    axiosClient.delete(`/programs/${program.code}`)
+    axiosClient.delete(`/actions/${action.code}`)
       .then(()=>{
-        setNotification('program was successfully deleted')
-        getprograms()
-        settotalpages(data.meta.last_page)
+        setNotification('action was successfully deleted')
+        getactions()
       })
   }
 
-  const getprograms=()=>{
+  const getactions=()=>{
     setLoading(true)
-    axiosClient.get(`/programs?page=${currentpage}`)
+    axiosClient.get(`/actions?page=${currentpage}`)
       .then(({ data }) => {
         setLoading(false)
-        setprograms(data.data)
+        setactions(data.data)
         settotalpages(data.meta.last_page)
       })
       .catch(() => {
@@ -40,16 +39,16 @@ export default function programs() {
   return (
     <div>
       <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
-        <h1>programs</h1>
-        <Link className="btn-add" to="/programs/new">Add new</Link>
+        <h1>actions</h1>
+        <Link className="btn-add" to="/actions/new">Add new</Link>
       </div>
       <div className="card animated fadeInDown">
         <table>
           <thead>
           <tr>
             <th>Code</th>
-            <th>Tilte</th>
-            <th>Wallet</th>
+            <th>Type</th>
+            <th>Subprogram</th>
             <th>Actions</th>
           </tr>
           </thead>
@@ -64,13 +63,13 @@ export default function programs() {
           }
           {!loading &&
             <tbody>
-            {programs.map(u => (
+            {actions.map(u => (
               <tr key={u.code}>
                 <td>{u.code}</td>
-                <td>{u.title}</td>
-                <td>{u.wallet}</td>
+                <td>{u.type}</td>
+                <td>{u.subprogrm}</td>
                 <td>
-                  <Link className="btn-edit" to={'/programs/'+u.code}>Edit</Link>
+                  <Link className="btn-edit" to={'/actions/'+u.code}>Show</Link>
                   &nbsp;
                   <button className="btn-delete" onClick={ev=>onDeleteClick(u)}>Delete</button>
                 </td>

@@ -31,7 +31,7 @@ class OperationController extends Controller
      */
     public function store(StoreOperationRequest $request)
     {
-        //
+        return new OperationResource($request);
     }
 
     /**

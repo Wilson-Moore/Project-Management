@@ -28,9 +28,7 @@ class StoreOperationRequest extends FormRequest
             'date_of_notification'=>['required'],
             'current_ap'=>['required','integer'],
             'initial_ap'=>['required','integer'],
-            'revaluation'=>['required','default:true'],
-            'situation'=>['required','default:true'],
-            'action'=>['required'],
+            'action'=>['required','exists:actions,code'],
         ];
     }
 
@@ -44,13 +42,13 @@ class StoreOperationRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator){
-            $code=$this->input('code');
-            $actioncode=substr($code,3,);
-            $programcode=substr($code,6,3);
+            $code=$this->input('number');
+            $actioncode=substr($code,2,19);
+            $programcode=substr($code,5,3);
             $checkprogramcode=substr($code,-3,3);
 
-            $wallet=Action::where('code',$actioncode)->first();
-            if (!$wallet) {
+            $action=Action::where('code',$actioncode)->first();
+            if (!$action) {
                 $validator->errors()->add('code',"Action with code '$actioncode' does not exist.");
             }
             if ($programcode!==$checkprogramcode) {

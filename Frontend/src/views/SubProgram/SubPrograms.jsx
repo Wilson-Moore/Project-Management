@@ -6,9 +6,11 @@ import {NotificationStateContext} from "../../contexts/NotificationContextProvid
 export default function subprograms() {
   const [subprograms,setsubprograms]=useState([]);
   const [loading,setLoading]=useState(false);
+  const [currentpage,setcurrentpage]=useState(1);
+  const [totalpages,settotalpages]=useState(1);
   const {setNotification}=NotificationStateContext()
 
-  useEffect(()=>{getsubprograms();},[])
+  useEffect(()=>{getsubprograms();},[currentpage])
 
   const onDeleteClick=subprogram=>{
     if (!window.confirm("Are you sure you want to delete this subprogram?")) {
@@ -23,10 +25,11 @@ export default function subprograms() {
 
   const getsubprograms=()=>{
     setLoading(true)
-    axiosClient.get('/subprograms')
+    axiosClient.get(`/subprograms?page=${currentpage}`)
       .then(({ data }) => {
         setLoading(false)
         setsubprograms(data.data)
+        settotalpages(data.meta.last_page)
       })
       .catch(() => {
         setLoading(false)
@@ -75,6 +78,15 @@ export default function subprograms() {
             </tbody>
           }
         </table>
+      </div>
+      <div className="pagination-controls">
+        {currentpage > 1 && (
+          <button onClick={()=>setcurrentpage(currentpage-1)}>Previous</button>
+        )}
+        <span>Page {currentpage} of {totalpages}</span>
+        {currentpage < totalpages && (
+          <button onClick={()=>setcurrentpage(currentpage+1)}>Next</button>
+        )}
       </div>
     </div>
   )

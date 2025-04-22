@@ -36,6 +36,6 @@ class Action extends Model
 
     public function operations(): HasMany
     {
-        return $this->hasMany(Program::class,"operation_code");
+        return $this->hasMany(Program::class,"operation_number");
     }
 }

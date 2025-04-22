@@ -18,13 +18,13 @@ class Subprogram extends Model
         'program_code',
     ];
 
-    public function wallet(): BelongsTo
+    public function program(): BelongsTo
     {
-        return $this->belongsTo(Wallet::class,"wallet_code");
+        return $this->belongsTo(Program::class,"program_code");
     }
 
-    public function sub_programs(): HasMany
+    public function actions(): HasMany
     {
-        return $this->hasMany(Program::class,"sub_program_code");
+        return $this->hasMany(Action::class,"actions_code");
     }
 }

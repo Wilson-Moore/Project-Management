@@ -10,6 +10,8 @@ import Programs from "./views/Program/Programs";
 import ProgramForm from "./views/Program/ProgramForm";
 import SubPrograms from "./views/SubProgram/SubPrograms";
 import SubProgramForm from "./views/SubProgram/SubProgramForm";
+import Actions from "./views/Action/Actions";
+import ActionForm from "./views/Action/ActionForm";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +57,18 @@ const router = createBrowserRouter([
       {
         path: '/subprograms/:id',
         element: <SubProgramForm/>
+      },
+      {
+        path: '/actions',
+        element: <Actions/>
+      },
+      {
+        path: '/actions/new',
+        element: <ActionForm/>
+      },
+      {
+        path: '/subprograms/:id',
+        element: <ActionForm/>
       },
     ]
   },

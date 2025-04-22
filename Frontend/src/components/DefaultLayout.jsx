@@ -34,6 +34,7 @@ export default function DefaultLayout() {
         <Link to="/wallets">Wallets</Link>
         <Link to="/programs">Programs</Link>
         <Link to="/subprograms">SubPrograms</Link>
+        <Link to="/actions">Actions</Link>
       </aside>
       <div className="content">
         <header>
