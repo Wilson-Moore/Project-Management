@@ -7,6 +7,7 @@ use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\SubProgramController;
 use App\Http\Controllers\ActionController;
+use App\Http\Controllers\OperationController;
 
 Route::post('/signup',[AuthController::class,'signup']);
 Route::post('/login',[AuthController::class,'login']);
@@ -22,4 +23,5 @@ Route::group(['namespace'=>'App\Http\Controllers','middleware'=>'auth:sanctum'],
     Route::apiResource("programs",ProgramController::class);
     Route::apiResource("subprograms",SubProgramController::class);
     Route::apiResource("actions",ActionController::class);
+    Route::apiResource("operations",OperationController::class);
 });
