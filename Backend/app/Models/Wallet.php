@@ -18,6 +18,6 @@ class Wallet extends Model
 
     public function programs(): HasMany
     {
-        return $this->hasMany(Program::class,"program_code");
+        return $this->hasMany(Program::class,"wallet_code");
     }
 }

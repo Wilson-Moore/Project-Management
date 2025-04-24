@@ -8,10 +8,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Subprogram extends Model
 {
-    protected $primaryKey='code';
-    public $incrementing=false;
-    protected $keyType='string';
-
     protected $fillable = [
         'code',
         'title',
@@ -25,6 +21,6 @@ class Subprogram extends Model
 
     public function actions(): HasMany
     {
-        return $this->hasMany(Action::class,"actions_code");
+        return $this->hasMany(Action::class,"code");
     }
 }

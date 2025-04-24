@@ -31,12 +31,7 @@ class ActionController extends Controller
      */
     public function store(StoreActionRequest $request)
     {
-        $code=$request->input('code');
-        $action=Action::create([
-            'code'=>$code,
-            'type'=>substr($code,8,1),
-            'subprogram_code'=>substr($code,6,2)]);
-        return new ActionResource($action);
+        return new ActionResource(Action::create($request->all()));
     }
 
     /**

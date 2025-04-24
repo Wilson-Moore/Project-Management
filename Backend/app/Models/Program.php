@@ -25,6 +25,6 @@ class Program extends Model
 
     public function subprograms(): HasMany
     {
-        return $this->hasMany(SubProgram::class,"subprogram_code");
+        return $this->hasMany(SubProgram::class);
     }
 }

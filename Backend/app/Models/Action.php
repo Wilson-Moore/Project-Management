@@ -15,7 +15,7 @@ class Action extends Model
     protected $fillable = [
         'code',
         'type',
-        'subprogram_code',
+        'subprogram_id',
     ];
 
     public function getTypeLabelAttribute(): string
@@ -31,11 +31,11 @@ class Action extends Model
 
     public function subprogram(): BelongsTo
     {
-        return $this->belongsTo(SubProgram::class,"subprogram_code");
+        return $this->belongsTo(SubProgram::class);
     }
 
     public function operations(): HasMany
     {
-        return $this->hasMany(Program::class,"operation_number");
+        return $this->hasMany(Program::class,"action_code");
     }
 }

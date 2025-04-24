@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Wallet;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\Program\ProgramResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class WalletResource extends JsonResource
@@ -17,6 +18,7 @@ class WalletResource extends JsonResource
         return [
             'code'=>$this->code,
             'title'=>$this->title,
+            'programs'=>ProgramResource::collection($this->whenLoaded('programs')),
         ];
     }
 }

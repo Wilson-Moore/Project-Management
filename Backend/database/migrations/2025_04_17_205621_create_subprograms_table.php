@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('subprograms', function (Blueprint $table) {
-            $table->string("code")->primary();
+            $table->id();
+            $table->string("code");
             $table->string("title");
             $table->string("program_code");
             $table->timestamps();

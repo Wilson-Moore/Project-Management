@@ -21,17 +21,17 @@ class ActionSeeder extends Seeder
             $wallet=$program->wallet;
 
             for ($i=1;$i<=10;$i++) {
-                $type=(string)rand(1, 3);
-                $year=now()->year;
-                $sub_action=str_pad((string)rand(1,999),3,'0',STR_PAD_LEFT);
-                $space=$type==='1'?'000':str_pad((string)rand(1, 999),3,'0',STR_PAD_LEFT);
+                $type=(string)rand(1,3);
+                $action=str_pad((string)rand(1,9999),3,'0',STR_PAD_LEFT);
+                $sub_action=str_pad((string)rand(1,999),4,'0',STR_PAD_LEFT);
+                $space=str_pad((string)rand(1,58),3,'0',STR_PAD_LEFT);
 
-                $code = "{$wallet->code}{$program->code}{$subprogram->code}{$type}{$year}{$sub_action}{$space}";
+                $code = "{$wallet->code}{$program->code}{$subprogram->code}{$action}{$sub_action}{$space}";
 
                 $actions[]=[
                     'code'=>$code,
                     'type'=>$type,
-                    'subprogram_code'=>$subprogram->code,
+                    'subprogram_id'=>$subprogram->id,
                     'created_at'=>now(),
                     'updated_at'=>now(),
                 ];

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Wallet;
+use Illuminate\Http\Request;
 use App\Http\Resources\Wallet\WalletResource;
 use App\Http\Resources\Wallet\WalletCollection;
 use App\Http\Requests\Wallet\StoreWalletRequest;
@@ -29,8 +30,11 @@ class WalletController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Wallet $wallet)
+    public function show(Request $request,Wallet $wallet)
     {
+        if ($request->query('include_programs')) {
+            $wallet=$wallet->load('programs');
+        }
         return new WalletResource($wallet);
     }
 
