@@ -22,11 +22,11 @@ class ActionSeeder extends Seeder
 
             for ($i=1;$i<=10;$i++) {
                 $type=(string)rand(1,3);
-                $action=str_pad((string)rand(1,9999),3,'0',STR_PAD_LEFT);
-                $sub_action=str_pad((string)rand(1,999),4,'0',STR_PAD_LEFT);
+                $action=str_pad((string)rand(1,9999),4,'0',STR_PAD_LEFT);
+                $sub_action=str_pad((string)rand(1,999),3,'0',STR_PAD_LEFT);
                 $space=str_pad((string)rand(1,58),3,'0',STR_PAD_LEFT);
 
-                $code = "{$wallet->code}{$program->code}{$subprogram->code}{$action}{$sub_action}{$space}";
+                $code="{$wallet->code}{$program->code}{$subprogram->code}{$action}{$sub_action}{$space}";
 
                 $actions[]=[
                     'code'=>$code,

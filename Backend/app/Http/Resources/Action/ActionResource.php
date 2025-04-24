@@ -17,7 +17,7 @@ class ActionResource extends JsonResource
         return [
             'code'=>$this->code,
             'type'=>$this->type_label,
-            'subprogram'=>$this->subprogram_code,
+            'subprogram'=>substr($this->code,6,2),
         ];
     }
 }
