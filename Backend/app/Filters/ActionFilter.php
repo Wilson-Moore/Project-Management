@@ -9,7 +9,7 @@ class ActionFilter extends QueryFilter
         'type'=>['eq'],
     ];
     protected $column_map=[
-        'subprogram'=>'subprogram_code',
+        'subprogram'=>'subprogram_id',
         'type'=>'type',
     ];
     protected $operator_map=[

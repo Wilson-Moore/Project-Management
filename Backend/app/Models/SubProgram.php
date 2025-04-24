@@ -21,6 +21,6 @@ class Subprogram extends Model
 
     public function actions(): HasMany
     {
-        return $this->hasMany(Action::class,"code");
+        return $this->hasMany(Action::class);
     }
 }

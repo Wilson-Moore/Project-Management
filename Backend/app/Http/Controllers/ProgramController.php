@@ -37,8 +37,11 @@ class ProgramController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Program $program)
+    public function show(Request $request,Program $program)
     {
+        if ($request->query('include_subprograms')) {
+            $program=$program->load('subprograms');
+        }
         return new ProgramResource($program);
     }
 
