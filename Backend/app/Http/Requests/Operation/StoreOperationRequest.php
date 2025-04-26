@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Operation;
 
-use App\Models\Action;
+use App\Rules\OperationNumberRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreOperationRequest extends FormRequest
@@ -23,7 +23,9 @@ class StoreOperationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'number'=>['required','regex:/^[NS][0-9][A-Z0-9]{3}[A-Z0-9]{3}[A-Z0-9]{2}[1-3][0-9]{4}[0-9]{3}[0-9]{3}[0-9]{2}[A-Z0-9]{3}$/'],
+            'number'=>[
+                'required','regex:/^[NS][0-9][A-Z0-9]{3}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{4}[0-9]{3}[0-9]{3}[0-9]{2}[A-Z0-9]{3}$/',
+                new OperationNumberRule($this)],
             'title'=>['required'],
             'date_of_notification'=>['required'],
             'current_ap'=>['required','integer'],
@@ -37,23 +39,5 @@ class StoreOperationRequest extends FormRequest
         $this->merge([
             'action_code'=>$this->action,
         ]);
-    }
-
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator){
-            $code=$this->input('number');
-            $actioncode=substr($code,2,19);
-            $programcode=substr($code,5,3);
-            $checkprogramcode=substr($code,-3,3);
-
-            $action=Action::where('code',$actioncode)->first();
-            if (!$action) {
-                $validator->errors()->add('code',"Action with code '$actioncode' does not exist.");
-            }
-            if ($programcode!==$checkprogramcode) {
-                $validator->errors()->add('code',"Program with code is not the same '$programcode' '$checkprogramcode'.");
-            }
-        });
     }
 }

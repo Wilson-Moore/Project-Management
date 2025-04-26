@@ -7,17 +7,17 @@ class OperationFilter extends QueryFilter
     protected $parms=[
         'action'=>['eq'],
         'year'=>['eq'],
-        'date of notification'=>['eq'],
-        'current ap'=>['eq','lt','gr','le','ge'],
-        'initial ap'=>['eq','lt','gr','le','ge'],
+        'date_of_notification'=>['eq'],
+        'initial_ap'=>['eq','lt','gt','le','ge'],
+        'current_ap'=>['eq','lt','gt','le','ge'],
         'situation'=>['eq'],
     ];
     protected $column_map=[
         'action'=>'action_code',
         'year'=>'year',
-        'date of notification'=>'date_of_notification',
-        'current ap'=>'current_ap',
-        'initial ap'=>'initial_ap',
+        'date_of_notification'=>'date_of_notification',
+        'initial_ap'=>'initial_ap',
+        'current_ap'=>'current_ap',
         'situation'=>'situation',  
     ];
     protected $operator_map=[

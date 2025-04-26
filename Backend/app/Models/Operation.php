@@ -28,6 +28,7 @@ class Operation extends Model
         {
             1=>'in the works',
             0=>'on halt',
+            default=>'unknown',
         };
     }
 
