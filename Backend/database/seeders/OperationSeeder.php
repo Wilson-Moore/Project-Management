@@ -21,13 +21,14 @@ class OperationSeeder extends Seeder
             $action=$actions->random();
             $type=collect(["N","S"])->random();
             $num=(string)rand(1,9);
-            $year=(string)rand(0,25);
+            $date=fake()->dateTimeBetween('-35 years','now');
+            $last_digits=$date->format('y');
             $program_code=substr($action->code,3,3);
-            $number="{$type}{$num}{$action->code}{$year}{$program_code}";
+            $number="{$type}{$num}{$action->code}{$last_digits}{$program_code}";
             $operations[]=[
                 'number'=>$number,
                 'title'=>'Operation '.($i+1),
-                'date_of_notification'=>$year,
+                'date_of_notification'=>$date,
                 'initial_ap'=>rand(100000,1000000),
                 'current_ap'=>rand(1000000,10000000),
                 'action_code'=>$action->code,
