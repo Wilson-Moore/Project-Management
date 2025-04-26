@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('subprograms', function (Blueprint $table) {
             $table->id();
-            $table->string("code");
+            $table->string("code",2);
             $table->string("title");
             $table->string("program_code");
             $table->timestamps();

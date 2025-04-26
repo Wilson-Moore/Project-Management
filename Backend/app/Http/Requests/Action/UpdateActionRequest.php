@@ -29,13 +29,15 @@ class UpdateActionRequest extends FormRequest
         if ($method=="PUT") {
             return [
                 'code'=>['required','regex:/^[A-Z0-9]{3}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{4}[0-9]{3}[0-9]{3}$/','size:18'],
-                'type'=>['required',Rule::in('1','2','3')],
+                'type'=>['required',Rule::in(1,2,3)],
+                'title'=>['required'],
                 'subprogram_code'=>['required','exists:subprograms,id'],
             ];
         } else {
             return [
                 'code'=>['sometimes','regex:/^[A-Z0-9]{3}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{4}[0-9]{3}[0-9]{3}$/','size:18'],
-                'type'=>['sometimes','required',Rule::in('1','2','3')],
+                'type'=>['sometimes','required',Rule::in(1,2,3)],
+                'title'=>['sometimes','required'],
                 'subprogram_code'=>['sometimes','required','exists:subprograms,id'],
             ];
         }

@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('programs', function (Blueprint $table) {
-            $table->string("code",3)->primary();
-            $table->string("title");
-            $table->string("wallet_code");
+        Schema::create('consultations', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
-            
-            $table->foreign("wallet_code")->references("code")->on("wallets")->onDelete("cascade");
         });
     }
 
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('programs');
+        Schema::dropIfExists('consultations');
     }
 };

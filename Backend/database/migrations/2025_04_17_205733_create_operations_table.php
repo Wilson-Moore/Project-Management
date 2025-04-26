@@ -15,9 +15,8 @@ return new class extends Migration
             $table->string("number")->primary();
             $table->string("title");
             $table->dateTime("date_of_notification");
-            $table->unsignedBigInteger("current_ap");
             $table->unsignedBigInteger("initial_ap");
-            $table->boolean("revaluation")->default(true);
+            $table->unsignedBigInteger("current_ap");
             $table->boolean("situation")->default(true);
             $table->string("action_code");
             $table->timestamps();

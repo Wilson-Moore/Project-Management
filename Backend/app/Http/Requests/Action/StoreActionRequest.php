@@ -27,7 +27,8 @@ class StoreActionRequest extends FormRequest
     {
         return [
             'code'=>['required','regex:/^[A-Z0-9]{3}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{4}[0-9]{3}[0-9]{3}$/','size:18'],
-            'type'=>['required',Rule::in('1','2','3')],
+            'type'=>['required',Rule::in(1,2,3)],
+            'title'=>['required'],
             'subprogram'=>['required','exists:subprograms,id'],
         ];
     }

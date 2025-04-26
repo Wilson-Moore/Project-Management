@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -22,7 +23,7 @@ class SubProgramSeeder extends Seeder
 
         $subprograms=[];
 
-        for ($i=0;$i<100;$i++) {
+        for ($i=0;$i<200;$i++) {
             $code=Str::upper(Str::random(2));
             while (in_array($code,array_column($subprograms,'code'))) {
                 $code = Str::upper(Str::random(2));

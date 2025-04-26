@@ -15,6 +15,7 @@ class Action extends Model
     protected $fillable = [
         'code',
         'type',
+        'title',
         'subprogram_id',
     ];
 
@@ -22,9 +23,9 @@ class Action extends Model
     {
         return match ($this->type) 
         {
-            '1'=>'internal',
-            '2'=>'external',
-            '3'=>'unique',
+            1=>'internal',
+            2=>'external',
+            3=>'unique',
             default=>'unknown',
         };
     }

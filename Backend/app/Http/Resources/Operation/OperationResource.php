@@ -18,9 +18,8 @@ class OperationResource extends JsonResource
             'ID'=>$this->number,
             'title'=>$this->title,
             'date of notification'=>$this->date_of_notification,
-            'current ap'=>$this->current_ap,
             'intial ap'=>$this->initial_ap,
-            'revaluation'=>$this->revaluation_label,
+            'current ap'=>$this->current_ap,
             'situation'=>$this->situation_label,
             'action'=>$this->action_code,
         ];

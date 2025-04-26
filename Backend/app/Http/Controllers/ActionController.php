@@ -37,8 +37,11 @@ class ActionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Action $action)
+    public function show(Request $request,Action $action)
     {
+        if ($request->query('include_operations')) {
+            $action=$action->load('operations');
+        }
         return new ActionResource($action);
     }
 

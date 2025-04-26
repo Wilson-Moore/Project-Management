@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('wallets', function (Blueprint $table) {
-            $table->string("code")->primary();
+            $table->string("code",3)->primary();
             $table->string("title");
             $table->timestamps();
         });

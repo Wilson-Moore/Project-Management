@@ -16,28 +16,18 @@ class Operation extends Model
         'number',
         'title',
         'date_of_notification',
-        'current_ap',
         'initial_ap',
-        'revaluation',
+        'current_ap',
         'situation',
         'action_code',
     ];
-
-    public function getrevaluationLabelAttribute(): string
-    {
-        return match ($this->revaluation) 
-        {
-            true=>'true',
-            false=>'false',
-        };
-    }
 
     public function getsituationLabelAttribute(): string
     {
         return match ($this->situation) 
         {
-            true=>'in the works',
-            false=>'on halt',
+            1=>'in the works',
+            0=>'on halt',
         };
     }
 
@@ -49,5 +39,10 @@ class Operation extends Model
     public function projects(): HasMany
     {
         return $this->hasMany(Project::class,"operation_number");
+    }
+
+    public function consultations(): HasMany
+    {
+        return $this->hasMany(Consultation::class,"operation_number");
     }
 }
