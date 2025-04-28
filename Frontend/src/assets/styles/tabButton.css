@@ -1,0 +1,18 @@
+.tab-btn {
+      padding: 0.75rem 1.25rem;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: #666;
+      font-size: 0.95rem;
+}
+
+.tab-btn:hover {
+      color: var(--primary-color);
+}
+
+.tab-btn.active {
+      color: var(--primary-color);
+      border-bottom-color: var(--primary-color);
+      font-weight: 600;
+}

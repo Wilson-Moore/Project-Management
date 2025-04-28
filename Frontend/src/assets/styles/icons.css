@@ -1,0 +1,40 @@
+/* Icon placeholders */
+.icon-share::before {
+      content: "↗";
+}
+
+.icon-more::before {
+      content: "⋯";
+}
+
+.icon-pdf::before {
+      content: "📄";
+}
+
+.icon-download::before {
+      content: "↓";
+}
+
+.icon-image::before {
+      content: "🖼️";
+}
+
+.icon-doc::before {
+      content: "📝";
+}
+
+.icon-xls::before {
+      content: "📊";
+}
+
+.icon-search::before {
+      content: "🔍";
+}
+
+.icon-upload::before {
+      content: "↑";
+}
+
+.icon-settings::before {
+      content: "⚙";
+}

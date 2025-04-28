@@ -1,95 +1,83 @@
 import {createBrowserRouter, Navigate} from "react-router-dom";
-import DefaultLayout from "./components/DefaultLayout";
-import GuestLayout from "./components/GuestLayout";
-import NotFound from "./views/NotFound";
-import Signup from "./views/Auth/Signup";
-import Login from "./views/Auth/Login";
-import Wallets from "./views/Wallet/Wallets";
-import WalletForm from "./views/Wallet/WalletForm";
-import Programs from "./views/Program/Programs";
-import ProgramForm from "./views/Program/ProgramForm";
-import SubPrograms from "./views/SubProgram/SubPrograms";
-import SubProgramForm from "./views/SubProgram/SubProgramForm";
-import Actions from "./views/Action/Actions";
-import ActionForm from "./views/Action/ActionForm";
+import DefaultLayout from "./layouts/DefaultLayout.jsx";
+import GuestLayout from "./layouts/GuestLayout";
+import Signup from "./pages/Auth/Signup.jsx";
+import Login from "./pages/Auth/Login.jsx";
+import ActionDetails from "./pages/Project/action/ActionDetails.jsx";
+import WalletDetails from "./pages/Project/wallet/WalletDetails.jsx";
+import ProgramDetails from "./pages/Project/program/ProgramDetails.jsx";
+import SubProgramDetails from "./pages/Project/subProgram/SubProgramDetails.jsx";
+
 
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <DefaultLayout/>,
-    children: [
+{
+      path: '/',
+      element: <DefaultLayout/>,
+      children: [
       {
-        path: '/',
-        element: <Navigate to="/wallets"/>
+            path: '/',
+            element: <Navigate to="/action" replace /> // Or your default protected route
       },
       {
-        path: '/wallets',
-        element: <Wallets/>
+            path: '/action',
+            element: <ActionDetails/>,
       },
+      // {
+      //       path: '/projects/active/wallet/',
+      //       element: <Wallets/>,
+      // },
       {
-        path: '/wallets/new',
-        element: <WalletForm/>
+            path: '/projects/active/wallet/:walletId',
+            element: <WalletDetails />,
       },
+      // // {
+      // //       path: '/projects/active/wallet/:walletId/program',
+      // //       element: <Programs/>,
+      // // },
       {
-        path: '/wallets/:id',
-        element: <WalletForm/>
+            path: '/projects/active/wallet/:walletId/program/:programId',
+            element: <ProgramDetails/>,
       },
+      // // {
+      // //       path: '/projects/active/wallet/:walletId/program/:programId/subprogram',
+      // //       element: <SubPrograms/>,
+      // // },
       {
-        path: '/programs',
-        element: <Programs/>
+            path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId',
+            element: <SubProgramDetails/>,
       },
-      {
-        path: '/programs/new',
-        element: <ProgramForm/>
-      },
-      {
-        path: '/programs/:id',
-        element: <ProgramForm/>
-      },
-      {
-        path: '/subprograms',
-        element: <SubPrograms/>
-      },
-      {
-        path: '/subprograms/new',
-        element: <SubProgramForm/>
-      },
-      {
-        path: '/subprograms/:id',
-        element: <SubProgramForm/>
-      },
-      {
-        path: '/actions',
-        element: <Actions/>
-      },
-      {
-        path: '/actions/new',
-        element: <ActionForm/>
-      },
-      {
-        path: '/subprograms/:id',
-        element: <ActionForm/>
-      },
-    ]
-  },
-  {
-    path: '/',
-    element: <GuestLayout/>,
-    children: [
-      {
-        path: '/login',
-        element: <Login/>
-      },
-      {
-        path: '/signup',
-        element: <Signup/>
-      }
-    ]
-  },
-  {
-    path: "*",
-    element: <NotFound/>
-  }
+      // // {
+      // //       path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId/action',
+      // //       element: <ActionDetails/>,
+      // // },
+      // // {
+      // //       path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId/action/:actionId',
+      // //       element: <ActionDetails/>,
+      // // },
+      ]
+},
+{
+      path: '/',
+      element: <GuestLayout/>,
+      children: [
+            {
+                  path: '/login',
+                  element: <Login/>
+            },
+            {
+                  path: '/signup',
+                  element: <Signup/>
+            }
+      ]
+},
+{
+      path: "*",
+      element: <h1>Not Found</h1>,
+},
+{
+      path: "/error",
+      element: <h1>Not Found</h1>,
+},
 ])
 
 export default router;
