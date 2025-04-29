@@ -28,7 +28,7 @@ class UpdateConsultationRequest extends FormRequest
                 'signature_date'=>['required','date'],
                 'duration'=>['required',new DurationRule($this)],
                 'observation'=>['required'],
-                'operation_number'=>['required','exist:operations,number'],
+                'operation_number'=>['required','exists:operations,number'],
             ];
         } else {
             return [

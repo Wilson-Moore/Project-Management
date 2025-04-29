@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             ActionSeeder::class,
             OperationSeeder::class,
             ProjectSeeder::class,
+            ConsultationSeeder::class,
         ]);
     }
 }

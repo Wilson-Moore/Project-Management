@@ -30,7 +30,7 @@ class UpdateProjectRequest extends FormRequest
                 'start date'=>['required','date'],
                 'duration'=>['required',new DurationRule($this)],
                 'assessment date'=>['required','date'],
-                'operation'=>['required','exist:operations,number'],
+                'operation'=>['required','exists:operations,number'],
             ];
         } else {
             return [

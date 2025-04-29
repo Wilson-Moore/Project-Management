@@ -25,7 +25,7 @@ class OperationResource extends JsonResource
             'situation'=>$this->situation_label,
             'action'=>$this->action_code,
             'projects'=>new ProjectCollection($this->whenLoaded('projects')),
-            'consultations'=>new ConsultationCollection($this->whenLoaded('consultaions')),
+            'consultations'=>new ConsultationCollection($this->whenLoaded('consultations')),
         ];
     }
 }
