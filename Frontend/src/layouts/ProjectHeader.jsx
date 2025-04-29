@@ -2,147 +2,24 @@ import BreadCrumbs from './../components/ui/BreadCrumbs.jsx'
 import ProjectMeta from './../components/ui/ProjectMeta.jsx'
 import './../assets/styles/projectHeader.css'
 import { BREADCRUMB_TEMPLATES } from '../constants/breadcrumbs.js';
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import axiosClient from "../axios-client.js";
-import {NotificationStateContext} from "../contexts/NotificationContextProvider.jsx";
 
-function ProjectHeader() {
-      const { 
-            walletId, 
-            programId, 
-            subprogramId, 
-            actionId 
-      } = useParams();
-      const [wallet,setwallet]=useState({code: '',title: ''});
-      const [program,setprogram]=useState({code: '',title: '',wallet_code:''});
-      const [subprogram,setsubprogram]=useState({code: '',title: '',program_code:''});
-      const [action,setaction]=useState({code: '',type: '',subprogram_code:''});
-      const [loading,setLoading]=useState(false);
-      const {setNotification}=NotificationStateContext()
-      const [errors,setErrors]=useState(null)
-      const navigate=useNavigate()
-
-
-      useEffect(() => {
-            if (walletId) {
-            setLoading(true);
-            axiosClient.get(`/wallets/${walletId}`)
-            .then(({ data }) => {
-                  setLoading(false);
-                  setwallet(data.data);
-            })
-            .catch(() => {
-                  setLoading(false);
-                  });
-            }
-
-            if (programId) {
-                  setLoading(true);
-                  axiosClient.get(`/programs/${programId}`)
-                  .then(({ data }) => {
-                        setLoading(false);
-                        setprogram(data.data);
-                  })
-                  .catch(() => {
-                        setLoading(false);
-                        });
-            }
-
-            if (subprogramId) {
-                  setLoading(true);
-                  axiosClient.get(`/subprograms/${subprogramId}`)
-                  .then(({ data }) => {
-                        setLoading(false);
-                        setsubprogram(data.data);
-                  })
-                  .catch(() => {
-                        setLoading(false);
-                        });
-            }
-
-            if(actionId) {
-                  setLoading(true);
-                  axiosClient.get(`/actions/${actionId}`)
-                  .then(({ data }) => {
-                        setLoading(false);
-                        setaction(data.data);
-                  })
-                  .catch(() => {
-                        setLoading(false);
-                        });
-            }
-      }, [walletId, actionId, programId, subprogramId]);
-
+function ProjectHeader(props) {
+      if(props.wallet) {
+            const { wallet } = props;
       
-
-      const dynamicLabels = {
-            walletName: wallet.title,
-            programName: program.title,
-            subProgramName: subprogram.title,
-            actionId: action.type
-      };
-
-      const itemIds = {
-            walletId: walletId && wallet.code,
-            programId: programId && program.code,
-            subProgramId: subprogramId && subprogram.code,
-            actionId: actionId && action.code
-      };
-
-      const pathsWithIds = BREADCRUMB_TEMPLATES.actionDetails.map(item => {
-            if (!item.path) return item;
-            if(walletId) {
-                  return {
+            const updateBreadcrumbPaths = (walletDetails) => {
+                  return walletDetails.map(item => ({
                         ...item,
                         path: item.path
-                        .replace(':walletId', itemIds.walletId)
-                  }
-            }else {
-                  
-            }
-            if(programId) {
-                  return {
-                        ...item,
-                        path: item.path
-                        .replace(':programId', itemIds.programId)
-                  }
-            }
-            if(subprogramId) {
-                  return {
-                        ...item,
-                        path: item.path
-                        .replace(':subprogramId', itemIds.subprogramId)
-                  }
-            }
-            if(action) {
-                  return {
-                        ...item,
-                        path: item.path
-                        .replace(':actionId', itemIds.actionId)
-                  }
-            }
+                              .replace(':walletId', wallet.code || '')
+                  }));
+            };
 
-            // return {
-            //       ...item,
-            //       path: item.path
-            //       .replace(':walletId', itemIds.walletId)
-            //       .replace(':programId', itemIds.programId)
-            //       .replace(':subProgramId', itemIds.subProgramId)
-            //       .replace(':actionId', itemIds.actionId)
-            // };
-      });
-
-      const info =  actionId ? "d'action" : subprogramId ? "du sous-program" : programId ? "du program" : walletId ? "du portefeuille" : "-";
-      const code =  actionId ? action.code : subprogramId ? subprogram.code : programId ? program.code : walletId ? wallet.code : "-";
-      const title =  actionId ? action.title : subprogramId ? subprogram.title : programId ? program.title : walletId ? wallet.title : "-";
-
-      if(!loading) {
             return (
                   <div className="project-header">
-                        <BreadCrumbs items={pathsWithIds} dynamicLabels={dynamicLabels} itemIds={itemIds} />
+                        <BreadCrumbs items={updateBreadcrumbPaths(BREADCRUMB_TEMPLATES.walletDetails)} dynamicLabels={{ walletName: wallet.title }} itemIds={{ walletId: wallet.code }} />
                         <div className="project-title">
-                              <h1>Détails {info}</h1>
+                              <h1>Détails du portefeuille</h1>
                               <div className="project-status">
                                     <span className="status in-progress">In Progress</span>
                               </div>
@@ -150,12 +27,48 @@ function ProjectHeader() {
                         <ProjectMeta />
                   </div>
             );
-      }else {
+      }else if(props.program) {
+            const { program } = props;
+
+            const updateBreadcrumbPaths = (programDetails) => {
+                  return programDetails.map(item => ({
+                        ...item,
+                        path: item.path
+                              .replace(':walletId', props._wallet.code || '')
+                              .replace(':programId', program.code || '')
+                  }));
+            };
+
             return (
                   <div className="project-header">
-                        <div>Loading...</div>
+                        <BreadCrumbs items={updateBreadcrumbPaths(BREADCRUMB_TEMPLATES.programDetails)} dynamicLabels={{ programName: program.title, walletName: props._wallet.title }} itemIds={{ programId: program.code, walletId: props._wallet.code}} />
                         <div className="project-title">
-                              <h1>Détails d'action</h1>
+                              <h1>Détails du programme</h1>
+                              <div className="project-status">
+                                    <span className="status in-progress">In Progress</span>
+                              </div>
+                        </div>
+                        <ProjectMeta />
+                  </div>
+            );
+      } else if (props.subprogram) {
+            const { subprogram } = props;
+
+            const updateBreadcrumbPaths = (subprogramDetails) => {
+                  return subprogramDetails.map(item => ({
+                        ...item,
+                        path: item.path
+                              .replace(':walletId', props._wallet.code || '')
+                              .replace(':programId', props._program.code || '')
+                              .replace(':subprogramId', subprogram.code || '')
+                  }));
+            };
+
+            return (
+                  <div className="project-header">
+                        <BreadCrumbs items={updateBreadcrumbPaths(BREADCRUMB_TEMPLATES.subprogramDetails)} dynamicLabels={{ subProgramName: subprogram.title, programName: props._program.title, walletName: props._wallet.title }} itemIds={{ subprogramId: subprogram.code, programId: props._program.code, walletId: props._wallet.code }} />
+                        <div className="project-title">
+                              <h1>Détails du sous-programme</h1>
                               <div className="project-status">
                                     <span className="status in-progress">In Progress</span>
                               </div>
@@ -165,5 +78,4 @@ function ProjectHeader() {
             );
       }
 }
-
-export default ProjectHeader
+export default ProjectHeader;
