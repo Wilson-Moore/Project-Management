@@ -14,9 +14,8 @@ class DurationRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if(!preg_match('/^P(?=\d)(\d+M)?(\d+D)?$/',$value))
-        {
-            $fail("Incorrect Format");
+        if (!preg_match('/^P(?=\d|T)(\d+Y)?(\d+M)?(\d+D)?(T(\d+H)?(\d+M)?(\d+S)?)?$/',$value)) {
+            $fail("The {$attribute} must be a valid ISO 8601 duration (e.g. P1Y2M10DT3H15M).");
         }
     }
 }
