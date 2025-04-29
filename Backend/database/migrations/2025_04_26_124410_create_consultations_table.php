@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('consultations', function (Blueprint $table) {
             $table->id();
+            $table->dateTime("signature_date");
+            $table->dateTime("duration");
+            $table->text("observation");
+            $table->string("operation_number");
             $table->timestamps();
+
+            $table->foreign("operation_number")->references("number")->on("operations")->onDelete("cascade");
         });
     }
 

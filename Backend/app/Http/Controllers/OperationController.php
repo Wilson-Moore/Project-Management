@@ -37,8 +37,14 @@ class OperationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Operation $operation)
+    public function show(Request $request,Operation $operation)
     {
+        if ($request->query('include_projects')) {
+            $operation=$operation->load('projects');
+        }
+        if ($request->query('include_consultations')) {
+            $operation=$operation->load('consultations');
+        }
         return new OperationResource($operation);
     }
 

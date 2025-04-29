@@ -48,4 +48,11 @@ class UpdateOperationRequest extends FormRequest
             ];
         }
     }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'action_code'=>$this->action,
+        ]);
+    }
 }

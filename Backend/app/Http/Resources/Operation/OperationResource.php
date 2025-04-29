@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\Operation;
 
+use App\Http\Resources\Consultation\ConsultationCollection;
+use App\Http\Resources\Project\ProjectCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,6 +24,8 @@ class OperationResource extends JsonResource
             'current ap'=>$this->current_ap,
             'situation'=>$this->situation_label,
             'action'=>$this->action_code,
+            'projects'=>new ProjectCollection($this->whenLoaded('projects')),
+            'consultations'=>new ConsultationCollection($this->whenLoaded('consultaions')),
         ];
     }
 }

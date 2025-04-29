@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             SubProgramSeeder::class,
             ActionSeeder::class,
             OperationSeeder::class,
+            ProjectSeeder::class,
         ]);
     }
 }

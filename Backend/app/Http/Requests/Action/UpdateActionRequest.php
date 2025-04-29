@@ -31,7 +31,7 @@ class UpdateActionRequest extends FormRequest
                     'size:18',new ActionCodeRule($this)],
                 'type'=>['required',Rule::in(1,2,3)],
                 'title'=>['required'],
-                'subprogram_id'=>['required','exists:subprograms,id'],
+                'subprogram'=>['required','exists:subprograms,id'],
             ];
         } else {
             return [
@@ -40,7 +40,7 @@ class UpdateActionRequest extends FormRequest
                     'size:18',new ActionCodeRule($this)],
                 'type'=>['sometimes','required',Rule::in(1,2,3)],
                 'title'=>['sometimes','required'],
-                'subprogram_id'=>['sometimes','required','exists:subprograms,id'],
+                'subprogram'=>['sometimes','required','exists:subprograms,id'],
             ];
         }
     }
