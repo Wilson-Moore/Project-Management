@@ -17,7 +17,7 @@ function WalletDetails() {
   useEffect(() => {
     if (walletId) {
       setLoading(true);
-      axiosClient.get(`/wallets/${walletId}`)
+      axiosClient.get(`/wallets/${walletId}?include_programs=1`)
       .then(({ data }) => {
             setLoading(false);
             setwallet(data.data);

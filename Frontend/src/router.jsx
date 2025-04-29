@@ -7,7 +7,8 @@ import ActionDetails from "./pages/Project/action/ActionDetails.jsx";
 import WalletDetails from "./pages/Project/wallet/WalletDetails.jsx";
 import ProgramDetails from "./pages/Project/program/ProgramDetails.jsx";
 import SubProgramDetails from "./pages/Project/subProgram/SubProgramDetails.jsx";
-
+import AllWallets from "./pages/Project/wallet/Wallets.jsx";
+import AllPrograms from "./pages/Project/program/Programs.jsx";
 
 const router = createBrowserRouter([
 {
@@ -16,24 +17,32 @@ const router = createBrowserRouter([
       children: [
       {
             path: '/',
-            element: <Navigate to="/action" replace /> // Or your default protected route
+            element: <Navigate to="/wallets" replace /> // Or your default protected route
       },
       {
             path: '/action',
             element: <ActionDetails/>,
       },
-      // {
-      //       path: '/projects/active/wallet/',
-      //       element: <Wallets/>,
-      // },
+      {
+            path: '/projects/active/wallet/',
+            element: <Navigate to="/wallets" replace />,
+      },
+      {
+            path: '/wallets',
+            element: <AllWallets/>,
+      },
       {
             path: '/projects/active/wallet/:walletId',
             element: <WalletDetails />,
       },
-      // // {
-      // //       path: '/projects/active/wallet/:walletId/program',
-      // //       element: <Programs/>,
-      // // },
+      {
+            path: '/projects/active/wallet/:walletId/program',
+            element: <Navigate to="/programs" replace />,
+      },
+      {
+            path: '/programs',
+            element: <AllPrograms/>,
+      },
       {
             path: '/projects/active/wallet/:walletId/program/:programId',
             element: <ProgramDetails/>,

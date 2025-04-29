@@ -31,7 +31,7 @@ function ProgramDetails() {
     
     if (programId) {
       setLoading(true);
-      axiosClient.get(`/programs/${programId}`)
+      axiosClient.get(`/programs/${programId}?include_subprograms=1`)
       .then(({ data }) => {
             setLoading(false);
             setprogram(data.data);

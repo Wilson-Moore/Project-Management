@@ -29,12 +29,15 @@
 
 .icon-search::before {
       content: "🔍";
+      position: absolute;
+      left: 0;
+      bottom: -5px;
 }
 
 .icon-upload::before {
       content: "↑";
 }
 
-.icon-settings::before {
+.icon-settings::before, .action-icon::before {
       content: "⚙";
 }

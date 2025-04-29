@@ -45,7 +45,7 @@ function SubProgramDetails() {
 
     if (subprogramId) {
       setLoading(true);
-      axiosClient.get(`/subprograms/${subprogramId}`)
+      axiosClient.get(`/subprograms/${subprogramId}?include_actions=1`)
       .then(({ data }) => {
             setLoading(false);
             setsubprogram(data.data);

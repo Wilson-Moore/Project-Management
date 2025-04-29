@@ -65,6 +65,8 @@ body {
   border-radius: 6px;
 }
 
+
+
 .project-layout {
   max-width: 1200px;
   margin: 0 auto;
@@ -73,6 +75,9 @@ body {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   border-radius: 8px; 
 }
+
+
+/* loading screen */
 
 .loading-screen {
   position: fixed;
@@ -119,3 +124,9 @@ body {
     transform: scale(1);
   }
 }
+
+/* loading screen */
+
+
+
+
