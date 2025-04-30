@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Operation;
 use Illuminate\Http\Request;
 use App\Filters\OperationFilter;
+use App\Services\OperationService;
 use App\Http\Requests\Operation\StoreOperationRequest;
 use App\Http\Requests\Operation\UpdateOperationRequest;
 use App\Http\Resources\Operation\OperationCollection;
@@ -12,18 +13,23 @@ use App\Http\Resources\Operation\OperationResource;
 
 class OperationController extends Controller
 {
+    public function __construct(
+        protected OperationFilter $filter,
+        protected OperationService $service
+    ) {}
+    
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $filter=new OperationFilter();
-        $query_items=$filter->transform($request);
-        if (count($query_items)==0) {
-            return new OperationCollection(Operation::paginate());
-        } else {
-            return new OperationCollection(Operation::where($query_items)->paginate()->appends($request->query()));
-        }
+        $query_items=$this->filter->transform($request);
+        
+        $operations=empty($query_items)
+        ? Operation::paginate()
+        : Operation::where($query_items)->paginate()->appends($request->query());
+
+        return new OperationCollection($operations);
     }
 
     /**
@@ -31,7 +37,8 @@ class OperationController extends Controller
      */
     public function store(StoreOperationRequest $request)
     {
-        return new OperationResource(Operation::create($request->all()));
+        $operation=$this->service->create_resource($request->all());
+        return (new OperationResource($operation))->response()->setStatusCode(201);
     }
 
     /**
@@ -39,11 +46,12 @@ class OperationController extends Controller
      */
     public function show(Request $request,Operation $operation)
     {
-        if ($request->query('include_projects')) {
-            $operation=$operation->load('projects');
-        }
-        if ($request->query('include_consultations')) {
-            $operation=$operation->load('consultations');
+        $with=[];
+        if ($request->query('include_projects')) $with[]='projects';
+        if ($request->query('include_consultations')) $with[]='consultations';
+
+        if (!empty($with)) {
+            $operation=$operation->load($with);
         }
         return new OperationResource($operation);
     }
@@ -53,8 +61,8 @@ class OperationController extends Controller
      */
     public function update(UpdateOperationRequest $request, Operation $operation)
     {
-        $operation->update($request->all());
-        return new OperationResource($operation->refresh());
+        $operation=$this->service->update_resource($operation,$request->validated());
+        return new OperationResource($operation);
     }
 
     /**
@@ -62,6 +70,7 @@ class OperationController extends Controller
      */
     public function destroy(Operation $operation)
     {
-        $operation->delete();
+        $this->service->delete_resource($operation);
+        return response()->noContent();
     }
 }

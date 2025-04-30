@@ -4,7 +4,7 @@ namespace App\Http\Requests\SubProgram;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreSubProgramRequest extends FormRequest
+class StoreSubprogramRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

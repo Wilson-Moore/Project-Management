@@ -8,22 +8,28 @@ use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Http\Resources\Project\ProjectCollection;
 use App\Http\Resources\Project\ProjectResource;
 use App\Models\Project;
+use App\Services\ProjectService;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
+    public function __construct(
+        protected ProjectFilter $filter,
+        protected ProjectService $service
+    ) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $filter=new ProjectFilter();
-        $query_items=$filter->transform($request);
-        if (count($query_items)==0) {
-            return new ProjectCollection(Project::paginate());
-        } else {
-            return new ProjectCollection(Project::where($query_items)->paginate()->appends($request->query()));
-        }
+        $query_items=$this->filter->transform($request);
+        
+        $projects=empty($query_items)
+        ? Project::paginate()
+        : Project::where($query_items)->paginate()->appends($request->query());
+
+        return new ProjectCollection($projects);
     }
 
     /**
@@ -31,7 +37,8 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        return new ProjectResource(Project::create($request->all()));
+        $project=$this->service->create_resource($request->all());
+        return (new ProjectResource($project))->response()->setStatusCode(201);
     }
 
     /**
@@ -47,8 +54,8 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        $project->update($request->all());
-        return new ProjectResource($project->refresh());
+        $project=$this->service->update_resource($project,$request->validated());
+        return new ProjectResource($project);
     }
 
     /**
@@ -56,6 +63,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        $project->delete();
+        $this->service->delete_resource($project);
+        return response()->noContent();
     }
 }

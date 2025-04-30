@@ -2,28 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use App\Models\Consultation;
 use App\Filters\ConsultationFilter;
+use App\Services\ConsultationService;
 use App\Http\Requests\Consultation\StoreConsultationRequest;
 use App\Http\Requests\Consultation\UpdateConsultationRequest;
 use App\Http\Resources\Consultation\ConsultationCollection;
 use App\Http\Resources\Consultation\ConsultationResource;
-use App\Models\Consultation;
-use Illuminate\Http\Request;
 
 class ConsultationController extends Controller
 {
+    public function __construct(
+        protected ConsultationFilter $filter,
+        protected ConsultationService $service
+    ) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $filter=new ConsultationFilter();
-        $query_items=$filter->transform($request);
-        if (count($query_items)==0) {
-            return new ConsultationCollection(Consultation::paginate());
-        } else {
-            return new ConsultationCollection(Consultation::where($query_items)->paginate()->appends($request->query()));
-        }
+        $query_items=$this->filter->transform($request);
+        
+        $consultations=empty($query_items)
+        ? Consultation::paginate()
+        : Consultation::where($query_items)->paginate()->appends($request->query());
+
+        return new ConsultationCollection($consultations);
     }
 
     /**
@@ -31,7 +37,8 @@ class ConsultationController extends Controller
      */
     public function store(StoreConsultationRequest $request)
     {
-        return new ConsultationResource(Consultation::create($request->all()));
+        $consultation=$this->service->create_resource($request->all());
+        return (new ConsultationResource($consultation))->response()->setStatusCode(201);
     }
 
     /**
@@ -47,8 +54,8 @@ class ConsultationController extends Controller
      */
     public function update(UpdateConsultationRequest $request, Consultation $consultation)
     {
-        $consultation->update($request->all());
-        return new ConsultationResource($consultation->refresh());
+        $consultation=$this->service->update_resource($consultation,$request->validated());
+        return new ConsultationResource($consultation);
     }
 
     /**
@@ -56,6 +63,7 @@ class ConsultationController extends Controller
      */
     public function destroy(Consultation $consultation)
     {
-        $consultation->delete();
+        $this->service->delete_resource($consultation);
+        return response()->noContent();
     }
 }

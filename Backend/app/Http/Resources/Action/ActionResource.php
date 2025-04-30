@@ -19,7 +19,10 @@ class ActionResource extends JsonResource
             'code'=>$this->code,
             'type'=>$this->type_label,
             'title'=>$this->title,
-            'subprogram'=>'ID : '.$this->subprogram_id.' Code : '.substr($this->code,6,2),
+            'subprogram'=>[
+                'ID'=>$this->subprogram_id,
+                'Code'=>substr($this->code,6,2)
+            ],
             'operations'=>new OperationCollection($this->whenLoaded('operations')),
         ];
     }
