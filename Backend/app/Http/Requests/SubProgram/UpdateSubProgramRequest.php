@@ -30,7 +30,6 @@ class UpdateSubprogramRequest extends FormRequest
             foreach ($rules as &$rule) {
                 array_unshift($rule,'sometimes');
             }
-            $rules['program_code']=['nullable'];
         }
 
         return $rules;
@@ -38,8 +37,10 @@ class UpdateSubprogramRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $this->merge([
-            'program_code'=>$this->program
-        ]);
+        if ($this->has('program')) {
+            $this->merge([
+                'program_code'=>$this->program,
+            ]);
+        }
     }
 }

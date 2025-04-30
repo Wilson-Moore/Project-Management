@@ -31,15 +31,17 @@ class UpdateActionRequest extends FormRequest
             foreach ($rules as &$rule) {
                 array_unshift($rule,'sometimes');
             }
-            $rules['subprogram_id']=['nullable'];
         }
 
         return $rules;
     }
     protected function prepareForValidation()
     {
-        $this->merge([
-            'subprogram_id'=>$this->subprogram
-        ]);
+        
+        if ($this->has('subprogram')) {
+            $this->merge([
+                'subprogram_id'=>$this->subprogram
+            ]);
+        }
     }
 }

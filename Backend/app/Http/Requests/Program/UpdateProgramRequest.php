@@ -30,7 +30,6 @@ class UpdateProgramRequest extends FormRequest
             foreach ($rules as &$rule) {
                 array_unshift($rule,'sometimes');
             }
-            $rules['wallet_code']=['nullable'];
         }
 
         return $rules;
@@ -38,8 +37,10 @@ class UpdateProgramRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $this->merge([
-            'wallet_code'=>$this->wallet
-        ]);
+        if ($this->has('wallet')) {
+            $this->merge([
+                'wallet_code'=>$this->wallet
+            ]);
+        }
     }
 }

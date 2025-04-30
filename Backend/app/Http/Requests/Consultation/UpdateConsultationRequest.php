@@ -30,7 +30,6 @@ class UpdateConsultationRequest extends FormRequest
             foreach ($rules as &$rule) {
                 array_unshift($rule,'sometimes');
             }
-            $rules['operation_number']=['nullable'];
         }
 
         return $rules;
@@ -38,8 +37,11 @@ class UpdateConsultationRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $this->merge([
-            'operation_number'=>$this->operation,
-        ]);
+        
+        if ($this->has('operation')) {
+            $this->merge([
+                'operation_number'=>$this->operation,
+            ]);
+        }
     }
 }

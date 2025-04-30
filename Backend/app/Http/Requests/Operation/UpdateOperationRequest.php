@@ -29,7 +29,6 @@ class UpdateOperationRequest extends FormRequest
             foreach ($rules as &$rule) {
                 array_unshift($rule,'sometimes');
             }
-            $rules['action_code']=['nullable'];
         }
 
         return $rules;
@@ -37,8 +36,10 @@ class UpdateOperationRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $this->merge([
-            'action_code'=>$this->action,
-        ]);
+        if ($this->has('action')) {
+            $this->merge([
+                'action_code'=>$this->action,
+            ]);
+        }
     }
 }
