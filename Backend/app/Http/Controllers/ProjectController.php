@@ -37,7 +37,7 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        $project=$this->service->create_resource($request->all());
+        $project=$this->service->create($request->all());
         return (new ProjectResource($project))->response()->setStatusCode(201);
     }
 
@@ -54,7 +54,7 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        $project=$this->service->update_resource($project,$request->validated());
+        $project=$this->service->update($project,$request->validated());
         return new ProjectResource($project);
     }
 
@@ -63,7 +63,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        $this->service->delete_resource($project);
+        $this->service->delete($project);
         return response()->noContent();
     }
 }

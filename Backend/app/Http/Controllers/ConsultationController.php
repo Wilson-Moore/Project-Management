@@ -37,7 +37,7 @@ class ConsultationController extends Controller
      */
     public function store(StoreConsultationRequest $request)
     {
-        $consultation=$this->service->create_resource($request->all());
+        $consultation=$this->service->create($request->all());
         return (new ConsultationResource($consultation))->response()->setStatusCode(201);
     }
 
@@ -54,7 +54,7 @@ class ConsultationController extends Controller
      */
     public function update(UpdateConsultationRequest $request, Consultation $consultation)
     {
-        $consultation=$this->service->update_resource($consultation,$request->validated());
+        $consultation=$this->service->update($consultation,$request->validated());
         return new ConsultationResource($consultation);
     }
 
@@ -63,7 +63,7 @@ class ConsultationController extends Controller
      */
     public function destroy(Consultation $consultation)
     {
-        $this->service->delete_resource($consultation);
+        $this->service->delete($consultation);
         return response()->noContent();
     }
 }

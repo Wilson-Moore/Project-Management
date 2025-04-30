@@ -37,7 +37,7 @@ class OperationController extends Controller
      */
     public function store(StoreOperationRequest $request)
     {
-        $operation=$this->service->create_resource($request->all());
+        $operation=$this->service->create($request->all());
         return (new OperationResource($operation))->response()->setStatusCode(201);
     }
 
@@ -61,7 +61,7 @@ class OperationController extends Controller
      */
     public function update(UpdateOperationRequest $request, Operation $operation)
     {
-        $operation=$this->service->update_resource($operation,$request->validated());
+        $operation=$this->service->update($operation,$request->validated());
         return new OperationResource($operation);
     }
 
@@ -70,7 +70,7 @@ class OperationController extends Controller
      */
     public function destroy(Operation $operation)
     {
-        $this->service->delete_resource($operation);
+        $this->service->delete($operation);
         return response()->noContent();
     }
 }

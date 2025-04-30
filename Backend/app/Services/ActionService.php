@@ -4,21 +4,10 @@ namespace App\Services;
 
 use App\Models\Action;
 
-class ActionService
+class ActionService extends BaseService
 {
-    public function create_resource(array $data): Action
+    public function __construct()
     {
-        return Action::create($data);
-    }
-
-    public function update_resource(Action $action, array $data): Action
-    {
-        $action->update($data);
-        return $action->refresh();
-    }
-
-    public function delete_resource(Action $action): void
-    {
-        $action->delete();
+        $this->model=new Action();
     }
 }

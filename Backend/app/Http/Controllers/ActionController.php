@@ -37,7 +37,7 @@ class ActionController extends Controller
      */
     public function store(StoreActionRequest $request)
     {
-        $action=$this->service->create_resource($request->all());
+        $action=$this->service->create($request->all());
         return (new ActionResource($action))->response()->setStatusCode(201);
     }
 
@@ -60,7 +60,7 @@ class ActionController extends Controller
      */
     public function update(UpdateActionRequest $request, Action $action)
     {
-        $action=$this->service->update_resource($action,$request->validated());
+        $action=$this->service->update($action,$request->validated());
         return new ActionResource($action);
     }
 
@@ -69,7 +69,7 @@ class ActionController extends Controller
      */
     public function destroy(Action $action)
     {
-        $this->service->delete_resource($action);
+        $this->service->delete($action);
         return response()->noContent();
     }
 }

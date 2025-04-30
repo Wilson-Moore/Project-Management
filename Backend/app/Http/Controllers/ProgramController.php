@@ -37,7 +37,7 @@ class ProgramController extends Controller
      */
     public function store(StoreProgramRequest $request)
     {
-        $program=$this->service->create_resource($request->all());
+        $program=$this->service->create($request->all());
         return (new ProgramResource($program))->response()->setStatusCode(201);
     }
 
@@ -60,7 +60,7 @@ class ProgramController extends Controller
      */
     public function update(UpdateProgramRequest $request, Program $program)
     {
-        $program=$this->service->update_resource($program,$request->validated());
+        $program=$this->service->update($program,$request->validated());
         return new ProgramResource($program);
     }
 
@@ -69,7 +69,7 @@ class ProgramController extends Controller
      */
     public function destroy(Program $program)
     {
-        $this->service->delete_resource($program);
+        $this->service->delete($program);
         return response()->noContent();
     }
 }

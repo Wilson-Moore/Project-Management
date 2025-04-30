@@ -4,21 +4,10 @@ namespace App\Services;
 
 use App\Models\Operation;
 
-class OperationService
+class OperationService extends BaseService
 {
-    public function create_resource(array $data): Operation
+    public function __construct()
     {
-        return Operation::create($data);
-    }
-
-    public function update_resource(Operation $operation, array $data): Operation
-    {
-        $operation->update($data);
-        return $operation->refresh();
-    }
-
-    public function delete_resource(Operation $operation): void
-    {
-        $operation->delete();
+        $this->model=new Operation();
     }
 }

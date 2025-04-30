@@ -29,7 +29,7 @@ class WalletController extends Controller
      */
     public function store(StoreWalletRequest $request)
     {
-        $wallet=$this->service->create_resource($request->all());
+        $wallet=$this->service->create($request->all());
         return (new WalletResource($wallet))->response()->setStatusCode(201);
     }
 
@@ -52,7 +52,7 @@ class WalletController extends Controller
      */
     public function update(UpdateWalletRequest $request, Wallet $wallet)
     {
-        $wallet=$this->service->update_resource($wallet,$request->validated());
+        $wallet=$this->service->update($wallet,$request->validated());
         return new WalletResource($wallet);
     }
 
@@ -61,7 +61,7 @@ class WalletController extends Controller
      */
     public function destroy(Wallet $wallet)
     {
-        $this->service->delete_resource($wallet);
+        $this->service->delete($wallet);
         return response()->noContent();
     }
 }

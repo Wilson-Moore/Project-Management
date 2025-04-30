@@ -36,7 +36,7 @@ class SubprogramController extends Controller
      */
     public function store(StoreSubprogramRequest $request)
     {
-        $subprogram=$this->service->create_resource($request->all());
+        $subprogram=$this->service->create($request->all());
         return (new SubprogramResource($subprogram))->response()->setStatusCode(201);
     }
 
@@ -59,7 +59,7 @@ class SubprogramController extends Controller
      */
     public function update(UpdateSubprogramRequest $request, Subprogram $subprogram)
     {
-        $subprogram=$this->service->update_resource($subprogram,$request->validated());
+        $subprogram=$this->service->update($subprogram,$request->validated());
         return new SubprogramResource($subprogram);
     }
 
@@ -68,7 +68,7 @@ class SubprogramController extends Controller
      */
     public function destroy(Subprogram $subprogram)
     {
-        $this->service->delete_resource($subprogram);
+        $this->service->delete($subprogram);
         return response()->noContent();
     }
 }

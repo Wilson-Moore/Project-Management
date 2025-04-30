@@ -4,21 +4,10 @@ namespace App\Services;
 
 use App\Models\Subprogram;
 
-class SubprogramService
+class SubprogramService extends BaseService
 {
-    public function create_resource(array $data): Subprogram
+    public function __construct()
     {
-        return Subprogram::create($data);
-    }
-
-    public function update_resource(Subprogram $subprogram, array $data): Subprogram
-    {
-        $subprogram->update($data);
-        return $subprogram->refresh();
-    }
-
-    public function delete_resource(Subprogram $subprogram): void
-    {
-        $subprogram->delete();
+        $this->model=new Subprogram();
     }
 }

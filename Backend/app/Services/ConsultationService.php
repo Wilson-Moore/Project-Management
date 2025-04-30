@@ -4,21 +4,10 @@ namespace App\Services;
 
 use App\Models\Consultation;
 
-class ConsultationService
+class ConsultationService extends BaseService
 {
-    public function create_resource(array $data): Consultation
+    public function __construct()
     {
-        return Consultation::create($data);
-    }
-
-    public function update_resource(Consultation $consultation, array $data): Consultation
-    {
-        $consultation->update($data);
-        return $consultation->refresh();
-    }
-
-    public function delete_resource(Consultation $consultation): void
-    {
-        $consultation->delete();
+        $this->model=new Consultation();
     }
 }

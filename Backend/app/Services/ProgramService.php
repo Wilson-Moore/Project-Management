@@ -4,21 +4,10 @@ namespace App\Services;
 
 use App\Models\Program;
 
-class ProgramService
+class ProgramService extends BaseService
 {
-    public function create_resource(array $data): Program
+    public function __construct()
     {
-        return Program::create($data);
-    }
-
-    public function update_resource(Program $program, array $data): Program
-    {
-        $program->update($data);
-        return $program->refresh();
-    }
-
-    public function delete_resource(Program $program): void
-    {
-        $program->delete();
+        $this->model=new Program();
     }
 }
