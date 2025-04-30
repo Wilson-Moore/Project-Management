@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests\Consultation;
 
-use App\Rules\DurationRule;
+use App\Traits\Consultation\ConsultationValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreConsultationRequest extends FormRequest
 {
+    use ConsultationValidationRules;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,12 +24,7 @@ class StoreConsultationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'signature_date'=>['required','date'],
-            'duration'=>['required',new DurationRule($this)],
-            'observation'=>['required'],
-            'operation_number'=>['required','exists:operations,number'],
-        ];
+        return $this->base_rules();
     }
 
     protected function prepareForValidation()

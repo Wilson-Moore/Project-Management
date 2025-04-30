@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\SubProgram;
 
+use App\Traits\Subprogram\SubprogramValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateSubprogramRequest extends FormRequest
 {
+    use SubprogramValidationRules;
+    
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,20 +24,16 @@ class UpdateSubprogramRequest extends FormRequest
      */
     public function rules(): array
     {
-        $method=$this->method();
-        if ($method=="PUT") {
-            return [
-                'code'=>['required','alpha_num','size:2'],
-                'title'=>['required'],
-                'program'=>['required','exists:programs,code'],
-            ];
-        } else {
-            return [
-                'code'=>['sometimes','required','alpha_num','size:2'],
-                'title'=>['sometimes','required'],
-                'program'=>['sometimes','required','exists:programs,code'],
-            ];
+        $rules=$this->base_rules();
+
+        if ($this->isMethod('PATCH')) {
+            foreach ($rules as &$rule) {
+                array_unshift($rule,'sometimes');
+            }
+            $rules['program_code']=['nullable'];
         }
+
+        return $rules;
     }
 
     protected function prepareForValidation()

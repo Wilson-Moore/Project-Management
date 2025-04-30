@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests\Project;
 
-use App\Rules\DurationRule;
+use App\Traits\Project\ProjectValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProjectRequest extends FormRequest
 {
+    use ProjectValidationRules;
+    
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,14 +24,7 @@ class StoreProjectRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'objectif'=>['required'],
-            'cost'=>['required','integer'],
-            'start_date'=>['required','date'],
-            'duration'=>['required',new DurationRule($this)],
-            'assessment_date'=>['required','date'],
-            'operation'=>['required','exists:operations,number'],
-        ];
+        return $this->base_rules();
     }
 
     protected function prepareForValidation()

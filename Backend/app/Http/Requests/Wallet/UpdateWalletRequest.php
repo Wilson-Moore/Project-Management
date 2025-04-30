@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\Wallet;
 
+use App\Traits\Wallet\WalletValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateWalletRequest extends FormRequest
 {
+    use WalletValidationRules;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,17 +24,14 @@ class UpdateWalletRequest extends FormRequest
      */
     public function rules(): array
     {
-        $method=$this->method();
-        if ($method=="PUT") {
-            return [
-                'code'=>['required','alpha_num','size:3'],
-                'title'=>['required'],
-            ];
-        } else {
-            return [
-                'code'=>['sometimes','required','alpha_num','size:3'],
-                'title'=>['sometimes','required'],
-            ];
+        $rules=$this->base_rules();
+
+        if ($this->isMethod('PATCH')) {
+            foreach ($rules as &$rule) {
+                array_unshift($rule,'sometimes');
+            }
         }
+
+        return $rules;
     }
 }

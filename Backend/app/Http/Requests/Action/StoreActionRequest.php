@@ -2,12 +2,13 @@
 
 namespace App\Http\Requests\Action;
 
-use App\Rules\Action\ActionCodeRule;
+use App\Traits\Action\ActionValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreActionRequest extends FormRequest
 {
+    use ActionValidationRules;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -23,14 +24,7 @@ class StoreActionRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'code'=>[
-                'required','regex:/^[A-Z0-9]{3}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{4}[0-9]{3}[0-9]{3}$/',
-                'size:18',new ActionCodeRule($this)],
-            'type'=>['required',Rule::in(1,2,3)],
-            'title'=>['required'],
-            'subprogram'=>['required','exists:subprograms,id'],
-        ];
+        return $this->base_rules();
     }
 
     protected function prepareForValidation()

@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\Program;
 
+use App\Traits\Program\ProgramValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProgramRequest extends FormRequest
 {
+    use ProgramValidationRules;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,20 +24,16 @@ class UpdateProgramRequest extends FormRequest
      */
     public function rules(): array
     {
-        $method=$this->method();
-        if ($method=="PUT") {
-            return [
-                'code'=>['required','alpha_num','size:3'],
-                'title'=>['required'],
-                'wallet'=>['required','exists:wallets,code']
-            ];
-        } else {
-            return [
-                'code'=>['sometimes','required','alpha_num','size:3'],
-                'title'=>['sometimes','required'],
-                'wallet'=>['sometimes','required','exists:wallets,code']
-            ];
+        $rules=$this->base_rules();
+
+        if ($this->isMethod('PATCH')) {
+            foreach ($rules as &$rule) {
+                array_unshift($rule,'sometimes');
+            }
+            $rules['wallet_code']=['nullable'];
         }
+
+        return $rules;
     }
 
     protected function prepareForValidation()

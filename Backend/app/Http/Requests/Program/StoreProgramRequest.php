@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\Program;
 
+use App\Traits\Program\ProgramValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProgramRequest extends FormRequest
 {
+    use ProgramValidationRules;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,11 +24,7 @@ class StoreProgramRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'code'=>['required','alpha_num','size:3'],
-            'title'=>['required'],
-            'wallet'=>['required','exists:wallets,code'],
-        ];
+        return $this->base_rules();
     }
 
     protected function prepareForValidation()

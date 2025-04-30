@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests\Consultation;
 
-use App\Rules\DurationRule;
+use App\Traits\Consultation\ConsultationValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateConsultationRequest extends FormRequest
 {
+    use ConsultationValidationRules;
+    
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,22 +24,16 @@ class UpdateConsultationRequest extends FormRequest
      */
     public function rules(): array
     {
-        $method=$this->method();
-        if ($method=="PUT") {
-            return [
-                'signature_date'=>['required','date'],
-                'duration'=>['required',new DurationRule($this)],
-                'observation'=>['required'],
-                'operation_number'=>['required','exists:operations,number'],
-            ];
-        } else {
-            return [
-                'signature_date'=>['sometimes','required','date'],
-                'duration'=>['sometimes','required',new DurationRule($this)],
-                'observation'=>['sometimes','required'],
-                'operation_number'=>['sometimes','required','exists:operations,number'],
-            ];
+        $rules=$this->base_rules();
+
+        if ($this->isMethod('PATCH')) {
+            foreach ($rules as &$rule) {
+                array_unshift($rule,'sometimes');
+            }
+            $rules['operation_number']=['nullable'];
         }
+
+        return $rules;
     }
 
     protected function prepareForValidation()

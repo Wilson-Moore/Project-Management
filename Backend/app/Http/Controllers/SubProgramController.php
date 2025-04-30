@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Subprogram;
 use App\Filters\SubprogramFilter;
 use Illuminate\Http\Request;
-use App\Http\Resources\SubProgram\SubprogramResource;
-use App\Http\Resources\SubProgram\SubprogramCollection;
-use App\Http\Requests\SubProgram\StoreSubprogramRequest;
-use App\Http\Requests\SubProgram\UpdateSubprogramRequest;
+use App\Http\Resources\Subprogram\SubprogramResource;
+use App\Http\Resources\Subprogram\SubprogramCollection;
+use App\Http\Requests\Subprogram\StoreSubprogramRequest;
+use App\Http\Requests\Subprogram\UpdateSubprogramRequest;
 use App\Services\SubprogramService;
 
 class SubprogramController extends Controller

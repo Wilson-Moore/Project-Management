@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests\Operation;
 
-use App\Rules\Operation\OperationNumberRule;
+use App\Traits\Operation\OperationValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreOperationRequest extends FormRequest
 {
+    use OperationValidationRules;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,16 +24,7 @@ class StoreOperationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'number'=>[
-                'required','regex:/^[NS][0-9][A-Z0-9]{3}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{4}[0-9]{3}[0-9]{3}[0-9]{2}[A-Z0-9]{3}$/',
-                new OperationNumberRule($this)],
-            'title'=>['required'],
-            'date_of_notification'=>['required','date'],
-            'current_ap'=>['required','integer'],
-            'initial_ap'=>['required','integer'],
-            'action'=>['required','exists:actions,code'],
-        ];
+        return $this->base_rules();
     }
 
     protected function prepareForValidation()
