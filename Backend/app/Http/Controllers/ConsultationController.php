@@ -48,6 +48,7 @@ class ConsultationController extends Controller
     public function update(UpdateConsultationRequest $request, Consultation $consultation)
     {
         $consultation->update($request->all());
+        return new ConsultationResource($consultation->refresh());
     }
 
     /**

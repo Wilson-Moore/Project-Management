@@ -54,6 +54,7 @@ class OperationController extends Controller
     public function update(UpdateOperationRequest $request, Operation $operation)
     {
         $operation->update($request->all());
+        return new OperationResource($operation->refresh());
     }
 
     /**

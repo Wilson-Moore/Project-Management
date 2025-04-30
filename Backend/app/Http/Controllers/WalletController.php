@@ -44,6 +44,7 @@ class WalletController extends Controller
     public function update(UpdateWalletRequest $request, Wallet $wallet)
     {
         $wallet->update($request->all());
+        return new WalletResource($wallet->refresh());
     }
 
     /**

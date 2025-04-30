@@ -51,6 +51,7 @@ class SubprogramController extends Controller
     public function update(UpdateSubProgramRequest $request, Subprogram $subprogram)
     {
         $subprogram->update($request->all());
+        return new SubProgramResource($subprogram->refresh());
     }
 
     /**

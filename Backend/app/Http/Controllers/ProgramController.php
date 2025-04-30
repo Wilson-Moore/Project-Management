@@ -51,6 +51,7 @@ class ProgramController extends Controller
     public function update(UpdateProgramRequest $request, Program $program)
     {
         $program->update($request->all());
+        return new ProgramResource($program->refresh());
     }
 
     /**

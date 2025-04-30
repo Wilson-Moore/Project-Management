@@ -51,6 +51,7 @@ class ActionController extends Controller
     public function update(UpdateActionRequest $request, Action $action)
     {
         $action->update($request->all());
+        return new ActionResource($action->refresh());
     }
 
     /**
