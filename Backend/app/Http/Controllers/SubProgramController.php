@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Subprogram;
 use App\Filters\SubprogramFilter;
+use App\Http\Requests\Subprogram\ShowSubprogramRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\Subprogram\SubprogramResource;
 use App\Http\Resources\Subprogram\SubprogramCollection;
@@ -43,12 +44,9 @@ class SubprogramController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, Subprogram $subprogram)
+    public function show(ShowSubprogramRequest $request, Subprogram $subprogram)
     {
-        $with=[];
-        if ($request->query('include_program')) $with[]='program';
-        if ($request->query('include_actions')) $with[]='actions';
-
+        $with=$request->includes();
         if (!empty($with)) {
             $subprogram=$subprogram->load($with);
         }

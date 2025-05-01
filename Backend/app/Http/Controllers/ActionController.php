@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Action;
 use Illuminate\Http\Request;
 use App\Filters\ActionFilter;
+use App\Http\Requests\Action\ShowActionRequest;
 use App\Services\ActionService;
 use App\Http\Resources\Action\ActionCollection;
 use App\Http\Requests\Action\StoreActionRequest;
@@ -44,12 +45,9 @@ class ActionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, Action $action)
+    public function show(ShowActionRequest $request, Action $action)
     {
-        $with=[];
-        if ($request->query('include_subprogram')) $with[]='subprogram';
-        if ($request->query('include_operations')) $with[]='operations';
-
+        $with=$request->includes();
         if (!empty($with)) {
             $action=$action->load($with);
         }

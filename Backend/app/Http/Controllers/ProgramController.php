@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Program;
 use Illuminate\Http\Request;
 use App\Filters\ProgramFilter;
+use App\Http\Requests\Program\ShowProgramRequest;
 use App\Services\ProgramService;
 use App\Http\Resources\Program\ProgramResource;
 use App\Http\Resources\Program\ProgramCollection;
@@ -44,12 +45,9 @@ class ProgramController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, Program $program)
+    public function show(ShowProgramRequest $request, Program $program)
     {
-        $with=[];
-        if ($request->query('include_wallet')) $with[]='wallet';
-        if ($request->query('include_subprograms')) $with[]='subprograms';
-
+        $with=$request->includes();
         if (!empty($with)) {
             $program=$program->load($with);
         }

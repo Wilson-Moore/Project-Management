@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Operation;
 use Illuminate\Http\Request;
 use App\Filters\OperationFilter;
+use App\Http\Requests\Operation\ShowOperationRequest;
 use App\Services\OperationService;
 use App\Http\Requests\Operation\StoreOperationRequest;
 use App\Http\Requests\Operation\UpdateOperationRequest;
@@ -44,13 +45,9 @@ class OperationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, Operation $operation)
+    public function show(ShowOperationRequest $request, Operation $operation)
     {
-        $with=[];
-        if ($request->query('include_action')) $with[]='action';
-        if ($request->query('include_projects')) $with[]='projects';
-        if ($request->query('include_consultations')) $with[]='consultations';
-
+        $with=$request->includes();
         if (!empty($with)) {
             $operation=$operation->load($with);
         }

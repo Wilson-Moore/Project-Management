@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Filters\ProjectFilter;
+use App\Http\Requests\Project\ShowProjectRequest;
 use App\Http\Requests\Project\StoreProjectRequest;
 use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Http\Resources\Project\ProjectCollection;
@@ -44,11 +45,9 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, Project $project)
+    public function show(ShowProjectRequest $request, Project $project)
     {
-        $with=[];
-        if ($request->query('include_operation')) $with[]='operation';
-
+        $with=$request->includes();
         if (!empty($with)) {
             $project=$project->load($with);
         }

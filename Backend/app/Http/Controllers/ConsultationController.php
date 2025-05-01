@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Consultation;
 use App\Filters\ConsultationFilter;
+use App\Http\Requests\Consultation\ShowConsultationRequest;
 use App\Services\ConsultationService;
 use App\Http\Requests\Consultation\StoreConsultationRequest;
 use App\Http\Requests\Consultation\UpdateConsultationRequest;
@@ -44,11 +45,9 @@ class ConsultationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, Consultation $consultation)
+    public function show(ShowConsultationRequest $request, Consultation $consultation)
     {
-        $with=[];
-        if ($request->query('include_operation')) $with[]='operation';
-
+        $with=$request->includes();
         if (!empty($with)) {
             $consultation=$consultation->load($with);
         }
