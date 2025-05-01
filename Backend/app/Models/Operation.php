@@ -22,7 +22,17 @@ class Operation extends Model
         'action_code',
     ];
 
-    public function getsituationLabelAttribute(): string
+    protected $casts = [
+        'number'=>'string',
+        'title'=>'string',
+        'date_of_notification'=>'datetime',
+        'initial_ap'=>'integer',
+        'current_ap'=>'integer',
+        'situation'=>'boolean',
+        'action_code'=>'string',
+    ];
+
+    public function getSituationLabelAttribute(): string
     {
         return match ($this->situation) 
         {

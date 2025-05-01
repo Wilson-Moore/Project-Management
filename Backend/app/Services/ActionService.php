@@ -6,8 +6,8 @@ use App\Models\Action;
 
 class ActionService extends BaseService
 {
-    public function __construct()
+    public function __construct(Action $action)
     {
-        $this->model=new Action();
+        $this->model=$action;
     }
 }

@@ -7,11 +7,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Consultation extends Model
 {
-    protected $fillable=[
+    protected $fillable = [
         'signature_date',
         'duration',
         'observation',
         'operation_number',
+    ];
+
+    protected $casts = [
+        'signature_date'=>'datetime',
+        'duration'=>'string',
+        'observation'=>'string',
+        'operation_number'=>'string',
     ];
 
     public function getDurationTextAttribute(): string

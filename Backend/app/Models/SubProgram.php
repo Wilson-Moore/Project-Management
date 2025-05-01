@@ -14,6 +14,12 @@ class Subprogram extends Model
         'program_code',
     ];
 
+    protected $casts = [
+        'code'=>'string',
+        'title'=>'string',
+        'program_code'=>'string',
+    ];
+
     public function program(): BelongsTo
     {
         return $this->belongsTo(Program::class,"program_code");

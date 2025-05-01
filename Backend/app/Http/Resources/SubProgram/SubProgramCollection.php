@@ -5,7 +5,7 @@ namespace App\Http\Resources\Subprogram;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class SubProgramCollection extends ResourceCollection
+class SubprogramCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

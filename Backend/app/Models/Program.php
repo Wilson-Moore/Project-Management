@@ -18,6 +18,12 @@ class Program extends Model
         'wallet_code',
     ];
 
+    protected $casts = [
+        'code'=>'string',
+        'title'=>'string',
+        'wallet_code'=>'string',
+    ];
+
     public function wallet(): BelongsTo
     {
         return $this->belongsTo(Wallet::class,"wallet_code");

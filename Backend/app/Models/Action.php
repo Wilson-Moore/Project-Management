@@ -19,6 +19,13 @@ class Action extends Model
         'subprogram_id',
     ];
 
+    protected $casts = [
+        'code'=>'string',
+        'type'=>'integer',
+        'title'=>'string',
+        'subprogram_id'=>'integer',
+    ];
+
     public function getTypeLabelAttribute(): string
     {
         return match ($this->type) 

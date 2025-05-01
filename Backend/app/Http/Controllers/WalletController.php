@@ -36,7 +36,7 @@ class WalletController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request,Wallet $wallet)
+    public function show(Request $request, Wallet $wallet)
     {
         $with=[];
         if ($request->query('include_programs')) $with[]='programs';

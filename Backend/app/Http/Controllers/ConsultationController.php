@@ -44,8 +44,14 @@ class ConsultationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Consultation $consultation)
+    public function show(Request $request, Consultation $consultation)
     {
+        $with=[];
+        if ($request->query('include_operation')) $with[]='operation';
+
+        if (!empty($with)) {
+            $consultation=$consultation->load($with);
+        }
         return new ConsultationResource($consultation);
     }
 

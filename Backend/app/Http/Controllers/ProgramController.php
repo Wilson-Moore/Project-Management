@@ -44,9 +44,10 @@ class ProgramController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request,Program $program)
+    public function show(Request $request, Program $program)
     {
         $with=[];
+        if ($request->query('include_wallet')) $with[]='wallet';
         if ($request->query('include_subprograms')) $with[]='subprograms';
 
         if (!empty($with)) {

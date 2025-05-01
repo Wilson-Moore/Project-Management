@@ -44,9 +44,10 @@ class ActionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request,Action $action)
+    public function show(Request $request, Action $action)
     {
         $with=[];
+        if ($request->query('include_subprogram')) $with[]='subprogram';
         if ($request->query('include_operations')) $with[]='operations';
 
         if (!empty($with)) {

@@ -7,13 +7,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Project extends Model
 {
-    protected $fillable=[
+    protected $fillable = [
         'objectif',
         'cost',
         'start_date',
         'duration',
         'assessment_date',
         'operation_number',
+    ];
+
+    protected $casts = [
+        'objectif'=>'string',
+        'cost'=>'integer',
+        'start_date'=>'datetime',
+        'duration'=>'string',
+        'assessment_date'=>'datetime',
+        'operation_number'=>'string',
     ];
 
     public function getDurationTextAttribute(): string

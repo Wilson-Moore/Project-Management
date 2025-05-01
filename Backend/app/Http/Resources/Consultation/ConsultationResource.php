@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Consultation;
 
-use DateInterval;
+use App\Http\Resources\Operation\OperationResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,11 +16,14 @@ class ConsultationResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'ID'=>$this->id,
-            'signature date'=>$this->signature_date,
+            'id'=>$this->id,
+            'signature_date'=>$this->signature_date,
             'duration'=>$this->duration_text,
             'observation'=>$this->observation,
-            'operation'=>$this->operation_number,
+            'operation'=>$this->whenLoaded('operation',
+                fn()=>new OperationResource($this->operation),
+                fn()=>['number'=>$this->operation_number]
+            ),
         ];
     }
 }

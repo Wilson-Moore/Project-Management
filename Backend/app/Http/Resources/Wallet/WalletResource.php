@@ -18,7 +18,7 @@ class WalletResource extends JsonResource
         return [
             'code'=>$this->code,
             'title'=>$this->title,
-            'programs'=>new ProgramCollection($this->whenLoaded('programs')),
+            'programs'=>ProgramCollection::make($this->whenLoaded('programs')),
         ];
     }
 }

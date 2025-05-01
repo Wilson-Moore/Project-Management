@@ -44,8 +44,14 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request,Project $project)
+    public function show(Request $request, Project $project)
     {
+        $with=[];
+        if ($request->query('include_operation')) $with[]='operation';
+
+        if (!empty($with)) {
+            $project=$project->load($with);
+        }
         return new ProjectResource($project);
     }
 

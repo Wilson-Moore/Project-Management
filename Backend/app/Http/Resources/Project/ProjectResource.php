@@ -2,8 +2,7 @@
 
 namespace App\Http\Resources\Project;
 
-use Carbon\Carbon;
-use DateInterval;
+use App\Http\Resources\Operation\OperationResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,10 +19,13 @@ class ProjectResource extends JsonResource
             'id'=>$this->id,
             'objectif'=>$this->objectif,
             'cost'=>$this->cost,
-            'start date'=>$this->start_date,
+            'start_date'=>$this->start_date,
             'duration'=>$this->duration_text,
-            'assessment date'=>$this->assessment_date,
-            'operation'=>$this->operation_number,
+            'assessment_date'=>$this->assessment_date,
+            'operation'=>$this->whenLoaded('operation',
+                fn()=>new OperationResource($this->operation),
+                fn()=>['number'=>$this->operation_number]
+            ),
         ];
     }
 }

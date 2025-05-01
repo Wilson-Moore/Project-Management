@@ -16,6 +16,11 @@ class Wallet extends Model
         'title',
     ];
 
+    protected $casts = [
+        'code'=>'string',
+        'title'=>'string',
+    ];
+
     public function programs(): HasMany
     {
         return $this->hasMany(Program::class,"wallet_code");

@@ -6,8 +6,8 @@ use App\Models\Operation;
 
 class OperationService extends BaseService
 {
-    public function __construct()
+    public function __construct(Operation $operation)
     {
-        $this->model=new Operation();
+        $this->model=$operation;
     }
 }

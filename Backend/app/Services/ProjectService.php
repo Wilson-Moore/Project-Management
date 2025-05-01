@@ -6,8 +6,8 @@ use App\Models\Project;
 
 class ProjectService extends BaseService
 {
-    public function __construct()
+    public function __construct(Project $project)
     {
-        $this->model=new Project();
+        $this->model=$project;
     }
 }

@@ -44,9 +44,10 @@ class OperationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request,Operation $operation)
+    public function show(Request $request, Operation $operation)
     {
         $with=[];
+        if ($request->query('include_action')) $with[]='action';
         if ($request->query('include_projects')) $with[]='projects';
         if ($request->query('include_consultations')) $with[]='consultations';
 

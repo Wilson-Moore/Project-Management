@@ -6,8 +6,8 @@ use App\Models\Program;
 
 class ProgramService extends BaseService
 {
-    public function __construct()
+    public function __construct(Program $program)
     {
-        $this->model=new Program();
+        $this->model=$program;
     }
 }

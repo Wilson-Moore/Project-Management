@@ -43,9 +43,10 @@ class SubprogramController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request,Subprogram $subprogram)
+    public function show(Request $request, Subprogram $subprogram)
     {
         $with=[];
+        if ($request->query('include_program')) $with[]='program';
         if ($request->query('include_actions')) $with[]='actions';
 
         if (!empty($with)) {

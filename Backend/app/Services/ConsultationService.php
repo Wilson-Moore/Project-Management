@@ -6,8 +6,8 @@ use App\Models\Consultation;
 
 class ConsultationService extends BaseService
 {
-    public function __construct()
+    public function __construct(Consultation $consultation)
     {
-        $this->model=new Consultation();
+        $this->model=$consultation;
     }
 }
