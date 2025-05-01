@@ -20,7 +20,7 @@ class OperationResource extends JsonResource
         return [
             'number'=>$this->number,
             'title'=>$this->title,
-            'date_of_notification'=>$this->date_of_notification,
+            'date_of_notification'=>$this->date_of_notification->toDateString(),
             'initial_ap'=>$this->initial_ap,
             'current_ap'=>$this->current_ap,
             'situation'=>$this->situation_label,

@@ -17,7 +17,7 @@ class ConsultationResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'signature_date'=>$this->signature_date,
+            'signature_date'=>$this->signature_date->toDateString(),
             'duration'=>$this->duration_text,
             'observation'=>$this->observation,
             'operation'=>$this->whenLoaded('operation',

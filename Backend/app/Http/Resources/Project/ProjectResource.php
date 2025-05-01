@@ -19,9 +19,9 @@ class ProjectResource extends JsonResource
             'id'=>$this->id,
             'objectif'=>$this->objectif,
             'cost'=>$this->cost,
-            'start_date'=>$this->start_date,
+            'start_date'=>$this->start_date->toDateString(),
             'duration'=>$this->duration_text,
-            'assessment_date'=>$this->assessment_date,
+            'assessment_date'=>$this->assessment_date->toDateString(),
             'operation'=>$this->whenLoaded('operation',
                 fn()=>new OperationResource($this->operation),
                 fn()=>['number'=>$this->operation_number]
