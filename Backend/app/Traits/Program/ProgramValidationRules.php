@@ -9,7 +9,7 @@ trait ProgramValidationRules
         return [
             'code'=>['required','alpha_num','size:3'],
             'title'=>['required'],
-            'wallet'=>['required','exists:wallets,code'],
+            'wallet_code'=>['required','exists:wallets,code'],
         ];
     }
 }

@@ -9,7 +9,7 @@ trait SubprogramValidationRules
         return [
             'code'=>['required','alpha_num','size:2'],
             'title'=>['required'],
-            'program'=>['required','exists:programs,code'],
+            'program_code'=>['required','exists:programs,code'],
         ];
     }
 }

@@ -26,11 +26,4 @@ class StoreOperationRequest extends FormRequest
     {
         return $this->base_rules();
     }
-
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'action_code'=>$this->action,
-        ]);
-    }
 }

@@ -3,19 +3,32 @@
 namespace App\Traits\Action;
 
 use App\Rules\Action\ActionCodeRule;
-use Illuminate\Validation\Rule;
+use App\Rules\Action\ActionMatchRule;
 
 trait ActionValidationRules
 {
     protected function base_rules(): array
     {
         return [
-            'code'=>[
-                'sometimes','regex:/^[A-Z0-9]{3}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{4}[0-9]{3}[0-9]{3}$/',
-                'size:18',new ActionCodeRule($this)],
-            'type'=>['sometimes','required',Rule::in(1,2,3)],
-            'title'=>['sometimes','required'],
-            'subprogram'=>['sometimes','required','exists:subprograms,id'],
+            'code'=>['required','size:18',new ActionCodeRule($this->code)],
+            'title'=>['required'],
+            'subprogram_id'=>[
+                'required','exists:subprograms,id',
+                new ActionMatchRule($this->subprogram_id,substr($this->code,6,2))
+            ],
         ];
+    }
+
+    protected function type(): int
+    {
+        $type=0;
+        if (preg_match('/^[A-Z0-9]{8}(\d{4})/',$this->code,$matches)) {
+            $type=(int)substr($matches[1],0,1);
+        }
+        if ($type===1||$type===2) {
+            return $type;
+        } else {
+            return $type=3;
+        }
     }
 }

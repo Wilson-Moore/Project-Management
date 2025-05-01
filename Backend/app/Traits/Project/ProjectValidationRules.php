@@ -14,7 +14,7 @@ trait ProjectValidationRules
             'start_date'=>['required','date'],
             'duration'=>['required',new DurationRule($this)],
             'assessment_date'=>['required','date'],
-            'operation'=>['required','exists:operations,number'],
+            'operation_number'=>['required','exists:operations,number'],
         ];
     }
 }

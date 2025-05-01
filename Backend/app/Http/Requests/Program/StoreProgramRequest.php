@@ -26,11 +26,4 @@ class StoreProgramRequest extends FormRequest
     {
         return $this->base_rules();
     }
-
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'wallet_code'=>$this->wallet
-        ]);
-    }
 }

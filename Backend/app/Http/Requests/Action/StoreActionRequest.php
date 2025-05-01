@@ -30,7 +30,7 @@ class StoreActionRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'subprogram_id'=>$this->subprogram
+            'type'=>$this->type(),
         ]);
     }
 }
