@@ -2,12 +2,17 @@
 
 namespace App\Http\Requests\Operation;
 
+use App\Services\ActionService;
 use App\Traits\Operation\OperationValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateOperationRequest extends FormRequest
 {
     use OperationValidationRules;
+
+    public function __construct(
+        protected ActionService $action_service
+    ) {}
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -23,7 +28,7 @@ class UpdateOperationRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules=$this->base_rules();
+        $rules=$this->base_rules($this->action_service);
 
         if ($this->isMethod('PATCH')) {
             foreach ($rules as &$rule) {
@@ -32,14 +37,5 @@ class UpdateOperationRequest extends FormRequest
         }
 
         return $rules;
-    }
-
-    protected function prepareForValidation()
-    {
-        if ($this->has('action')) {
-            $this->merge([
-                'action_code'=>$this->action,
-            ]);
-        }
     }
 }

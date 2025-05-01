@@ -4,17 +4,24 @@ namespace App\Traits\Action;
 
 use App\Rules\Action\ActionCodeRule;
 use App\Rules\Action\ActionMatchRule;
+use App\Services\ProgramService;
+use App\Services\SubprogramService;
+use App\Services\WalletService;
 
 trait ActionValidationRules
 {
-    protected function base_rules(): array
+    protected function base_rules(
+        WalletService $wallet_service, 
+        ProgramService $program_service, 
+        SubprogramService $subprogram_service
+    ): array
     {
         return [
-            'code'=>['required','size:18',new ActionCodeRule($this->code)],
+            'code'=>['required','size:18',new ActionCodeRule($this->code,$wallet_service,$program_service)],
             'title'=>['required'],
             'subprogram_id'=>[
                 'required','exists:subprograms,id',
-                new ActionMatchRule($this->subprogram_id,substr($this->code,6,2))
+                new ActionMatchRule($this->subprogram_id,substr($this->code,6,2),$subprogram_service)
             ],
         ];
     }

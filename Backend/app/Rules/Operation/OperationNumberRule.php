@@ -2,7 +2,6 @@
 
 namespace App\Rules\Operation;
 
-use App\Models\Action;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -11,11 +10,13 @@ class OperationNumberRule implements ValidationRule
 {
     protected $number;
     protected $date;
+    protected $action_service;
 
-    public function __construct($number, $date)
+    public function __construct($number, $date, $action_service)
     {
         $this->number=$number;
         $this->date=$date;
+        $this->action_service=$action_service;
     }
 
     /**
@@ -32,12 +33,13 @@ class OperationNumberRule implements ValidationRule
         
         [,,$action_code,$year,$program_code]=$matches;
 
-        $action=Action::where('code',$action_code)->first();
-        if (!$action) return;
+        $action=$this->action_service->find('code',$action_code);
+        if (!$action) {
+            $fail('action',"Action code of number does not exsits '$action_code'.");
+        }
         
-        $s=substr($action_code,3,3);
         if ($program_code!==substr($action_code,3,3)) {
-            $fail('program',"Program with code is not the same '$program_code' '$s'.");
+            $fail('program',"Program with code is not the same '$program_code'.");
         }
 
         if ($year!==Carbon::parse($this->date)->format('y')) {

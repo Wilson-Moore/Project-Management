@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests\Action;
 
+use App\Services\ProgramService;
+use App\Services\SubprogramService;
+use App\Services\WalletService;
 use App\Traits\Action\ActionValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -9,6 +12,12 @@ use Illuminate\Foundation\Http\FormRequest;
 class UpdateActionRequest extends FormRequest
 {
     use ActionValidationRules;
+
+    public function __construct(
+        protected WalletService $wallet_service,
+        protected ProgramService $program_service,
+        protected SubprogramService $subprogram_service
+    ) {}
     
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +34,8 @@ class UpdateActionRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules=$this->base_rules();
+        $rules=$this->base_rules($this->wallet_service, $this->program_service, $this->subprogram_service);
+        $rules['type']=['required','integer'];
 
         if ($this->isMethod('PATCH')) {
             foreach ($rules as &$rule) {
@@ -35,13 +45,11 @@ class UpdateActionRequest extends FormRequest
 
         return $rules;
     }
+
     protected function prepareForValidation()
     {
-        
-        if ($this->has('subprogram')) {
-            $this->merge([
-                'subprogram_id'=>$this->subprogram
-            ]);
-        }
+        $this->merge([
+            'type'=>$this->type(),
+        ]);
     }
 }

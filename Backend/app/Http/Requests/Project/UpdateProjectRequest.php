@@ -34,13 +34,4 @@ class UpdateProjectRequest extends FormRequest
 
         return $rules;
     }
-
-    protected function prepareForValidation()
-    {
-        if ($this->has('operation')) {
-            $this->merge([
-                'operation_number'=>$this->operation,
-            ]);
-        }
-    }
 }

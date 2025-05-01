@@ -34,13 +34,4 @@ class UpdateSubprogramRequest extends FormRequest
 
         return $rules;
     }
-
-    protected function prepareForValidation()
-    {
-        if ($this->has('program')) {
-            $this->merge([
-                'program_code'=>$this->program,
-            ]);
-        }
-    }
 }

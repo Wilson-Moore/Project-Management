@@ -23,4 +23,9 @@ abstract class BaseService
     {
         $model->delete();
     }
+
+    public function find(string $field, string $value): ?Model
+    {
+        return $this->model->where($field,$value)->first();
+    }
 }

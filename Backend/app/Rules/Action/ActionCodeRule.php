@@ -2,13 +2,22 @@
 
 namespace App\Rules\Action;
 
-use App\Models\Program;
-use App\Models\Wallet;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
 class ActionCodeRule implements ValidationRule
 {
+    protected $code;
+    protected $wallet_service;
+    protected $program_service;
+
+    public function __construct($code, $wallet_service, $program_service)
+    {
+        $this->code=$code;
+        $this->wallet_service=$wallet_service;
+        $this->program_service=$program_service;
+    }
+
     /**
      * Run the validation rule.
      *
@@ -16,19 +25,19 @@ class ActionCodeRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!preg_match('/^([A-Z0-9]{3})([A-Z0-9]{3})([A-Z0-9]{2})(\d{4})(\d{3})(\d{3})$/',$value,$matches)) {
+        if (!preg_match('/^([A-Z0-9]{3})([A-Z0-9]{3})([A-Z0-9]{2})(\d{4})(\d{3})(\d{3})$/',$this->code,$matches)) {
             $fail('format',"Invalid Format");
             return;
         }
         
         [,$wallet_code,$program_code,,$action,,$space]=$matches;
 
-        $wallet=Wallet::where('code',$wallet_code)->first();
+        $wallet=$this->wallet_service->find('code',$wallet_code);
         if (!$wallet) {
             $fail('wallet',"Wallet with code '$wallet_code' does not exist.");
         }
         
-        $program=Program::where('code',$program_code)->where('wallet_code',$wallet_code)->first();
+        $program=$this->program_service->find('code',$program_code);
         if (!$program) {
             $fail('program',"Program with code '$program_code' does not belong to Wallet '$wallet_code'.");
         }

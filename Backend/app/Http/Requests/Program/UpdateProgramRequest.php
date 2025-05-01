@@ -34,13 +34,4 @@ class UpdateProgramRequest extends FormRequest
 
         return $rules;
     }
-
-    protected function prepareForValidation()
-    {
-        if ($this->has('wallet')) {
-            $this->merge([
-                'wallet_code'=>$this->wallet
-            ]);
-        }
-    }
 }
