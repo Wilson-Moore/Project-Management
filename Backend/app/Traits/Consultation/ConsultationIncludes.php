@@ -2,19 +2,19 @@
 
 namespace App\Traits\Consultation;
 
+use App\Traits\HasIncludes;
+
 trait ConsultationIncludes
 {
-    public function rule(): array
+    use HasIncludes;
+
+    protected function allowed(): array
     {
-        return [
-            'include'=>['nullable','string'],
-        ];
+        return ['operation'];
     }
 
-    public function includes(): array
+    public function allowed_includes()
     {
-        $allowed=['operation'];
-        $includes=explode(',', $this->query('include', ''));
-        return array_values(array_intersect($allowed,$includes));
+        return $this->includes($this->allowed());
     }
 }

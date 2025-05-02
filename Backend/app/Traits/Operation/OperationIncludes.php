@@ -2,19 +2,19 @@
 
 namespace App\Traits\Operation;
 
+use App\Traits\HasIncludes;
+
 trait OperationIncludes
 {
-    public function rule(): array
+    use HasIncludes;
+    
+    protected function allowed(): array
     {
-        return [
-            'include'=>['nullable','string'],
-        ];
+        return ['action','projects','consultations'];
     }
 
-    public function includes(): array
+    public function allowed_includes()
     {
-        $allowed=['action','projects','consultations'];
-        $includes=explode(',',$this->query('include',''));
-        return array_values(array_intersect($allowed,$includes));
+        return $this->includes($this->allowed());
     }
 }

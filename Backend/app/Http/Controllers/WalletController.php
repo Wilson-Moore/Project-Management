@@ -38,7 +38,7 @@ class WalletController extends Controller
      */
     public function show(ShowWalletRequest $request, Wallet $wallet)
     {
-        $with=$request->includes();
+        $with=$request->allowed_includes();
         if (!empty($with)) {
             $wallet=$wallet->load($with);
         }

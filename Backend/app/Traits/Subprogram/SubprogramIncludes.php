@@ -2,19 +2,19 @@
 
 namespace App\Traits\Subprogram;
 
+use App\Traits\HasIncludes;
+
 trait SubprogramIncludes
 {
-    public function rule(): array
+    use HasIncludes;
+
+    protected function allowed(): array
     {
-        return [
-            'include'=>['nullable','string'],
-        ];
+        return ['program','actions'];
     }
 
-    public function includes(): array
+    public function allowed_includes()
     {
-        $allowed=['program','actions'];
-        $includes=explode(',',$this->query('include',''));
-        return array_values(array_intersect($allowed,$includes));
+        return $this->includes($this->allowed());
     }
 }

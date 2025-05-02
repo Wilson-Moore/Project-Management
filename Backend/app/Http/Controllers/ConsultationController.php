@@ -47,7 +47,7 @@ class ConsultationController extends Controller
      */
     public function show(ShowConsultationRequest $request, Consultation $consultation)
     {
-        $with=$request->includes();
+        $with=$request->allowed_includes();
         if (!empty($with)) {
             $consultation=$consultation->load($with);
         }

@@ -47,7 +47,7 @@ class ProgramController extends Controller
      */
     public function show(ShowProgramRequest $request, Program $program)
     {
-        $with=$request->includes();
+        $with=$request->allowed_includes();
         if (!empty($with)) {
             $program=$program->load($with);
         }

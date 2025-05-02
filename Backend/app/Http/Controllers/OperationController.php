@@ -47,7 +47,7 @@ class OperationController extends Controller
      */
     public function show(ShowOperationRequest $request, Operation $operation)
     {
-        $with=$request->includes();
+        $with=$request->allowed_includes();
         if (!empty($with)) {
             $operation=$operation->load($with);
         }

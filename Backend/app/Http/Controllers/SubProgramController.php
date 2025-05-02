@@ -46,7 +46,7 @@ class SubprogramController extends Controller
      */
     public function show(ShowSubprogramRequest $request, Subprogram $subprogram)
     {
-        $with=$request->includes();
+        $with=$request->allowed_includes();
         if (!empty($with)) {
             $subprogram=$subprogram->load($with);
         }

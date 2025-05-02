@@ -47,7 +47,7 @@ class ProjectController extends Controller
      */
     public function show(ShowProjectRequest $request, Project $project)
     {
-        $with=$request->includes();
+        $with=$request->allowed_includes();
         if (!empty($with)) {
             $project=$project->load($with);
         }

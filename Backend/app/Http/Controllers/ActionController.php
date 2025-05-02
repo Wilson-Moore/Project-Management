@@ -47,7 +47,7 @@ class ActionController extends Controller
      */
     public function show(ShowActionRequest $request, Action $action)
     {
-        $with=$request->includes();
+        $with=$request->allowed_includes();
         if (!empty($with)) {
             $action=$action->load($with);
         }

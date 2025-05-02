@@ -2,19 +2,19 @@
 
 namespace App\Traits\Wallet;
 
+use App\Traits\HasIncludes;
+
 trait WalletIncludes
 {
-    public function rule(): array
+    use HasIncludes;
+
+    protected function allowed(): array
     {
-        return [
-            'include'=>['nullable','string'],
-        ];
+        return ['programs'];
     }
 
-    public function includes(): array
+    public function allowed_includes()
     {
-        $allowed=['programs'];
-        $includes=explode(',',$this->query('include',''));
-        return array_values(array_intersect($allowed,$includes));
+        return $this->includes($this->allowed());
     }
 }
