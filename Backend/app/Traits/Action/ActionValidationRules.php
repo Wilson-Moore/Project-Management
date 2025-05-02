@@ -17,11 +17,11 @@ trait ActionValidationRules
     ): array
     {
         return [
-            'code'=>['required','size:18',new ActionCodeRule($this->code,$wallet_service,$program_service)],
+            'code'=>['required','size:18',new ActionCodeRule($wallet_service,$program_service)],
             'title'=>['required'],
             'subprogram_id'=>[
                 'required','exists:subprograms,id',
-                new ActionMatchRule($this->subprogram_id,substr($this->code,6,2),$subprogram_service)
+                new ActionMatchRule(substr($this->code,6,2),$subprogram_service)
             ],
         ];
     }

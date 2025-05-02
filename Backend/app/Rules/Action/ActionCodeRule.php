@@ -7,13 +7,11 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class ActionCodeRule implements ValidationRule
 {
-    protected $code;
     protected $wallet_service;
     protected $program_service;
 
-    public function __construct($code, $wallet_service, $program_service)
+    public function __construct($wallet_service, $program_service)
     {
-        $this->code=$code;
         $this->wallet_service=$wallet_service;
         $this->program_service=$program_service;
     }
@@ -25,7 +23,7 @@ class ActionCodeRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!preg_match('/^([A-Z0-9]{3})([A-Z0-9]{3})([A-Z0-9]{2})(\d{4})(\d{3})(\d{3})$/',$this->code,$matches)) {
+        if (!preg_match('/^([A-Z0-9]{3})([A-Z0-9]{3})([A-Z0-9]{2})(\d{4})(\d{3})(\d{3})$/',$value,$matches)) {
             $fail('format',"Invalid Format");
             return;
         }

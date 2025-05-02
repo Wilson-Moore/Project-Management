@@ -7,13 +7,11 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class ActionMatchRule implements ValidationRule
 {
-    protected $id;
     protected $code;
     protected $subprogram_service;
 
-    public function __construct($id, $code, $subprogram_service)
+    public function __construct($code, $subprogram_service)
     {
-        $this->id=$id;
         $this->code=$code;
         $this->subprogram_service=$subprogram_service;
     }
@@ -25,7 +23,7 @@ class ActionMatchRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $subprogram=$this->subprogram_service->find('id',$this->id);
+        $subprogram=$this->subprogram_service->find('id',$value);
         if (!$subprogram) return;
 
         if ($subprogram->code!==$this->code) {
