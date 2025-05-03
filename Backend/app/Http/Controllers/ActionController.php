@@ -25,11 +25,7 @@ class ActionController extends Controller
     public function index(Request $request)
     {
         $query_items=$this->filter->transform($request);
-        
-        $actions=empty($query_items)
-        ? Action::paginate()
-        : Action::where($query_items)->paginate()->appends($request->query());
-
+        $actions=$this->service->all($query_items,$request);
         return new ActionCollection($actions);
     }
 
@@ -47,10 +43,7 @@ class ActionController extends Controller
      */
     public function show(ShowActionRequest $request, Action $action)
     {
-        $with=$request->allowed_includes();
-        if (!empty($with)) {
-            $action=$action->load($with);
-        }
+        $action=$this->service->get($action,$request->allowed_includes());
         return new ActionResource($action);
     }
 

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->dateTime("date_of_notification");
             $table->unsignedBigInteger("initial_ap");
             $table->unsignedBigInteger("current_ap");
-            $table->boolean("situation")->default(true);
+            $table->integer("situation");
             $table->string("action_code");
             $table->timestamps();
             

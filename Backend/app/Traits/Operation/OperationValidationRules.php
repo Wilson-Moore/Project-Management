@@ -15,6 +15,7 @@ trait OperationValidationRules
             'date_of_notification'=>['required','date'],
             'current_ap'=>['required','integer'],
             'initial_ap'=>['required','integer'],
+            'situation'=>['required','integer'],
             'action_code'=>['required','exists:actions,code'],
         ];
     }

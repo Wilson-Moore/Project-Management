@@ -24,11 +24,7 @@ class SubprogramController extends Controller
     public function index(Request $request)
     {
         $query_items=$this->filter->transform($request);
-        
-        $subprograms=empty($query_items)
-        ? SubProgram::paginate()
-        : SubProgram::where($query_items)->paginate()->appends($request->query());
-
+        $subprograms=$this->service->all($query_items,$request);
         return new SubprogramCollection($subprograms);
     }
 
@@ -46,10 +42,7 @@ class SubprogramController extends Controller
      */
     public function show(ShowSubprogramRequest $request, Subprogram $subprogram)
     {
-        $with=$request->allowed_includes();
-        if (!empty($with)) {
-            $subprogram=$subprogram->load($with);
-        }
+        $subprogram=$this->service->get($subprogram,$request->allowed_includes());
         return new SubprogramResource($subprogram);
     }
 

@@ -38,10 +38,7 @@ class WalletController extends Controller
      */
     public function show(ShowWalletRequest $request, Wallet $wallet)
     {
-        $with=$request->allowed_includes();
-        if (!empty($with)) {
-            $wallet=$wallet->load($with);
-        }
+        $wallet=$this->service->get($wallet,$request->allowed_includes());
         return new WalletResource($wallet);
     }
 

@@ -25,11 +25,7 @@ class ProgramController extends Controller
     public function index(Request $request)
     {
         $query_items=$this->filter->transform($request);
-        
-        $programs=empty($query_items)
-        ? Program::paginate()
-        : Program::where($query_items)->paginate()->appends($request->query());
-
+        $programs=$this->service->all($query_items,$request);
         return new ProgramCollection($programs);
     }
 
@@ -47,10 +43,7 @@ class ProgramController extends Controller
      */
     public function show(ShowProgramRequest $request, Program $program)
     {
-        $with=$request->allowed_includes();
-        if (!empty($with)) {
-            $program=$program->load($with);
-        }
+        $program=$this->service->get($program,$request->allowed_includes());
         return new ProgramResource($program);
     }
 

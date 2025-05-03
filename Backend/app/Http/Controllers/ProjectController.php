@@ -25,11 +25,7 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         $query_items=$this->filter->transform($request);
-        
-        $projects=empty($query_items)
-        ? Project::paginate()
-        : Project::where($query_items)->paginate()->appends($request->query());
-
+        $projects=$this->service->all($query_items,$request);
         return new ProjectCollection($projects);
     }
 
@@ -47,10 +43,7 @@ class ProjectController extends Controller
      */
     public function show(ShowProjectRequest $request, Project $project)
     {
-        $with=$request->allowed_includes();
-        if (!empty($with)) {
-            $project=$project->load($with);
-        }
+        $project=$this->service->get($project,$request->allowed_includes());
         return new ProjectResource($project);
     }
 

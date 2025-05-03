@@ -28,7 +28,7 @@ class Operation extends Model
         'date_of_notification'=>'datetime',
         'initial_ap'=>'integer',
         'current_ap'=>'integer',
-        'situation'=>'boolean',
+        'situation'=>'integer',
         'action_code'=>'string',
     ];
 
@@ -37,7 +37,7 @@ class Operation extends Model
         return match ($this->situation) 
         {
             1=>'in the works',
-            0=>'on halt',
+            2=>'on halt',
             default=>'unknown',
         };
     }

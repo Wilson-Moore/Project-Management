@@ -25,11 +25,7 @@ class OperationController extends Controller
     public function index(Request $request)
     {
         $query_items=$this->filter->transform($request);
-        
-        $operations=empty($query_items)
-        ? Operation::paginate()
-        : Operation::where($query_items)->paginate()->appends($request->query());
-
+        $operations=$this->service->all($query_items,$request);
         return new OperationCollection($operations);
     }
 
@@ -47,10 +43,7 @@ class OperationController extends Controller
      */
     public function show(ShowOperationRequest $request, Operation $operation)
     {
-        $with=$request->allowed_includes();
-        if (!empty($with)) {
-            $operation=$operation->load($with);
-        }
+        $operation=$this->service->get($operation,$request->allowed_includes());
         return new OperationResource($operation);
     }
 

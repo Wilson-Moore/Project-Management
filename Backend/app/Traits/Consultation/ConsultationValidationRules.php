@@ -10,7 +10,7 @@ trait ConsultationValidationRules
     {
         return [
             'signature_date'=>['required','date'],
-            'duration'=>['required',new DurationRule($this)],
+            'duration'=>['required',new DurationRule()],
             'observation'=>['required'],
             'operation_number'=>['required','exists:operations,number'],
         ];

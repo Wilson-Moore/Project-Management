@@ -25,11 +25,7 @@ class ConsultationController extends Controller
     public function index(Request $request)
     {
         $query_items=$this->filter->transform($request);
-        
-        $consultations=empty($query_items)
-        ? Consultation::paginate()
-        : Consultation::where($query_items)->paginate()->appends($request->query());
-
+        $consultations=$this->service->all($query_items,$request);
         return new ConsultationCollection($consultations);
     }
 
@@ -47,10 +43,7 @@ class ConsultationController extends Controller
      */
     public function show(ShowConsultationRequest $request, Consultation $consultation)
     {
-        $with=$request->allowed_includes();
-        if (!empty($with)) {
-            $consultation=$consultation->load($with);
-        }
+        $consultation=$this->service->get($consultation,$request->allowed_includes());
         return new ConsultationResource($consultation);
     }
 

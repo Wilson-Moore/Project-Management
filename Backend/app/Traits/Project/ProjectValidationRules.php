@@ -17,7 +17,7 @@ trait ProjectValidationRules
                 new ProjectCostRule($this->operation_number,$operation_service)
             ],
             'start_date'=>['required','date'],
-            'duration'=>['required',new DurationRule($this)],
+            'duration'=>['required',new DurationRule()],
             'assessment_date'=>['required','date','after_or_equal:start_date'],
             'operation_number'=>['required','exists:operations,number'],
         ];
