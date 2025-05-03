@@ -23,7 +23,7 @@ class ProjectCostRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $operation=$this->operation_service->find('number',$this->operation_number);
+        $operation=$this->operation_service->find(['number'=>$this->operation_number]);
 
         if (!$operation) {
             $fail('provide',"Can't change cost without specifiying the operation");

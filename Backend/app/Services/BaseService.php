@@ -37,8 +37,12 @@ abstract class BaseService
         $model->trashed() ? $model->forceDelete() : $model->delete();
     }
 
-    public function find(string $field, mixed $value): ?Model
+    public function find(array $conditions): ?Model
     {
-        return $this->model->where($field,$value)->first();
+        $model=$this->model;
+        foreach ($conditions as $field => $value) {
+            $model=$model->where($field,$value);
+        }
+        return $model->first();
     }
 }

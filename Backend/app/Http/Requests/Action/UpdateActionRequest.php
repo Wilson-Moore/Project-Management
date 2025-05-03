@@ -50,6 +50,7 @@ class UpdateActionRequest extends FormRequest
     {
         $this->merge([
             'type'=>$this->type(),
+            'subprogram_id'=>$this->id(),
         ]);
     }
 }

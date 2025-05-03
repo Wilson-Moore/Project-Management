@@ -33,7 +33,7 @@ class OperationNumberRule implements ValidationRule
         
         [,,$action_code,$year,$program_code]=$matches;
 
-        $action=$this->action_service->find('code',$action_code);
+        $action=$this->action_service->find(['code'=>$action_code]);
         if (!$action) {
             $fail('action',"Action code of number does not exsits '$action_code'.");
         }

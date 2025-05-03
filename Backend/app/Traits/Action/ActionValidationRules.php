@@ -3,7 +3,6 @@
 namespace App\Traits\Action;
 
 use App\Rules\Action\ActionCodeRule;
-use App\Rules\Action\ActionMatchRule;
 use App\Services\ProgramService;
 use App\Services\SubprogramService;
 use App\Services\WalletService;
@@ -17,12 +16,8 @@ trait ActionValidationRules
     ): array
     {
         return [
-            'code'=>['required','size:18',new ActionCodeRule($wallet_service,$program_service)],
+            'code'=>['required','size:18',new ActionCodeRule($wallet_service,$program_service,$subprogram_service)],
             'title'=>['required'],
-            'subprogram_id'=>[
-                'required','exists:subprograms,id',
-                new ActionMatchRule(substr($this->code,6,2),$subprogram_service)
-            ],
         ];
     }
 
@@ -30,5 +25,11 @@ trait ActionValidationRules
     {
         preg_match('/^[A-Z0-9]{8}(\d{4})/',$this->code,$matches) ? $type=(int)substr($matches[1],0,1) : $type=0;
         return in_array($type,[1,2]) ? $type:3;
+    }
+
+    protected function id(): int
+    {
+        preg_match('/^[A-Z0-9]{3}([A-Z0-9]{3})([A-Z0-9]{2})/',$this->code,$matches);
+        return $this->subprogram_service->find(['program_code'=>$matches[1],'code'=>$matches[2]])->id;
     }
 }

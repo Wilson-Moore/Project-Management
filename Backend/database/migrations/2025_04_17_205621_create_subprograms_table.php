@@ -19,8 +19,8 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            
             $table->foreign("program_code")->references("code")->on("programs")->onDelete("cascade")->onUpdate("cascade");
+            $table->unique(["code","program_code"]);
         });
     }
 
