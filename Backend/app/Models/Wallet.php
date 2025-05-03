@@ -32,9 +32,7 @@ class Wallet extends Model
     protected static function booted()
     {
         static::deleting(function ($wallet) {
-            $wallet->programs->each(function ($program) {
-                $program->delete();
-            });
+            $wallet->programs->each->delete();
         });
     }
 }

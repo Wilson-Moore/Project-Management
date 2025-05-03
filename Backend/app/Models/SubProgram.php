@@ -36,9 +36,7 @@ class Subprogram extends Model
     protected static function booted()
     {
         static::deleting(function ($subprogram) {
-            $subprogram->actions->each(function ($action) {
-                $action->delete();
-            });
+            $subprogram->actions->each->delete();
         });
     }
 }

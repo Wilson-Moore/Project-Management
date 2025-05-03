@@ -28,9 +28,7 @@ trait ActionValidationRules
 
     protected function type(): int
     {
-        if (preg_match('/^[A-Z0-9]{8}(\d{4})/',$this->code,$matches)) {
-            $type=(int)substr($matches[1],0,1);
-        }
+        preg_match('/^[A-Z0-9]{8}(\d{4})/',$this->code,$matches) ? $type=(int)substr($matches[1],0,1) : $type=0;
         return in_array($type,[1,2]) ? $type:3;
     }
 }

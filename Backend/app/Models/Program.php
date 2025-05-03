@@ -40,9 +40,7 @@ class Program extends Model
     protected static function booted()
     {
         static::deleting(function ($program) {
-            $program->subprograms->each(function ($subprogram) {
-                $subprogram->delete();
-            });
+            $program->subprograms->each->delete();
         });
     }
 }

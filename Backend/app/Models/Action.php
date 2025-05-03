@@ -53,9 +53,7 @@ class Action extends Model
     protected static function booted()
     {
         static::deleting(function ($action) {
-            $action->operations->each(function ($operation) {
-                $operation->delete();
-            });
+            $action->operations->each->delete();
         });
     }
 }

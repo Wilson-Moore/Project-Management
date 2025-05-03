@@ -63,12 +63,8 @@ class Operation extends Model
     protected static function booted()
     {
         static::deleting(function ($operation) {
-            $operation->projects->each(function ($project) {
-                $project->delete();
-            });
-            $operation->consultations->each(function ($consultation) {
-                $consultation->delete();
-            });
+            $operation->projects->each->delete();
+            $operation->consultations->each->delete();
         });
     }
 }
