@@ -20,8 +20,10 @@ return new class extends Migration
             $table->dateTime("assessment_date");
             $table->string("operation_number");
             $table->timestamps();
+            $table->softDeletes();
 
-            $table->foreign("operation_number")->references("number")->on("operations")->onDelete("cascade");
+
+            $table->foreign("operation_number")->references("number")->on("operations")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

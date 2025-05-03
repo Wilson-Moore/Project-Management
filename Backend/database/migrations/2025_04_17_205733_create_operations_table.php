@@ -20,8 +20,10 @@ return new class extends Migration
             $table->integer("situation");
             $table->string("action_code");
             $table->timestamps();
+            $table->softDeletes();
+
             
-            $table->foreign("action_code")->references("code")->on("actions")->onDelete("cascade");
+            $table->foreign("action_code")->references("code")->on("actions")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

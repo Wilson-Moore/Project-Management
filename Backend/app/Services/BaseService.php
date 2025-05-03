@@ -34,7 +34,7 @@ abstract class BaseService
 
     public function delete(Model $model): void
     {
-        $model->delete();
+        $model->trashed() ? $model->forceDelete() : $model->delete();
     }
 
     public function find(string $field, mixed $value): ?Model
