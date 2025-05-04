@@ -51,7 +51,9 @@ class SubprogramController extends Controller
      */
     public function update(UpdateSubprogramRequest $request, Subprogram $subprogram)
     {
-        $subprogram=$this->service->update($subprogram,$request->validated());
+        $request->boolean('restore')
+        ? $subprogram=$this->service->restore($subprogram)
+        : $subprogram=$this->service->update($subprogram,$request->validated());
         return new SubprogramResource($subprogram);
     }
 

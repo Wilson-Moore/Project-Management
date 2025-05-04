@@ -28,6 +28,15 @@ class Project extends Model
         'operation_number'=>'string',
     ];
 
+    protected $appends = [
+        'active_status',
+    ];
+
+    public function getActiveStatusAttribute(): string
+    {
+        return $this->trashed() ? "Archived" : "Active";
+    }
+
     public function getDurationTextAttribute(): string
     {
         preg_match('/P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?/',$this->duration,$matches);

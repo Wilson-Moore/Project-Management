@@ -10,7 +10,7 @@ trait WalletIncludes
 
     protected function allowed(): array
     {
-        return ['programs'];
+        return ['programs.subprograms.actions.operations.projects'];
     }
 
     public function allowed_includes()

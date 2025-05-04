@@ -23,6 +23,15 @@ class Subprogram extends Model
         'program_code'=>'string',
     ];
 
+    protected $appends = [
+        'active_status',
+    ];
+
+    public function getActiveStatusAttribute(): string
+    {
+        return $this->trashed() ? "Archived" : "Active";
+    }
+
     public function program(): BelongsTo
     {
         return $this->belongsTo(Program::class,"program_code");
@@ -37,6 +46,10 @@ class Subprogram extends Model
     {
         static::deleting(function ($subprogram) {
             $subprogram->actions->each->delete();
+        });
+        
+        static::restored(function ($subprogram) {
+            $subprogram->actions->each->restore();
         });
     }
 }

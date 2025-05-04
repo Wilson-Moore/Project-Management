@@ -8,7 +8,7 @@ use App\Services\SubprogramService;
 use App\Services\WalletService;
 
 trait ActionValidationRules
-{
+{   
     protected function base_rules(
         WalletService $wallet_service, 
         ProgramService $program_service, 
@@ -20,6 +20,21 @@ trait ActionValidationRules
             ,new ActionCodeRule($wallet_service,$program_service,$subprogram_service)],
             'title'=>['required'],
         ];
+    }
+
+    protected function update_rules(
+        WalletService $wallet_service, 
+        ProgramService $program_service, 
+        SubprogramService $subprogram_service
+    ): array
+    {
+        $rules=$this->base_rules($wallet_service,$program_service,$subprogram_service);
+        if ($this->isMethod('PATCH')) {
+            foreach ($rules as &$rule) {
+                array_unshift($rule,'sometimes');
+            }
+        }
+        return $rules;
     }
 
     protected function type(): int

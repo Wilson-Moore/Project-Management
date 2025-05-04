@@ -52,7 +52,9 @@ class ActionController extends Controller
      */
     public function update(UpdateActionRequest $request, Action $action)
     {
-        $action=$this->service->update($action,$request->validated());
+        $request->boolean('restore')
+        ? $action=$this->service->restore($action)
+        : $action=$this->service->update($action,$request->validated());
         return new ActionResource($action);
     }
 

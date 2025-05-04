@@ -3,12 +3,13 @@
 namespace App\Http\Requests\SubProgram;
 
 use App\Services\SubprogramService;
+use App\Traits\HasRestore;
 use App\Traits\Subprogram\SubprogramValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateSubprogramRequest extends FormRequest
 {
-    use SubprogramValidationRules;
+    use SubprogramValidationRules,HasRestore;
 
     public function __construct(
         protected SubprogramService $subprogram_service
@@ -29,14 +30,8 @@ class UpdateSubprogramRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules=$this->base_rules($this->subprogram_service);
-
-        if ($this->isMethod('PATCH')) {
-            foreach ($rules as &$rule) {
-                array_unshift($rule,'sometimes');
-            }
-        }
-
-        return $rules;
+        return $this->has('restore') 
+        ? $this->restore_rule() 
+        : $this->update_rules($this->subprogram_service);
     }
 }

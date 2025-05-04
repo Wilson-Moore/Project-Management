@@ -20,6 +20,7 @@ class SubprogramResource extends JsonResource
             'id'=>$this->id,
             'code'=>$this->code,
             'title'=>$this->title,
+            'active_status'=>$this->active_status,
             'program'=>$this->whenLoaded('program',
                 fn()=>new ProgramResource($this->program),
                 fn()=>['code'=>$this->program_code]

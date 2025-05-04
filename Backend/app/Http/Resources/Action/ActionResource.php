@@ -20,6 +20,7 @@ class ActionResource extends JsonResource
             'code'=>$this->code,
             'type'=>$this->type_label,
             'title'=>$this->title,
+            'active_status'=>$this->active_status,
             'subprogram'=>$this->whenLoaded('subprogram',
                 fn()=>new SubProgramResource($this->subprogram),
                 fn()=>[
@@ -27,7 +28,6 @@ class ActionResource extends JsonResource
                     'code'=>substr($this->code,6,2)
                 ],
             ),
-            
             'operations'=>OperationCollection::make($this->whenLoaded('operations')),
         ];
     }

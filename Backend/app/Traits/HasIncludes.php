@@ -4,7 +4,7 @@ namespace App\Traits;
 
 trait HasIncludes
 {
-    public function rule(): array
+    public function include_rule(): array
     {
         return [
             'include'=>['nullable','string'],

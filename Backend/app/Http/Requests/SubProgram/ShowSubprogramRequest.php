@@ -24,6 +24,6 @@ class ShowSubprogramRequest extends FormRequest
      */
     public function rules(): array
     {
-        return $this->rule();
+        return $this->include_rule();
     }
 }

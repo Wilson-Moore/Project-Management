@@ -27,6 +27,15 @@ class Program extends Model
         'wallet_code'=>'string',
     ];
 
+    protected $appends = [
+        'active_status',
+    ];
+
+    public function getActiveStatusAttribute(): string
+    {
+        return $this->trashed() ? "Archived" : "Active";
+    }
+
     public function wallet(): BelongsTo
     {
         return $this->belongsTo(Wallet::class,"wallet_code");
@@ -41,6 +50,10 @@ class Program extends Model
     {
         static::deleting(function ($program) {
             $program->subprograms->each->delete();
+        });
+
+        static::restored(function ($program) {
+            $program->subprograms->each->restore();
         });
     }
 }

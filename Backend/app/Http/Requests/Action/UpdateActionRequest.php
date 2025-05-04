@@ -6,12 +6,13 @@ use App\Services\ProgramService;
 use App\Services\SubprogramService;
 use App\Services\WalletService;
 use App\Traits\Action\ActionValidationRules;
+use App\Traits\HasRestore;
 use Illuminate\Foundation\Http\FormRequest;
 
 
 class UpdateActionRequest extends FormRequest
 {
-    use ActionValidationRules;
+    use ActionValidationRules,HasRestore;
 
     public function __construct(
         protected WalletService $wallet_service,
@@ -34,23 +35,19 @@ class UpdateActionRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules=$this->base_rules($this->wallet_service, $this->program_service, $this->subprogram_service);
+        return $this->has('restore') 
+        ? $this->restore_rule()
+        : $this->update_rules($this->wallet_service, $this->program_service, $this->subprogram_service);
         $rules['type']=['required','integer'];
-
-        if ($this->isMethod('PATCH')) {
-            foreach ($rules as &$rule) {
-                array_unshift($rule,'sometimes');
-            }
-        }
-
-        return $rules;
     }
 
     protected function prepareForValidation()
     {
-        $this->merge([
-            'type'=>$this->type(),
-            'subprogram_id'=>$this->id(),
-        ]);
+        if ($this->has('type')&&$this->has('subprogram_id')) {
+            $this->merge([
+                'type'=>$this->type(),
+                'subprogram_id'=>$this->id(),
+            ]);
+        }
     }
 }

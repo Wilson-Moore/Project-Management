@@ -6,7 +6,7 @@ use App\Rules\Operation\OperationNumberRule;
 use App\Services\ActionService;
 
 trait OperationValidationRules
-{
+{   
     protected function base_rules(ActionService $action_service): array
     {
         return [
@@ -18,5 +18,16 @@ trait OperationValidationRules
             'situation'=>['required','integer'],
             'action_code'=>['required','exists:actions,code'],
         ];
+    }
+
+    protected function update_rules(ActionService $action_service): array
+    {
+        $rules=$this->base_rules($action_service);
+        if ($this->isMethod('PATCH')) {
+            foreach ($rules as &$rule) {
+                array_unshift($rule,'sometimes');
+            }
+        }
+        return $rules;
     }
 }

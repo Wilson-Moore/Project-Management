@@ -2,12 +2,13 @@
 
 namespace App\Http\Requests\Program;
 
+use App\Traits\HasRestore;
 use App\Traits\Program\ProgramValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProgramRequest extends FormRequest
 {
-    use ProgramValidationRules;
+    use ProgramValidationRules,HasRestore;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +25,8 @@ class UpdateProgramRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules=$this->base_rules();
-
-        if ($this->isMethod('PATCH')) {
-            foreach ($rules as &$rule) {
-                array_unshift($rule,'sometimes');
-            }
-        }
-
-        return $rules;
+        return $this->has('restore') 
+        ? $this->restore_rule() 
+        : $this->update_rules();
     }
 }
