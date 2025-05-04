@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Subprogram extends Model
 {
-    use SoftDeletes;
-
     protected $fillable = [
         'code',
         'title',
         'program_code',
     ];
 
+<<<<<<< HEAD
     protected $casts = [
         'code'=>'string',
         'title'=>'string',
@@ -35,6 +33,8 @@ class Subprogram extends Model
     }
 
 >>>>>>> master
+=======
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
     public function program(): BelongsTo
     {
         return $this->belongsTo(Program::class,"program_code");
@@ -44,6 +44,7 @@ class Subprogram extends Model
     {
         return $this->hasMany(Action::class);
     }
+<<<<<<< HEAD
 
     protected static function booted()
     {
@@ -58,4 +59,6 @@ class Subprogram extends Model
         });
 >>>>>>> master
     }
+=======
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
 }

@@ -3,25 +3,26 @@
 namespace App\Rules\Action;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 use App\Models\Subprogram;
 =======
 >>>>>>> master
+=======
+use App\Models\Program;
+use App\Models\Subprogram;
+use App\Models\Wallet;
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
 class ActionCodeRule implements ValidationRule
 {
-    protected $wallet_service;
-    protected $program_service;
-    protected $subprogram_service;
+    protected $request;
 
-    public function __construct($wallet_service, $program_service, $subprogram_service)
+    public function __construct($request)
     {
-        $this->wallet_service=$wallet_service;
-        $this->program_service=$program_service;
-        $this->subprogram_service=$subprogram_service;
+        $this->request=$request;
     }
-
     /**
      * Run the validation rule.
      *
@@ -29,30 +30,36 @@ class ActionCodeRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!preg_match('/^([A-Z0-9]{3})([A-Z0-9]{3})([A-Z0-9]{2})(\d{4})(\d{3})(\d{3})$/',$value,$matches)) {
-            $fail('format',"Invalid Format");
-            return;
-        }
-        
-        [,$wallet_code,$program_code,$subprogram_code,$action,,$space]=$matches;
+        $code=$value;
+        $walletcode=substr($code,0,3);
+        $programcode=substr($code,3,3);
+        $subprogramcode=substr($code,6,2);
+        $space=substr($code,-3,3);
 
-        $wallet=$this->wallet_service->find(['code'=>$wallet_code]);
+        $wallet=Wallet::where('code',$walletcode)->first();
         if (!$wallet) {
-            $fail('wallet',"Wallet with code '$wallet_code' does not exist.");
+            $fail('checks',"Wallet with code '$walletcode' does not exist.");
         }
         
-        $program=$this->program_service->find(['code'=>$program_code]);
+        $program=Program::where('code',$programcode)->where('wallet_code',$walletcode)->first();
         if (!$program) {
-            $fail('program',"Program with code '$program_code' does not belong to Wallet '$wallet_code'.");
+            $fail('checks',"Program with code '$programcode' does not belong to Wallet '$walletcode'.");
         }
 
-        $subprogram=$this->subprogram_service->find(['program_code'=>$program_code,'code'=>$subprogram_code]);
-        if (!$subprogram) {
-            $fail('subprogram',"Subprogram with code '$subprogram_code' does not belong to Program '$program_code'.");
+        $subprogram=Subprogram::find($this->request->input('subprogram'));
+        if (!$subprogram) return;
+
+        if ($subprogram->code!==$subprogramcode) {
+            $fail('checks',"Code indicates subprogram '$subprogramcode', but selected subprogram has code '{$subprogram->code}'.");
         }
 
-        if ((int)substr($action,0,1)===1&&$space!=='000') {
-            $fail('type',"For internal actions (type 1), the space must be '000' but found '$space'.");
+        if ($subprogram->program_code!==$programcode) {
+            $fail('checks',"Subprogram '{$subprogram->code}' does not belong to program '$programcode'.");
+        }
+
+        $type=$this->request->input('type');
+        if ($type===1&&$space!=='000') {
+            $fail('checks',"Type is internal yet the space is '$space'.");
         }
     }
 }

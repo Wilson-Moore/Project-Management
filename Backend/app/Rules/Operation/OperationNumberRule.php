@@ -2,23 +2,19 @@
 
 namespace App\Rules\Operation;
 
+use App\Models\Action;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
 class OperationNumberRule implements ValidationRule
 {
-    protected $number;
-    protected $date;
-    protected $action_service;
+    protected $request;
 
-    public function __construct($number, $date, $action_service)
+    public function __construct($request)
     {
-        $this->number=$number;
-        $this->date=$date;
-        $this->action_service=$action_service;
+        $this->request=$request;
     }
-
     /**
      * Run the validation rule.
      *
@@ -26,6 +22,7 @@ class OperationNumberRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+<<<<<<< HEAD
         if (!preg_match('/^([NS][0-9])([A-Z0-9]{3}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{4}[0-9]{3}[0-9]{3})([0-9]{2})([A-Z0-9]{3})$/',$this->number,$matches)) {
             $fail('errors',"Invalid Format");
             return;
@@ -36,9 +33,16 @@ class OperationNumberRule implements ValidationRule
 =======
         [,,$action_code,$year,]=$matches;
 >>>>>>> master
+=======
+        $number=$value;
+        $actioncode=substr($number,2,18);
+        $programcode=substr($number,5,3);
+        $checkprogramcode=substr($number,-3,3);
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
 
-        $action=$this->action_service->find(['code'=>$action_code]);
+        $action=Action::where('code',$actioncode)->first();
         if (!$action) {
+<<<<<<< HEAD
             $fail('action',"Action code of number does not exsits '$action_code'.");
 <<<<<<< HEAD
         }
@@ -47,10 +51,19 @@ class OperationNumberRule implements ValidationRule
             $fail('program',"Program with code is not the same '$program_code'.");
 =======
 >>>>>>> master
+=======
+            $fail('code',"Action with code '$actioncode' does not exist.");
+        }
+        
+        if ($programcode!==$checkprogramcode) {
+            $fail('code',"Program with code is not the same '$programcode' '$checkprogramcode'.");
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
         }
 
-        if ($year!==Carbon::parse($this->date)->format('y')) {
-            $fail('year',"The year in the code is wrong it should be '$year'.");
+        $date=$this->request->input('date_of_notification');
+        $last_digits=Carbon::parse($date)->format('y');
+        if ($last_digits!==substr($number,20,2)) {
+            $fail('checks',"The year in the code is wrong it should be '$last_digits'.");
         }
     }
 }

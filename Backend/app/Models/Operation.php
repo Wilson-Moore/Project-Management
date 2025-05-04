@@ -5,12 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Operation extends Model
 {
-    use SoftDeletes;
-
     protected $primaryKey='number';
     public $incrementing=false;
     protected $keyType='string';
@@ -25,22 +22,12 @@ class Operation extends Model
         'action_code',
     ];
 
-    protected $casts = [
-        'number'=>'string',
-        'title'=>'string',
-        'date_of_notification'=>'datetime',
-        'initial_ap'=>'integer',
-        'current_ap'=>'integer',
-        'situation'=>'integer',
-        'action_code'=>'string',
-    ];
-
-    public function getSituationLabelAttribute(): string
+    public function getsituationLabelAttribute(): string
     {
         return match ($this->situation) 
         {
             1=>'in the works',
-            2=>'on halt',
+            0=>'on halt',
             default=>'unknown',
         };
     }
@@ -68,6 +55,7 @@ class Operation extends Model
     {
         return $this->hasMany(Consultation::class,"operation_number");
     }
+<<<<<<< HEAD
 
     protected static function booted()
     {
@@ -84,4 +72,6 @@ class Operation extends Model
         });
 >>>>>>> master
     }
+=======
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
 }

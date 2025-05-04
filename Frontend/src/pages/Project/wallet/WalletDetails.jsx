@@ -17,19 +17,21 @@ function WalletDetails() {
   useEffect(() => {
     if (walletId) {
       setLoading(true);
-      axiosClient.get(`/wallets/${walletId}?include=programs`)
+      axiosClient.get(`/wallets/${walletId}?include_programs=1`)
       .then(({ data }) => {
-        setLoading(false);
-        setwallet(data.data);
+            setLoading(false);
+            setwallet(data.data);
       })
       .catch(() => {
-        setLoading(false);
-        navigate('/');
+            setLoading(false);
       });
     }
   },[walletId]);
-
-  if(loading) {
+  if(!loading) {
+    return (
+      <ProjectLayout wallet={wallet} />
+    );
+  }else {
     return(
       <div className="loading-screen">
         <div className="loading-threedots">
@@ -40,17 +42,6 @@ function WalletDetails() {
       </div>
     );
   }
-  if(errors) {
-    return(
-      <div className="alert">
-        {errors}
-      </div>
-    );
-  }
-
-  return (
-    <ProjectLayout wallet={wallet} />
-  );
 }
 
 export default WalletDetails;

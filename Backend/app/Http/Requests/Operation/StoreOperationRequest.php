@@ -2,18 +2,11 @@
 
 namespace App\Http\Requests\Operation;
 
-use App\Services\ActionService;
-use App\Traits\Operation\OperationValidationRules;
+use App\Rules\Operation\OperationNumberRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreOperationRequest extends FormRequest
 {
-    use OperationValidationRules;
-
-    public function __construct(
-        protected ActionService $action_service
-    ) {}
-
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -29,6 +22,22 @@ class StoreOperationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return $this->base_rules($this->action_service);
+        return [
+            'number'=>[
+                'required','regex:/^[NS][0-9][A-Z0-9]{3}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{4}[0-9]{3}[0-9]{3}[0-9]{2}[A-Z0-9]{3}$/',
+                new OperationNumberRule($this)],
+            'title'=>['required'],
+            'date_of_notification'=>['required','date'],
+            'current_ap'=>['required','integer'],
+            'initial_ap'=>['required','integer'],
+            'action'=>['required','exists:actions,code'],
+        ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'action_code'=>$this->action,
+        ]);
     }
 }

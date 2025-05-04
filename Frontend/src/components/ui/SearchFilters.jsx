@@ -1,6 +1,5 @@
-import {Link} from "react-router-dom";
 
-function SeachFilters(props) {
+function SeachFilters() {
       return (
 
             <>
@@ -11,7 +10,8 @@ function SeachFilters(props) {
                   </div>
 
                   <div className="actions-buttons">
-                        <Link className="btn-primary" to={"/"+props.txt.toLowerCase()+"s/new"}>Add New {props.txt}</Link>
+                        <button className="btn-primary">Add New Wallet</button>
+                        <button className="btn-secondary">Export Wallets</button>
                   </div>
             </div>
 

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Resources\Subprogram;
+namespace App\Http\Resources\SubProgram;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\Action\ActionCollection;
-use App\Http\Resources\Program\ProgramResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SubprogramResource extends JsonResource
+class SubProgramResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,9 +16,9 @@ class SubprogramResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'=>$this->id,
             'code'=>$this->code,
             'title'=>$this->title,
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
             'active_status'=>$this->active_status,
@@ -29,6 +28,10 @@ class SubprogramResource extends JsonResource
                 fn()=>['code'=>$this->program_code]
             ),
             'actions'=>ActionCollection::make($this->whenLoaded('actions')),
+=======
+            'program'=>$this->program_code,
+            'actions'=>new ActionCollection($this->whenLoaded('actions')),
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
         ];
     }
 }

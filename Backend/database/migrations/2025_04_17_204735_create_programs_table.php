@@ -16,10 +16,8 @@ return new class extends Migration
             $table->string("title");
             $table->string("wallet_code");
             $table->timestamps();
-            $table->softDeletes();
-
             
-            $table->foreign("wallet_code")->references("code")->on("wallets")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("wallet_code")->references("code")->on("wallets")->onDelete("cascade");
         });
     }
 

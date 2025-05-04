@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Action;
 
 use App\Http\Resources\Operation\OperationCollection;
-use App\Http\Resources\Subprogram\SubprogramResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,6 +20,7 @@ class ActionResource extends JsonResource
             'type'=>$this->type_label,
             'title'=>$this->title,
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
             'active_status'=>$this->active_status,
 >>>>>>> master
@@ -36,6 +36,10 @@ class ActionResource extends JsonResource
 =======
 >>>>>>> master
             'operations'=>OperationCollection::make($this->whenLoaded('operations')),
+=======
+            'subprogram'=>'ID : '.$this->subprogram_id.' Code : '.substr($this->code,6,2),
+            'operations'=>new OperationCollection($this->whenLoaded('operations')),
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
         ];
     }
 }

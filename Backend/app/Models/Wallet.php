@@ -4,12 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Wallet extends Model
 {
-    use SoftDeletes;
-    
     protected $primaryKey='code';
     public $incrementing=false;
     protected $keyType='string';
@@ -19,6 +16,7 @@ class Wallet extends Model
         'title',
     ];
 
+<<<<<<< HEAD
     protected $casts = [
         'code'=>'string',
         'title'=>'string',
@@ -36,10 +34,13 @@ class Wallet extends Model
     }
 
 >>>>>>> master
+=======
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
     public function programs(): HasMany
     {
         return $this->hasMany(Program::class,"wallet_code");
     }
+<<<<<<< HEAD
 
     protected static function booted()
     {
@@ -54,4 +55,6 @@ class Wallet extends Model
         });
 >>>>>>> master
     }
+=======
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
 }

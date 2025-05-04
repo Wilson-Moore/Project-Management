@@ -5,7 +5,6 @@ namespace App\Http\Resources\Program;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\SubProgram\SubProgramCollection;
-use App\Http\Resources\Wallet\WalletResource;
 
 class ProgramResource extends JsonResource
 {
@@ -20,6 +19,7 @@ class ProgramResource extends JsonResource
             'code'=>$this->code,
             'title'=>$this->title,
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
             'active_status'=>$this->active_status,
 >>>>>>> master
@@ -28,6 +28,10 @@ class ProgramResource extends JsonResource
                 fn()=>['code'=>$this->wallet_code]
             ),
             'subprograms'=>SubProgramCollection::make($this->whenLoaded('subprograms')),
+=======
+            'wallet'=>$this->wallet_code,
+            'subprograms'=>new SubProgramCollection($this->whenLoaded('subprograms')),
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
         ];
     }
 }

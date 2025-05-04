@@ -17,10 +17,8 @@ return new class extends Migration
             $table->string("title");
             $table->string("subprogram_id");
             $table->timestamps();
-            $table->softDeletes();
-
             
-            $table->foreign("subprogram_id")->references("id")->on("subprograms")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("subprogram_id")->references("id")->on("subprograms")->onDelete("cascade");
         });
     }
 

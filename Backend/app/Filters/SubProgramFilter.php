@@ -2,7 +2,7 @@
 
 namespace App\Filters;
 
-class SubprogramFilter extends QueryFilter
+class SubProgramFilter extends QueryFilter
 {
     protected $parms=[
         'program'=>['eq'],

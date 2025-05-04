@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Action;
 use Illuminate\Http\Request;
 use App\Filters\ActionFilter;
-use App\Http\Requests\Action\ShowActionRequest;
-use App\Services\ActionService;
 use App\Http\Resources\Action\ActionCollection;
 use App\Http\Requests\Action\StoreActionRequest;
 use App\Http\Requests\Action\UpdateActionRequest;
@@ -14,19 +12,18 @@ use App\Http\Resources\Action\ActionResource;
 
 class ActionController extends Controller
 {
-    public function __construct(
-        protected ActionFilter $filter,
-        protected ActionService $service
-    ) {}
-    
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $query_items=$this->filter->transform($request);
-        $actions=$this->service->all($query_items,$request);
-        return new ActionCollection($actions);
+        $filter=new ActionFilter();
+        $query_items=$filter->transform($request);
+        if (count($query_items)==0) {
+            return new ActionCollection(Action::paginate());
+        } else {
+            return new ActionCollection(Action::where($query_items)->paginate()->appends($request->query()));
+        }
     }
 
     /**
@@ -34,16 +31,17 @@ class ActionController extends Controller
      */
     public function store(StoreActionRequest $request)
     {
-        $action=$this->service->create($request->all());
-        return (new ActionResource($action))->response()->setStatusCode(201);
+        return new ActionResource(Action::create($request->all()));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(ShowActionRequest $request, Action $action)
+    public function show(Request $request,Action $action)
     {
-        $action=$this->service->get($action,$request->allowed_includes());
+        if ($request->query('include_operations')) {
+            $action=$action->load('operations');
+        }
         return new ActionResource($action);
     }
 
@@ -53,6 +51,7 @@ class ActionController extends Controller
     public function update(UpdateActionRequest $request, Action $action)
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
         $action=$this->service->update($action,$request->validated());
 =======
         $request->boolean('restore')
@@ -60,6 +59,9 @@ class ActionController extends Controller
         : $action=$this->service->update($action,$request->validated());
 >>>>>>> master
         return new ActionResource($action);
+=======
+        $action->update($request->all());
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
     }
 
     /**
@@ -67,7 +69,6 @@ class ActionController extends Controller
      */
     public function destroy(Action $action)
     {
-        $this->service->delete($action);
-        return response()->noContent();
+        $action->delete();
     }
 }

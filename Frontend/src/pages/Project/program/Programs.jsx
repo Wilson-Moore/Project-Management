@@ -29,17 +29,16 @@ function AllPrograms() {
       
       return (
             <>
-            <AllProjectLayout programs={programs} loading={loading}/>
-            {!loading && totalpages > 0? 
+            <AllProjectLayout programs={programs} />
             <div className="pagination-controls">
-            {currentpage > 1 && (
-                  <button onClick={()=>setcurrentpage(currentpage-1)}>Previous</button>
-            )}
-            <span>Page {currentpage} of {totalpages}</span>
-            {currentpage < totalpages && (
-                  <button onClick={()=>setcurrentpage(currentpage+1)}>Next</button>
-            )}
-            </div> :""}
+                  {currentpage > 1 && (
+                        <button onClick={()=>setcurrentpage(currentpage-1)}>Previous</button>
+                  )}
+                  <span>Page {currentpage} of {totalpages}</span>
+                  {currentpage < totalpages && (
+                        <button onClick={()=>setcurrentpage(currentpage+1)}>Next</button>
+                  )}
+            </div>
             </>
       );
 }

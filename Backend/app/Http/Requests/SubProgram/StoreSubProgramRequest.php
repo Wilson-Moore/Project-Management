@@ -1,16 +1,20 @@
 <?php
 
-namespace App\Http\Requests\Subprogram;
+namespace App\Http\Requests\SubProgram;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 use App\Services\SubprogramService;
 >>>>>>> master
 use App\Traits\Subprogram\SubprogramValidationRules;
+=======
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreSubprogramRequest extends FormRequest
+class StoreSubProgramRequest extends FormRequest
 {
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     public function __construct(
@@ -19,6 +23,8 @@ class StoreSubprogramRequest extends FormRequest
 
 >>>>>>> master
     use SubprogramValidationRules;
+=======
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -35,9 +41,24 @@ class StoreSubprogramRequest extends FormRequest
     public function rules(): array
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
         return $this->base_rules();
 =======
         return $this->base_rules($this->subprogram_service);
 >>>>>>> master
+=======
+        return [
+            'code'=>['required','alpha_num','size:2'],
+            'title'=>['required'],
+            'program'=>['required','exists:programs,code'],
+        ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'program_code'=>$this->program
+        ]);
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
     }
 }

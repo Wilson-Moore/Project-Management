@@ -3,11 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
 {
+<<<<<<< HEAD
     use SoftDeletes;
 
     protected $fillable = [
@@ -59,4 +58,7 @@ class Project extends Model
     {
         return $this->belongsTo(Operation::class,"operation_number");
     }
+=======
+    
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
 }

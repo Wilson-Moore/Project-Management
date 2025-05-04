@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Subprogram;
+namespace App\Http\Resources\SubProgram;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class SubprogramCollection extends ResourceCollection
+class SubProgramCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

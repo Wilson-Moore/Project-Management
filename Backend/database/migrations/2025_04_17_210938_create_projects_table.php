@@ -13,17 +13,7 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->text("objectif");
-            $table->unsignedBigInteger("cost");
-            $table->dateTime("start_date");
-            $table->string("duration");
-            $table->dateTime("assessment_date");
-            $table->string("operation_number");
             $table->timestamps();
-            $table->softDeletes();
-
-
-            $table->foreign("operation_number")->references("number")->on("operations")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

@@ -17,13 +17,11 @@ return new class extends Migration
             $table->dateTime("date_of_notification");
             $table->unsignedBigInteger("initial_ap");
             $table->unsignedBigInteger("current_ap");
-            $table->integer("situation");
+            $table->boolean("situation")->default(true);
             $table->string("action_code");
             $table->timestamps();
-            $table->softDeletes();
-
             
-            $table->foreign("action_code")->references("code")->on("actions")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("action_code")->references("code")->on("actions")->onDelete("cascade");
         });
     }
 

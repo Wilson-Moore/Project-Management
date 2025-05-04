@@ -1,6 +1,5 @@
-button, .actions-buttons a {
+button {
       cursor: pointer;
-      text-decoration: none;
       font-weight: 500;
       border: none;
       border-radius: 6px;
@@ -38,13 +37,10 @@ button, .actions-buttons a {
       color: var(--primary-color);
       border: 1px solid var(--primary-color);
       padding: 0.6rem 1.2rem;
-      text-decoration: none;
-      transition: all 0.1s ease-in;
 }
 
 .btn-secondary:hover {
-      background-color: var(--primary-color);
-      color: white;
+      background-color: #f0f5ff;
 }
 
 .btn-login, .btn-signup{

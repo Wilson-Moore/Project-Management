@@ -3,19 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Wallet;
-use App\Services\WalletService;
+use Illuminate\Http\Request;
 use App\Http\Resources\Wallet\WalletResource;
 use App\Http\Resources\Wallet\WalletCollection;
-use App\Http\Requests\Wallet\ShowWalletRequest;
 use App\Http\Requests\Wallet\StoreWalletRequest;
 use App\Http\Requests\Wallet\UpdateWalletRequest;
 
 class WalletController extends Controller
 {
-    public function __construct(
-        protected WalletService $service
-    ) {}
-
     /**
      * Display a listing of the resource.
      */
@@ -29,16 +24,17 @@ class WalletController extends Controller
      */
     public function store(StoreWalletRequest $request)
     {
-        $wallet=$this->service->create($request->all());
-        return (new WalletResource($wallet))->response()->setStatusCode(201);
+        return new WalletResource(Wallet::create($request->all()));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(ShowWalletRequest $request, Wallet $wallet)
+    public function show(Request $request,Wallet $wallet)
     {
-        $wallet=$this->service->get($wallet,$request->allowed_includes());
+        if ($request->query('include_programs')) {
+            $wallet=$wallet->load('programs');
+        }
         return new WalletResource($wallet);
     }
 
@@ -48,6 +44,7 @@ class WalletController extends Controller
     public function update(UpdateWalletRequest $request, Wallet $wallet)
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
         $wallet=$this->service->update($wallet,$request->validated());
 =======
         $request->boolean('restore')
@@ -55,6 +52,9 @@ class WalletController extends Controller
         : $wallet=$this->service->update($wallet,$request->validated());
 >>>>>>> master
         return new WalletResource($wallet);
+=======
+        $wallet->update($request->all());
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
     }
 
     /**
@@ -62,7 +62,6 @@ class WalletController extends Controller
      */
     public function destroy(Wallet $wallet)
     {
-        $this->service->delete($wallet);
-        return response()->noContent();
+        $wallet->delete();
     }
 }

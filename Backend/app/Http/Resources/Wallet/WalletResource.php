@@ -19,10 +19,14 @@ class WalletResource extends JsonResource
             'code'=>$this->code,
             'title'=>$this->title,
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
             'active_status'=>$this->active_status,
 >>>>>>> master
             'programs'=>ProgramCollection::make($this->whenLoaded('programs')),
+=======
+            'programs'=>new ProgramCollection($this->whenLoaded('programs')),
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
         ];
     }
 }

@@ -31,7 +31,6 @@ class OperationSeeder extends Seeder
                 'date_of_notification'=>$date,
                 'initial_ap'=>rand(100000,1000000),
                 'current_ap'=>rand(1000000,10000000),
-                'situation'=>rand(1,2),
                 'action_code'=>$action->code,
                 'created_at'=>now(),
                 'updated_at'=>now(),

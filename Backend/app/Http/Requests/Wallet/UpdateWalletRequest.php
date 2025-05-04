@@ -3,20 +3,26 @@
 namespace App\Http\Requests\Wallet;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 use App\Traits\HasRestore;
 >>>>>>> master
 use App\Traits\Wallet\WalletValidationRules;
+=======
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateWalletRequest extends FormRequest
 {
+<<<<<<< HEAD
 <<<<<<< HEAD
     use WalletValidationRules;
 =======
     use WalletValidationRules,HasRestore;
 >>>>>>> master
 
+=======
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -33,6 +39,7 @@ class UpdateWalletRequest extends FormRequest
     public function rules(): array
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
         $rules=$this->base_rules();
 
         if ($this->isMethod('PATCH')) {
@@ -47,5 +54,19 @@ class UpdateWalletRequest extends FormRequest
         ? $this->restore_rule() 
         : $this->update_rules();
 >>>>>>> master
+=======
+        $method=$this->method();
+        if ($method=="PUT") {
+            return [
+                'code'=>['required','alpha_num','size:3'],
+                'title'=>['required'],
+            ];
+        } else {
+            return [
+                'code'=>['sometimes','required','alpha_num','size:3'],
+                'title'=>['sometimes','required'],
+            ];
+        }
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
     }
 }

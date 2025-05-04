@@ -5,12 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Action extends Model
 {
-    use SoftDeletes;
-    
     protected $primaryKey='code';
     public $incrementing=false;
     protected $keyType='string';
@@ -22,6 +19,7 @@ class Action extends Model
         'subprogram_id',
     ];
 
+<<<<<<< HEAD
     protected $casts = [
         'code'=>'string',
         'type'=>'integer',
@@ -41,6 +39,8 @@ class Action extends Model
     }
 
 >>>>>>> master
+=======
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
     public function getTypeLabelAttribute(): string
     {
         return match ($this->type) 
@@ -61,6 +61,7 @@ class Action extends Model
     {
         return $this->hasMany(Operation::class,"action_code");
     }
+<<<<<<< HEAD
 
     protected static function booted()
     {
@@ -75,4 +76,6 @@ class Action extends Model
         });
 >>>>>>> master
     }
+=======
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
 }

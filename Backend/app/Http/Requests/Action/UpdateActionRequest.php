@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Action;
 
+<<<<<<< HEAD
 use App\Services\ProgramService;
 use App\Services\SubprogramService;
 use App\Services\WalletService;
@@ -10,11 +11,15 @@ use App\Traits\Action\ActionValidationRules;
 =======
 use App\Traits\HasRestore;
 >>>>>>> master
+=======
+use App\Rules\Action\ActionCodeRule;
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Validation\Rule;
 
 class UpdateActionRequest extends FormRequest
 {
+<<<<<<< HEAD
 <<<<<<< HEAD
     use ActionValidationRules;
 =======
@@ -27,6 +32,8 @@ class UpdateActionRequest extends FormRequest
         protected SubprogramService $subprogram_service
     ) {}
     
+=======
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -42,6 +49,7 @@ class UpdateActionRequest extends FormRequest
      */
     public function rules(): array
     {
+<<<<<<< HEAD
 <<<<<<< HEAD
         $rules=$this->base_rules($this->wallet_service, $this->program_service, $this->subprogram_service);
         $rules['type']=['required','integer'];
@@ -59,14 +67,34 @@ class UpdateActionRequest extends FormRequest
         : $this->update_rules($this->wallet_service, $this->program_service, $this->subprogram_service);
         $rules['type']=['required','integer'];
 >>>>>>> master
+=======
+        $method=$this->method();
+        if ($method=="PUT") {
+            return [
+                'code'=>[
+                    'required','regex:/^[A-Z0-9]{3}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{4}[0-9]{3}[0-9]{3}$/',
+                    'size:18',new ActionCodeRule($this)],
+                'type'=>['required',Rule::in(1,2,3)],
+                'title'=>['required'],
+                'subprogram_id'=>['required','exists:subprograms,id'],
+            ];
+        } else {
+            return [
+                'code'=>[
+                    'sometimes','regex:/^[A-Z0-9]{3}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{4}[0-9]{3}[0-9]{3}$/',
+                    'size:18',new ActionCodeRule($this)],
+                'type'=>['sometimes','required',Rule::in(1,2,3)],
+                'title'=>['sometimes','required'],
+                'subprogram_id'=>['sometimes','required','exists:subprograms,id'],
+            ];
+        }
+>>>>>>> parent of e76d091 (A realy large Commit with various changes :D)
     }
-
     protected function prepareForValidation()
     {
 <<<<<<< HEAD
         $this->merge([
-            'type'=>$this->type(),
-            'subprogram_id'=>$this->id(),
+            'subprogram_id'=>$this->subprogram
         ]);
 =======
         if ($this->has('type')&&$this->has('subprogram_id')) {
