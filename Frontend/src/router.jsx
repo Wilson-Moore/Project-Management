@@ -1,95 +1,155 @@
 import {createBrowserRouter, Navigate} from "react-router-dom";
-import DefaultLayout from "./components/DefaultLayout";
-import GuestLayout from "./components/GuestLayout";
-import NotFound from "./views/NotFound";
-import Signup from "./views/Auth/Signup";
-import Login from "./views/Auth/Login";
-import Wallets from "./views/Wallet/Wallets";
-import WalletForm from "./views/Wallet/WalletForm";
-import Programs from "./views/Program/Programs";
-import ProgramForm from "./views/Program/ProgramForm";
-import SubPrograms from "./views/SubProgram/SubPrograms";
-import SubProgramForm from "./views/SubProgram/SubProgramForm";
-import Actions from "./views/Action/Actions";
-import ActionForm from "./views/Action/ActionForm";
+import DefaultLayout from "./layouts/DefaultLayout.jsx";
+import GuestLayout from "./layouts/GuestLayout";
+import Signup from "./pages/Auth/Signup.jsx";
+import Login from "./pages/Auth/Login.jsx";
+import ActionDetails from "./pages/Project/action/ActionDetails.jsx";
+import WalletDetails from "./pages/Project/wallet/WalletDetails.jsx";
+import ProgramDetails from "./pages/Project/program/ProgramDetails.jsx";
+import SubProgramDetails from "./pages/Project/subProgram/SubProgramDetails.jsx";
+import AllProjects from "./pages/Project/proj/Projects.jsx";
+import OperationDetails from "./pages/Project/operation/OperationDetails.jsx";
+import ProjectDetails from "./pages/Project/proj/ProjectDetails.jsx";
+import AllWallets from "./pages/Project/wallet/Wallets.jsx";
+import AllPrograms from "./pages/Project/program/Programs.jsx";
+import AllSubPrograms from "./pages/Project/subProgram/SubPrograms.jsx";
+import AllOperations from "./pages/Project/operation/Operations.jsx";
+import AllActions from "./pages/Project/action/Actions.jsx";
+import NewWallet from "./pages/Project/wallet/NewWallet.jsx";
+import NewProgram from "./pages/Project/program/NewProgram.jsx";
+import NewSubProgram from "./pages/Project/subProgram/NewSubProgram.jsx";
+import NewAction from "./pages/Project/action/NewAction.jsx";
+import NewOperation from "./pages/Project/operation/NewOperation.jsx";
 
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <DefaultLayout/>,
-    children: [
+{
+      path: '/',
+      element: <DefaultLayout/>,
+      children: [
       {
-        path: '/',
-        element: <Navigate to="/wallets"/>
+            path: '/',
+            element: <Navigate to="/wallets" replace /> // Or your default protected route
       },
       {
-        path: '/wallets',
-        element: <Wallets/>
+            path: '/action',
+            element: <ActionDetails/>,
       },
       {
-        path: '/wallets/new',
-        element: <WalletForm/>
+            path: '/projects/active/wallet/',
+            element: <Navigate to="/wallets" replace />,
       },
       {
-        path: '/wallets/:id',
-        element: <WalletForm/>
+            path: '/wallets',
+            element: <AllWallets/>,
       },
       {
-        path: '/programs',
-        element: <Programs/>
+            path: '/projects/active/wallet/:walletId',
+            element: <WalletDetails />,
       },
       {
-        path: '/programs/new',
-        element: <ProgramForm/>
+            path: '/projects/active/wallet/:walletId/program',
+            element: <Navigate to="/programs" replace />,
       },
       {
-        path: '/programs/:id',
-        element: <ProgramForm/>
+            path: '/programs',
+            element: <AllPrograms/>,
       },
       {
-        path: '/subprograms',
-        element: <SubPrograms/>
+            path: '/projects/active/wallet/:walletId/program/:programId',
+            element: <ProgramDetails/>,
       },
       {
-        path: '/subprograms/new',
-        element: <SubProgramForm/>
+            path: '/projects/active/wallet/:walletId/program/:programId/subprogram',
+            element: <Navigate to="/subprograms" replace />,
       },
       {
-        path: '/subprograms/:id',
-        element: <SubProgramForm/>
+            path: '/subprograms',
+            element: <AllSubPrograms/>,
       },
       {
-        path: '/actions',
-        element: <Actions/>
+            path: '/actions',
+            element: <AllActions/>,
       },
       {
-        path: '/actions/new',
-        element: <ActionForm/>
+            path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId',
+            element: <SubProgramDetails/>,
       },
       {
-        path: '/subprograms/:id',
-        element: <ActionForm/>
-      },
-    ]
-  },
-  {
-    path: '/',
-    element: <GuestLayout/>,
-    children: [
-      {
-        path: '/login',
-        element: <Login/>
+            path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId/action/:actionId/operation/:operationId',
+            element: <OperationDetails/>,
       },
       {
-        path: '/signup',
-        element: <Signup/>
+            path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId/action/:actionId/operation',
+            element: <Navigate to="/operations" replace />,
+      },
+      {
+            path: '/operations',
+            element: <AllOperations/>,
+      },
+      {
+            path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId/action/:actionId/operation/:operationId/project/:projectId',
+            element: <ProjectDetails/>,
+      },
+      {
+            path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId/action/:actionId/operation/:operationId/project',
+            element: <Navigate to="/projects"/>,
+      },
+      {
+            path: '/projects',
+            element: <AllProjects/>,
+      },
+      {
+            path: '/wallets/new',
+            element: <NewWallet/>,
+      },
+      {
+            path: '/programs/new',
+            element: <NewProgram/>,
+      },
+      {
+            path: '/subprograms/new',
+            element: <NewSubProgram/>,
+      },
+      {
+            path : '/actions/new',
+            element : <NewAction/>,
+      },
+      {
+            path: '/operations/new',
+            element: <NewOperation/>,
       }
-    ]
-  },
-  {
-    path: "*",
-    element: <NotFound/>
-  }
+      // // {
+      // //       path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId/action',
+      // //       element: <ActionDetails/>,
+      // // },
+      // // {
+      // //       path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId/action/:actionId',
+      // //       element: <ActionDetails/>,
+      // // },
+      ]
+},
+{
+      path: '/',
+      element: <GuestLayout/>,
+      children: [
+            {
+                  path: '/login',
+                  element: <Login/>
+            },
+            {
+                  path: '/signup',
+                  element: <Signup/>
+            }
+      ]
+},
+{
+      path: "*",
+      element: <h1>Not Found</h1>,
+},
+{
+      path: "/error",
+      element: <h1>Not Found</h1>,
+},
 ])
 
 export default router;

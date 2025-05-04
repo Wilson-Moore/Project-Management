@@ -23,7 +23,7 @@ export default function DefaultLayout() {
   useEffect(()=>{
     axiosClient.get('/user')
       .then(({data})=>{
-        setUser(data)
+          setUser(data)
       })
   },[])
 
@@ -31,10 +31,10 @@ export default function DefaultLayout() {
     <div id="defaultLayout">
       <aside>
         <h1>Dashboard</h1>
-        <Link to="/wallets">Wallets</Link>
+        {/* <Link to="/wallets">Wallets</Link>
         <Link to="/programs">Programs</Link>
         <Link to="/subprograms">SubPrograms</Link>
-        <Link to="/actions">Actions</Link>
+        <Link to="/actions">Actions</Link> */}
       </aside>
       <div className="content">
         <header>

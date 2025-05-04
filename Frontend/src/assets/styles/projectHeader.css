@@ -1,0 +1,88 @@
+.project-header {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+}
+
+.breadcrumbs {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      color: #666;
+}
+
+.breadcrumbs a {
+      color: var(--primary-color);
+      text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+      text-decoration: underline;
+}
+
+.project-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+}
+
+.project-title h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #222;
+}
+
+.project-status {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+}
+
+.status {
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+}
+
+.status.en-cours {
+      background-color: rgba(90, 200, 250, 0.15);
+      color: var(--in-progress-color);
+}
+
+.status.pending {
+      background-color: rgba(255, 193, 7, 0.15);
+      color: var(--pending-color);
+}
+
+.progress-percent {
+      color: #666;
+      font-size: 0.9rem;
+}
+
+.project-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+}
+
+.meta-item {
+      display: flex;
+      flex-direction: column;
+}
+
+.meta-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 0.25rem;
+      font-weight: 500;
+}
+
+.meta-value {
+      font-size: 0.95rem;
+      font-weight: 500;
+}
