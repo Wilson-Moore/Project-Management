@@ -31,15 +31,11 @@ class OperationNumberRule implements ValidationRule
             return;
         }
         
-        [,,$action_code,$year,$program_code]=$matches;
+        [,,$action_code,$year,]=$matches;
 
         $action=$this->action_service->find(['code'=>$action_code]);
         if (!$action) {
             $fail('action',"Action code of number does not exsits '$action_code'.");
-        }
-        
-        if ($program_code!==substr($action_code,3,3)) {
-            $fail('program',"Program with code is not the same '$program_code'.");
         }
 
         if ($year!==Carbon::parse($this->date)->format('y')) {

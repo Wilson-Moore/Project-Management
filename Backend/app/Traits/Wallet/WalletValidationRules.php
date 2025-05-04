@@ -7,7 +7,7 @@ trait WalletValidationRules
     protected function base_rules(): array
     {
         return [
-            'code'=>['required','alpha_num','size:3'],
+            'code'=>['required','alpha_num','size:3','unique:wallets,code'],
             'title'=>['required'],
         ];
     }

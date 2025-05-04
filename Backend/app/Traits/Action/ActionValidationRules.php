@@ -16,7 +16,8 @@ trait ActionValidationRules
     ): array
     {
         return [
-            'code'=>['required','size:18',new ActionCodeRule($wallet_service,$program_service,$subprogram_service)],
+            'code'=>['required','size:18','unique:actions,code'
+            ,new ActionCodeRule($wallet_service,$program_service,$subprogram_service)],
             'title'=>['required'],
         ];
     }

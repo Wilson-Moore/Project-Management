@@ -10,7 +10,7 @@ trait OperationValidationRules
     protected function base_rules(ActionService $action_service): array
     {
         return [
-            'number'=>['required',new OperationNumberRule($this->number,$this->date_of_notification,$action_service)],
+            'number'=>['required','unique:operations,number',new OperationNumberRule($this->number,$this->date_of_notification,$action_service)],
             'title'=>['required'],
             'date_of_notification'=>['required','date'],
             'current_ap'=>['required','integer'],
