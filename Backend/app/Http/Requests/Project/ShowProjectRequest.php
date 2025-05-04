@@ -24,6 +24,10 @@ class ShowProjectRequest extends FormRequest
      */
     public function rules(): array
     {
+<<<<<<< HEAD
         return $this->rule();
+=======
+        return $this->include_rule();
+>>>>>>> master
     }
 }

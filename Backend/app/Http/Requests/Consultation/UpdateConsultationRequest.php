@@ -3,11 +3,19 @@
 namespace App\Http\Requests\Consultation;
 
 use App\Traits\Consultation\ConsultationValidationRules;
+<<<<<<< HEAD
+=======
+use App\Traits\HasRestore;
+>>>>>>> master
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateConsultationRequest extends FormRequest
 {
+<<<<<<< HEAD
     use ConsultationValidationRules;
+=======
+    use ConsultationValidationRules,HasRestore;
+>>>>>>> master
     
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +32,7 @@ class UpdateConsultationRequest extends FormRequest
      */
     public function rules(): array
     {
+<<<<<<< HEAD
         $rules=$this->base_rules();
 
         if ($this->isMethod('PATCH')) {
@@ -33,5 +42,10 @@ class UpdateConsultationRequest extends FormRequest
         }
 
         return $rules;
+=======
+        return $this->has('restore') 
+        ? $this->restore_rule() 
+        : $this->update_rules();
+>>>>>>> master
     }
 }

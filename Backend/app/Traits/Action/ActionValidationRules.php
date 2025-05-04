@@ -8,7 +8,11 @@ use App\Services\SubprogramService;
 use App\Services\WalletService;
 
 trait ActionValidationRules
+<<<<<<< HEAD
 {
+=======
+{   
+>>>>>>> master
     protected function base_rules(
         WalletService $wallet_service, 
         ProgramService $program_service, 
@@ -16,11 +20,34 @@ trait ActionValidationRules
     ): array
     {
         return [
+<<<<<<< HEAD
             'code'=>['required','size:18',new ActionCodeRule($wallet_service,$program_service,$subprogram_service)],
+=======
+            'code'=>['required','size:18','unique:actions,code'
+            ,new ActionCodeRule($wallet_service,$program_service,$subprogram_service)],
+>>>>>>> master
             'title'=>['required'],
         ];
     }
 
+<<<<<<< HEAD
+=======
+    protected function update_rules(
+        WalletService $wallet_service, 
+        ProgramService $program_service, 
+        SubprogramService $subprogram_service
+    ): array
+    {
+        $rules=$this->base_rules($wallet_service,$program_service,$subprogram_service);
+        if ($this->isMethod('PATCH')) {
+            foreach ($rules as &$rule) {
+                array_unshift($rule,'sometimes');
+            }
+        }
+        return $rules;
+    }
+
+>>>>>>> master
     protected function type(): int
     {
         preg_match('/^[A-Z0-9]{8}(\d{4})/',$this->code,$matches) ? $type=(int)substr($matches[1],0,1) : $type=0;

@@ -18,6 +18,10 @@ class WalletResource extends JsonResource
         return [
             'code'=>$this->code,
             'title'=>$this->title,
+<<<<<<< HEAD
+=======
+            'active_status'=>$this->active_status,
+>>>>>>> master
             'programs'=>ProgramCollection::make($this->whenLoaded('programs')),
         ];
     }

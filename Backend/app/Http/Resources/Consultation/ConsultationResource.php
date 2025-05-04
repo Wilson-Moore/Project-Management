@@ -20,6 +20,10 @@ class ConsultationResource extends JsonResource
             'signature_date'=>$this->signature_date->toDateString(),
             'duration'=>$this->duration_text,
             'observation'=>$this->observation,
+<<<<<<< HEAD
+=======
+            'active_status'=>$this->active_status,
+>>>>>>> master
             'operation'=>$this->whenLoaded('operation',
                 fn()=>new OperationResource($this->operation),
                 fn()=>['number'=>$this->operation_number]

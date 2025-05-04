@@ -52,7 +52,13 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
+<<<<<<< HEAD
         $project=$this->service->update($project,$request->validated());
+=======
+        $request->boolean('restore')
+        ? $project=$this->service->restore($project)
+        : $project=$this->service->update($project,$request->validated());
+>>>>>>> master
         return new ProjectResource($project);
     }
 

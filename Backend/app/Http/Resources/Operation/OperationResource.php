@@ -24,6 +24,10 @@ class OperationResource extends JsonResource
             'initial_ap'=>$this->initial_ap,
             'current_ap'=>$this->current_ap,
             'situation'=>$this->situation_label,
+<<<<<<< HEAD
+=======
+            'active_status'=>$this->active_status,
+>>>>>>> master
             'action'=>$this->whenLoaded('action',
                 fn()=>new ActionResource($this->action),
                 fn()=>['code'=>$this->action_code]

@@ -3,12 +3,20 @@
 namespace App\Http\Requests\Operation;
 
 use App\Services\ActionService;
+<<<<<<< HEAD
+=======
+use App\Traits\HasRestore;
+>>>>>>> master
 use App\Traits\Operation\OperationValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateOperationRequest extends FormRequest
 {
+<<<<<<< HEAD
     use OperationValidationRules;
+=======
+    use OperationValidationRules,HasRestore;
+>>>>>>> master
 
     public function __construct(
         protected ActionService $action_service
@@ -28,6 +36,7 @@ class UpdateOperationRequest extends FormRequest
      */
     public function rules(): array
     {
+<<<<<<< HEAD
         $rules=$this->base_rules($this->action_service);
 
         if ($this->isMethod('PATCH')) {
@@ -37,5 +46,10 @@ class UpdateOperationRequest extends FormRequest
         }
 
         return $rules;
+=======
+        return $this->has('restore') 
+        ? $this->restore_rule() 
+        : $this->update_rules($this->action_service);
+>>>>>>> master
     }
 }

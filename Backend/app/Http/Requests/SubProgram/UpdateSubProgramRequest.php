@@ -2,12 +2,25 @@
 
 namespace App\Http\Requests\SubProgram;
 
+<<<<<<< HEAD
+=======
+use App\Services\SubprogramService;
+use App\Traits\HasRestore;
+>>>>>>> master
 use App\Traits\Subprogram\SubprogramValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateSubprogramRequest extends FormRequest
 {
+<<<<<<< HEAD
     use SubprogramValidationRules;
+=======
+    use SubprogramValidationRules,HasRestore;
+
+    public function __construct(
+        protected SubprogramService $subprogram_service
+    ) {}
+>>>>>>> master
     
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +37,7 @@ class UpdateSubprogramRequest extends FormRequest
      */
     public function rules(): array
     {
+<<<<<<< HEAD
         $rules=$this->base_rules();
 
         if ($this->isMethod('PATCH')) {
@@ -33,5 +47,10 @@ class UpdateSubprogramRequest extends FormRequest
         }
 
         return $rules;
+=======
+        return $this->has('restore') 
+        ? $this->restore_rule() 
+        : $this->update_rules($this->subprogram_service);
+>>>>>>> master
     }
 }

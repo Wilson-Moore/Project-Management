@@ -2,12 +2,20 @@
 
 namespace App\Http\Requests\Wallet;
 
+<<<<<<< HEAD
+=======
+use App\Traits\HasRestore;
+>>>>>>> master
 use App\Traits\Wallet\WalletValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateWalletRequest extends FormRequest
 {
+<<<<<<< HEAD
     use WalletValidationRules;
+=======
+    use WalletValidationRules,HasRestore;
+>>>>>>> master
 
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +32,7 @@ class UpdateWalletRequest extends FormRequest
      */
     public function rules(): array
     {
+<<<<<<< HEAD
         $rules=$this->base_rules();
 
         if ($this->isMethod('PATCH')) {
@@ -33,5 +42,10 @@ class UpdateWalletRequest extends FormRequest
         }
 
         return $rules;
+=======
+        return $this->has('restore') 
+        ? $this->restore_rule() 
+        : $this->update_rules();
+>>>>>>> master
     }
 }

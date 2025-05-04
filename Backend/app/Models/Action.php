@@ -29,6 +29,18 @@ class Action extends Model
         'subprogram_id'=>'integer',
     ];
 
+<<<<<<< HEAD
+=======
+    protected $appends = [
+        'active_status',
+    ];
+
+    public function getActiveStatusAttribute(): string
+    {
+        return $this->trashed() ? "Archived" : "Active";
+    }
+
+>>>>>>> master
     public function getTypeLabelAttribute(): string
     {
         return match ($this->type) 
@@ -55,5 +67,12 @@ class Action extends Model
         static::deleting(function ($action) {
             $action->operations->each->delete();
         });
+<<<<<<< HEAD
+=======
+
+        static::restored(function ($action) {
+            $action->operations->each->restore();
+        });
+>>>>>>> master
     }
 }

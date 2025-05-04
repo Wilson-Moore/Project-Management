@@ -52,7 +52,13 @@ class ProgramController extends Controller
      */
     public function update(UpdateProgramRequest $request, Program $program)
     {
+<<<<<<< HEAD
         $program=$this->service->update($program,$request->validated());
+=======
+        $request->boolean('restore')
+        ? $program=$this->service->restore($program)
+        : $program=$this->service->update($program,$request->validated());
+>>>>>>> master
         return new ProgramResource($program);
     }
 

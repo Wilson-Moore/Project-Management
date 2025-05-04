@@ -7,7 +7,11 @@ use App\Rules\Project\ProjectCostRule;
 use App\Services\OperationService;
 
 trait ProjectValidationRules
+<<<<<<< HEAD
 {
+=======
+{    
+>>>>>>> master
     protected function base_rules(OperationService $operation_service): array
     {
         return [
@@ -22,4 +26,18 @@ trait ProjectValidationRules
             'operation_number'=>['required','exists:operations,number'],
         ];
     }
+<<<<<<< HEAD
+=======
+
+    protected function update_rules(OperationService $operation_service): array
+    {
+        $rules=$this->base_rules($operation_service);
+        if ($this->isMethod('PATCH')) {
+            foreach ($rules as &$rule) {
+                array_unshift($rule,'sometimes');
+            }
+        }
+        return $rules;
+    }
+>>>>>>> master
 }

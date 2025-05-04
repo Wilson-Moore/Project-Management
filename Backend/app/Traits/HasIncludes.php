@@ -4,7 +4,11 @@ namespace App\Traits;
 
 trait HasIncludes
 {
+<<<<<<< HEAD
     public function rule(): array
+=======
+    public function include_rule(): array
+>>>>>>> master
     {
         return [
             'include'=>['nullable','string'],

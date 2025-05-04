@@ -45,6 +45,15 @@ class Operation extends Model
         };
     }
 
+    protected $appends = [
+        'active_status',
+    ];
+
+    public function getActiveStatusAttribute(): string
+    {
+        return $this->trashed() ? "Archived" : "Active";
+    }
+
     public function action(): BelongsTo
     {
         return $this->belongsTo(Action::class,"action_code");
@@ -66,5 +75,13 @@ class Operation extends Model
             $operation->projects->each->delete();
             $operation->consultations->each->delete();
         });
+<<<<<<< HEAD
+=======
+
+        static::restored(function ($operation) {
+            $operation->projects->each->restore();
+            $operation->consultations->each->restore();
+        });
+>>>>>>> master
     }
 }

@@ -37,6 +37,15 @@ abstract class BaseService
         $model->trashed() ? $model->forceDelete() : $model->delete();
     }
 
+<<<<<<< HEAD
+=======
+    public function restore(Model $model): Model
+    {
+        $model->restore();
+        return $model->refresh();
+    }
+
+>>>>>>> master
     public function find(array $conditions): ?Model
     {
         $model=$this->model;

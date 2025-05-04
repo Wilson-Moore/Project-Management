@@ -52,7 +52,13 @@ class OperationController extends Controller
      */
     public function update(UpdateOperationRequest $request, Operation $operation)
     {
+<<<<<<< HEAD
         $operation=$this->service->update($operation,$request->validated());
+=======
+        $request->boolean('restore')
+        ? $operation=$this->service->restore($operation)
+        : $operation=$this->service->update($operation,$request->validated());
+>>>>>>> master
         return new OperationResource($operation);
     }
 

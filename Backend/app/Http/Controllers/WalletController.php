@@ -47,7 +47,13 @@ class WalletController extends Controller
      */
     public function update(UpdateWalletRequest $request, Wallet $wallet)
     {
+<<<<<<< HEAD
         $wallet=$this->service->update($wallet,$request->validated());
+=======
+        $request->boolean('restore')
+        ? $wallet=$this->service->restore($wallet)
+        : $wallet=$this->service->update($wallet,$request->validated());
+>>>>>>> master
         return new WalletResource($wallet);
     }
 

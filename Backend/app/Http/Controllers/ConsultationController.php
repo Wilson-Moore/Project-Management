@@ -52,7 +52,13 @@ class ConsultationController extends Controller
      */
     public function update(UpdateConsultationRequest $request, Consultation $consultation)
     {
+<<<<<<< HEAD
         $consultation=$this->service->update($consultation,$request->validated());
+=======
+        $request->boolean('restore')
+        ? $consultation=$this->service->restore($consultation)
+        : $consultation=$this->service->update($consultation,$request->validated());
+>>>>>>> master
         return new ConsultationResource($consultation);
     }
 

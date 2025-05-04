@@ -19,6 +19,10 @@ class ProgramResource extends JsonResource
         return [
             'code'=>$this->code,
             'title'=>$this->title,
+<<<<<<< HEAD
+=======
+            'active_status'=>$this->active_status,
+>>>>>>> master
             'wallet'=>$this->whenLoaded('wallet',
                 fn()=>new WalletResource($this->wallet),
                 fn()=>['code'=>$this->wallet_code]
