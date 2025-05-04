@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Action;
 
 use App\Http\Resources\Operation\OperationCollection;
+use App\Http\Resources\Subprogram\SubprogramResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,8 +20,15 @@ class ActionResource extends JsonResource
             'code'=>$this->code,
             'type'=>$this->type_label,
             'title'=>$this->title,
-            'subprogram'=>'ID : '.$this->subprogram_id.' Code : '.substr($this->code,6,2),
-            'operations'=>new OperationCollection($this->whenLoaded('operations')),
+            'subprogram'=>$this->whenLoaded('subprogram',
+                fn()=>new SubProgramResource($this->subprogram),
+                fn()=>[
+                    'id'=>$this->subprogram_id,
+                    'code'=>substr($this->code,6,2)
+                ],
+            ),
+            
+            'operations'=>OperationCollection::make($this->whenLoaded('operations')),
         ];
     }
 }

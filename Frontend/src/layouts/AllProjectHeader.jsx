@@ -7,30 +7,22 @@ function AllProjectHeader(props) {
                   <div className="breadcrumbs">
                         <a href="/projects">Projects</a>
                         <span className="separator"> &gt; </span>
-                        <span className="current">Tous les portefeuille</span>
+                        <span className="current">Tous les {props.txt}</span>
                   </div>
 
                   <div className="actions-title">
-                        <h1>Tous les portefeuille</h1>
+                        <h1>Tous les {props.txt}</h1>
                         <div className="actions-status-summary">
-                              <span className="action-status status-in-progress">En cours: 6</span>
-                              <span className="action-status status-completed">Fini: 4</span>
-                              <span className="action-status status-pending">En Attente: 2</span>
+                              <span className="action-status status-in-progress">En cours: {props.encours}</span>
+                              <span className="action-status status-completed">Fini: {props.fini}</span>
+                              <span className="action-status status-pending">En Attente: {props.enattente}</span>
                         </div>
                   </div>
 
                   <div className="actions-meta">
                         <div className="meta-item">
-                              <span className="meta-label">TOTAL PORTEFIEULLES :</span>
-                              <span className="meta-value">{props.total}</span>
-                        </div>
-                        <div className="meta-item">
-                              <span className="meta-label">LAST UPDATED :</span>
-                              <span className="meta-value">29 Apr 2025</span>
-                        </div>
-                        <div className="meta-item">
-                              <span className="meta-label">FISCAL YEAR :</span>
-                              <span className="meta-value">2024-2025</span>
+                              <span className="meta-label">TOTAL {props.txt} :</span>
+                              <span className="meta-value">{!props.loading ? props.total : "-"}</span>
                         </div>
                   </div>
             </div>

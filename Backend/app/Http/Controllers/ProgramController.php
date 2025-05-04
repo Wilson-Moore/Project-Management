@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Program;
 use Illuminate\Http\Request;
 use App\Filters\ProgramFilter;
+use App\Http\Requests\Program\ShowProgramRequest;
+use App\Services\ProgramService;
 use App\Http\Resources\Program\ProgramResource;
 use App\Http\Resources\Program\ProgramCollection;
 use App\Http\Requests\Program\StoreProgramRequest;
@@ -12,18 +14,19 @@ use App\Http\Requests\Program\UpdateProgramRequest;
 
 class ProgramController extends Controller
 {
+    public function __construct(
+        protected ProgramFilter $filter,
+        protected ProgramService $service
+    ) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $filter=new ProgramFilter();
-        $query_items=$filter->transform($request);
-        if (count($query_items)==0) {
-            return new ProgramCollection(Program::paginate());
-        } else {
-            return new ProgramCollection(Program::where($query_items)->paginate()->appends($request->query()));
-        }
+        $query_items=$this->filter->transform($request);
+        $programs=$this->service->all($query_items,$request);
+        return new ProgramCollection($programs);
     }
 
     /**
@@ -31,17 +34,16 @@ class ProgramController extends Controller
      */
     public function store(StoreProgramRequest $request)
     {
-        return new ProgramResource(Program::create($request->all()));
+        $program=$this->service->create($request->all());
+        return (new ProgramResource($program))->response()->setStatusCode(201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Request $request,Program $program)
+    public function show(ShowProgramRequest $request, Program $program)
     {
-        if ($request->query('include_subprograms')) {
-            $program=$program->load('subprograms');
-        }
+        $program=$this->service->get($program,$request->allowed_includes());
         return new ProgramResource($program);
     }
 
@@ -50,7 +52,8 @@ class ProgramController extends Controller
      */
     public function update(UpdateProgramRequest $request, Program $program)
     {
-        $program->update($request->all());
+        $program=$this->service->update($program,$request->validated());
+        return new ProgramResource($program);
     }
 
     /**
@@ -58,6 +61,7 @@ class ProgramController extends Controller
      */
     public function destroy(Program $program)
     {
-        $program->delete();
+        $this->service->delete($program);
+        return response()->noContent();
     }
 }

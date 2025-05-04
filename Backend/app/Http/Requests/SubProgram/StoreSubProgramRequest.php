@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Requests\SubProgram;
+namespace App\Http\Requests\Subprogram;
 
+use App\Traits\Subprogram\SubprogramValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreSubProgramRequest extends FormRequest
+class StoreSubprogramRequest extends FormRequest
 {
+    use SubprogramValidationRules;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,17 +23,6 @@ class StoreSubProgramRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'code'=>['required','alpha_num','size:2'],
-            'title'=>['required'],
-            'program'=>['required','exists:programs,code'],
-        ];
-    }
-
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'program_code'=>$this->program
-        ]);
+        return $this->base_rules();
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Operation;
 use Illuminate\Http\Request;
 use App\Filters\OperationFilter;
+use App\Http\Requests\Operation\ShowOperationRequest;
+use App\Services\OperationService;
 use App\Http\Requests\Operation\StoreOperationRequest;
 use App\Http\Requests\Operation\UpdateOperationRequest;
 use App\Http\Resources\Operation\OperationCollection;
@@ -12,18 +14,19 @@ use App\Http\Resources\Operation\OperationResource;
 
 class OperationController extends Controller
 {
+    public function __construct(
+        protected OperationFilter $filter,
+        protected OperationService $service
+    ) {}
+    
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $filter=new OperationFilter();
-        $query_items=$filter->transform($request);
-        if (count($query_items)==0) {
-            return new OperationCollection(Operation::paginate());
-        } else {
-            return new OperationCollection(Operation::where($query_items)->paginate()->appends($request->query()));
-        }
+        $query_items=$this->filter->transform($request);
+        $operations=$this->service->all($query_items,$request);
+        return new OperationCollection($operations);
     }
 
     /**
@@ -31,14 +34,16 @@ class OperationController extends Controller
      */
     public function store(StoreOperationRequest $request)
     {
-        return new OperationResource(Operation::create($request->all()));
+        $operation=$this->service->create($request->all());
+        return (new OperationResource($operation))->response()->setStatusCode(201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Operation $operation)
+    public function show(ShowOperationRequest $request, Operation $operation)
     {
+        $operation=$this->service->get($operation,$request->allowed_includes());
         return new OperationResource($operation);
     }
 
@@ -47,7 +52,8 @@ class OperationController extends Controller
      */
     public function update(UpdateOperationRequest $request, Operation $operation)
     {
-        $operation->update($request->all());
+        $operation=$this->service->update($operation,$request->validated());
+        return new OperationResource($operation);
     }
 
     /**
@@ -55,6 +61,7 @@ class OperationController extends Controller
      */
     public function destroy(Operation $operation)
     {
-        $operation->delete();
+        $this->service->delete($operation);
+        return response()->noContent();
     }
 }

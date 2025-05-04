@@ -17,8 +17,10 @@ return new class extends Migration
             $table->string("title");
             $table->string("program_code");
             $table->timestamps();
-            
-            $table->foreign("program_code")->references("code")->on("programs")->onDelete("cascade");
+            $table->softDeletes();
+
+            $table->foreign("program_code")->references("code")->on("programs")->onDelete("cascade")->onUpdate("cascade");
+            $table->unique(["code","program_code"]);
         });
     }
 

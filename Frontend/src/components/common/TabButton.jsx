@@ -13,6 +13,10 @@ function handleClick(e) {
       e.currentTarget.classList.add('active');
       const index = Array.from(document.querySelectorAll('.tab-btn')).indexOf(e.currentTarget);
       document.querySelectorAll('.tab-content')[index].classList.add('active');
+
+      if(props.clicked) {
+            props.clicked(props.text);
+      }
 }
       return (
             <button className={className} onClick={(e)=>handleClick(e)}>{props.text}</button>

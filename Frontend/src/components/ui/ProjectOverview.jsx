@@ -17,9 +17,9 @@ function ProjectOverview(props) {
                                     <OperationItem key={index} entity ={operation} operationName={operation.title || "No title"} year="2024" isObserved creator="Fischer" status={index === 0 ? "Fini" : "En cours"} />
                               ))
                               ) : (
-                                    <p>Aucune portefeuille trouvée</p>
+                                    <p>Aucune program trouvée</p>
                               ):
-                                    <p>Aucune portefeuille trouvée</p>
+                                    <p>Aucune program trouvée</p>
                               }
                         </div>
                   </div>
@@ -40,9 +40,9 @@ function ProjectOverview(props) {
                                     <OperationItem key={index} entity ={operation} operationName={operation.title || "No title"} year="2024" isObserved creator="Fischer" status={index === 0 ? "Fini" : "En cours"} />
                               ))
                               ) : (
-                                    <p>Aucune program trouvée</p>
+                                    <p>Aucune sous-program trouvée</p>
                               ):
-                                    <p>Aucune program trouvée</p>
+                                    <p>Aucune sous-program trouvée</p>
                               }
                         </div>
                   </div>
@@ -68,11 +68,48 @@ function ProjectOverview(props) {
                                     <OperationItem key={index} entity ={operation} operationName={operation.title || "No title"} year="2024" isObserved creator="Fischer" status={index === 0 ? "Fini" : "En cours"} />
                               ))
                               ) : (
-                                    <p>Aucune sous-program trouvée</p>
+                                    <p>Aucune opération trouvée</p>
                               ):
-                                    <p>Aucune sous-program trouvée</p>
+                                    <p>Aucune opération trouvée</p>
                               }
                         </div>
+                  </div>
+            );
+      }else if(props.operation) {
+            const { operation } = props;
+
+            let formattedCode = '';
+            for (let i = 0; i < operation.number.length; i++) {
+                  if (i === 1 || i === 2 || i === 5 || i === 8 || i === 10 || i === 14 || i === 17 || i === 20 || i === 22) {
+                  formattedCode += '.';
+                  }
+                  if (i < operation.number.length) {
+                  formattedCode += operation.number[i];
+                  }
+            }
+            return (
+                  <div className="project-overview-simple">
+                              <h5>N° de l'opération: {formattedCode}</h5>
+                              <h5>Intitulé de l'Opération: {operation.title}</h5>
+                              <h5>Année de notification: {operation.date_of_notification.slice(0,4)}</h5>
+                              <h5>AP Actuelle: {operation.current_ap}</h5>
+                              <h5>AP Initial: {operation.initial_ap}</h5>
+                              <h5>Révaluation: -</h5>
+                              <h5>Situation: {operation.situation}</h5>
+                              <h5>Observation: {operation.observation || "-"}</h5>
+                              <h5>Individualisée: -</h5>
+                  </div>
+            );
+      }else if(props.project) {
+            const { project } = props;
+            return (
+                  <div className="project-overview-simple">
+                        <h5>N° du projet: {project.id || "-"}</h5>
+                        <h5>Intitulé du projet: {project.objectif || "-"}</h5>
+                        <h5>Date de début: {project.start_date.slice(0,10) || "-"}</h5>
+                        <h5>Date d'évaluation: {project.assessment_date.slice(0,10) || "-"}</h5>
+                        <h5>Duration: {project.duration || "-"}</h5>
+                        <h5>coût: {project.cost + ".00da" || "-"}</h5>
                   </div>
             );
       }

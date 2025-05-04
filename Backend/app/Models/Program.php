@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Program extends Model
 {
+    use SoftDeletes;
+
     protected $primaryKey='code';
     public $incrementing=false;
     protected $keyType='string';
@@ -18,6 +21,12 @@ class Program extends Model
         'wallet_code',
     ];
 
+    protected $casts = [
+        'code'=>'string',
+        'title'=>'string',
+        'wallet_code'=>'string',
+    ];
+
     public function wallet(): BelongsTo
     {
         return $this->belongsTo(Wallet::class,"wallet_code");
@@ -26,5 +35,12 @@ class Program extends Model
     public function subprograms(): HasMany
     {
         return $this->hasMany(SubProgram::class);
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($program) {
+            $program->subprograms->each->delete();
+        });
     }
 }

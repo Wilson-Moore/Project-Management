@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Wallet;
-use Illuminate\Http\Request;
+use App\Services\WalletService;
 use App\Http\Resources\Wallet\WalletResource;
 use App\Http\Resources\Wallet\WalletCollection;
+use App\Http\Requests\Wallet\ShowWalletRequest;
 use App\Http\Requests\Wallet\StoreWalletRequest;
 use App\Http\Requests\Wallet\UpdateWalletRequest;
 
 class WalletController extends Controller
 {
+    public function __construct(
+        protected WalletService $service
+    ) {}
+
     /**
      * Display a listing of the resource.
      */
@@ -24,17 +29,16 @@ class WalletController extends Controller
      */
     public function store(StoreWalletRequest $request)
     {
-        return new WalletResource(Wallet::create($request->all()));
+        $wallet=$this->service->create($request->all());
+        return (new WalletResource($wallet))->response()->setStatusCode(201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Request $request,Wallet $wallet)
+    public function show(ShowWalletRequest $request, Wallet $wallet)
     {
-        if ($request->query('include_programs')) {
-            $wallet=$wallet->load('programs');
-        }
+        $wallet=$this->service->get($wallet,$request->allowed_includes());
         return new WalletResource($wallet);
     }
 
@@ -43,7 +47,8 @@ class WalletController extends Controller
      */
     public function update(UpdateWalletRequest $request, Wallet $wallet)
     {
-        $wallet->update($request->all());
+        $wallet=$this->service->update($wallet,$request->validated());
+        return new WalletResource($wallet);
     }
 
     /**
@@ -51,6 +56,7 @@ class WalletController extends Controller
      */
     public function destroy(Wallet $wallet)
     {
-        $wallet->delete();
+        $this->service->delete($wallet);
+        return response()->noContent();
     }
 }

@@ -2,6 +2,9 @@
 
 namespace App\Http\Resources\Operation;
 
+use App\Http\Resources\Action\ActionResource;
+use App\Http\Resources\Consultation\ConsultationCollection;
+use App\Http\Resources\Project\ProjectCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,13 +18,18 @@ class OperationResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'ID'=>$this->number,
+            'number'=>$this->number,
             'title'=>$this->title,
-            'date of notification'=>$this->date_of_notification,
-            'intial ap'=>$this->initial_ap,
-            'current ap'=>$this->current_ap,
+            'date_of_notification'=>$this->date_of_notification->toDateString(),
+            'initial_ap'=>$this->initial_ap,
+            'current_ap'=>$this->current_ap,
             'situation'=>$this->situation_label,
-            'action'=>$this->action_code,
+            'action'=>$this->whenLoaded('action',
+                fn()=>new ActionResource($this->action),
+                fn()=>['code'=>$this->action_code]
+            ),
+            'projects'=>ProjectCollection::make($this->whenLoaded('projects')),
+            'consultations'=>ConsultationCollection::make($this->whenLoaded('consultations')),
         ];
     }
 }

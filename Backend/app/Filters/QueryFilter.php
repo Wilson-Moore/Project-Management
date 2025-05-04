@@ -10,7 +10,7 @@ class QueryFilter
     protected $column_map=[];
     protected $operator_map=[];
 
-    public function transform(Request $request)
+    public function transform(Request $request): array
     {
         $elo_query=[];
 

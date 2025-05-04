@@ -18,15 +18,14 @@ function OperationItem(props) {
                               <span className="document-name">{props.operationName}</span>
                               <div className="document-meta">
                                     <span>{props.year}</span>
-                                    <span>{props.isObserved ? "Observed": "Not Observed"}</span>
-                                    <span>By: {props.creator}</span>
+                                    <span>{props.creator ? "By:" + props.creator : ""}</span>
                               </div>
                         </div>
                         <div className={statusClass}>{props.status}</div>
                         <div className="document-actions">
-                              <button className="btn-icon"><i className="icon-download"></i></button>
                               {/* <Link to="/operation-details" className="btn-icon"><i className="icon-share"></i></Link> */}
-                              <a href={"/projects/active/wallet/001/program/"+  props.entity.code} className="btn-icon"><i className="icon-share"></i></a>
+                              {props.entity.wallet ? <a href={"/projects/active/wallet/"+props.entity.wallet+"/program/"+  props.entity.code} className="btn-icon"><i className="icon-share"></i></a>:
+                                    ""}
                         </div>
                   </div>
             </div>
@@ -40,5 +39,4 @@ OperationItem.defaultProps = {
       creator: 'Unkonwn',
       status: 'Unkonwn'
 };
-
 export default OperationItem;

@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Operation extends Model
 {
+    use SoftDeletes;
+
     protected $primaryKey='number';
     public $incrementing=false;
     protected $keyType='string';
@@ -22,12 +25,22 @@ class Operation extends Model
         'action_code',
     ];
 
-    public function getsituationLabelAttribute(): string
+    protected $casts = [
+        'number'=>'string',
+        'title'=>'string',
+        'date_of_notification'=>'datetime',
+        'initial_ap'=>'integer',
+        'current_ap'=>'integer',
+        'situation'=>'integer',
+        'action_code'=>'string',
+    ];
+
+    public function getSituationLabelAttribute(): string
     {
         return match ($this->situation) 
         {
             1=>'in the works',
-            0=>'on halt',
+            2=>'on halt',
             default=>'unknown',
         };
     }
@@ -45,5 +58,13 @@ class Operation extends Model
     public function consultations(): HasMany
     {
         return $this->hasMany(Consultation::class,"operation_number");
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($operation) {
+            $operation->projects->each->delete();
+            $operation->consultations->each->delete();
+        });
     }
 }

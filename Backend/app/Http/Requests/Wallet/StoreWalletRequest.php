@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\Wallet;
 
+use App\Traits\Wallet\WalletValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreWalletRequest extends FormRequest
 {
+    use WalletValidationRules;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,9 +24,6 @@ class StoreWalletRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'code'=>['required','alpha_num','size:3'],
-            'title'=>['required'],
-        ];
+        return $this->base_rules();
     }
 }

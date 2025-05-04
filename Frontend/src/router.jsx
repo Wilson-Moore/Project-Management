@@ -7,8 +7,19 @@ import ActionDetails from "./pages/Project/action/ActionDetails.jsx";
 import WalletDetails from "./pages/Project/wallet/WalletDetails.jsx";
 import ProgramDetails from "./pages/Project/program/ProgramDetails.jsx";
 import SubProgramDetails from "./pages/Project/subProgram/SubProgramDetails.jsx";
+import AllProjects from "./pages/Project/proj/Projects.jsx";
+import OperationDetails from "./pages/Project/operation/OperationDetails.jsx";
+import ProjectDetails from "./pages/Project/proj/ProjectDetails.jsx";
 import AllWallets from "./pages/Project/wallet/Wallets.jsx";
 import AllPrograms from "./pages/Project/program/Programs.jsx";
+import AllSubPrograms from "./pages/Project/subProgram/SubPrograms.jsx";
+import AllOperations from "./pages/Project/operation/Operations.jsx";
+import AllActions from "./pages/Project/action/Actions.jsx";
+import NewWallet from "./pages/Project/wallet/NewWallet.jsx";
+import NewProgram from "./pages/Project/program/NewProgram.jsx";
+import NewSubProgram from "./pages/Project/subProgram/NewSubProgram.jsx";
+import NewAction from "./pages/Project/action/NewAction.jsx";
+import NewOperation from "./pages/Project/operation/NewOperation.jsx";
 
 const router = createBrowserRouter([
 {
@@ -47,14 +58,66 @@ const router = createBrowserRouter([
             path: '/projects/active/wallet/:walletId/program/:programId',
             element: <ProgramDetails/>,
       },
-      // // {
-      // //       path: '/projects/active/wallet/:walletId/program/:programId/subprogram',
-      // //       element: <SubPrograms/>,
-      // // },
+      {
+            path: '/projects/active/wallet/:walletId/program/:programId/subprogram',
+            element: <Navigate to="/subprograms" replace />,
+      },
+      {
+            path: '/subprograms',
+            element: <AllSubPrograms/>,
+      },
+      {
+            path: '/actions',
+            element: <AllActions/>,
+      },
       {
             path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId',
             element: <SubProgramDetails/>,
       },
+      {
+            path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId/action/:actionId/operation/:operationId',
+            element: <OperationDetails/>,
+      },
+      {
+            path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId/action/:actionId/operation',
+            element: <Navigate to="/operations" replace />,
+      },
+      {
+            path: '/operations',
+            element: <AllOperations/>,
+      },
+      {
+            path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId/action/:actionId/operation/:operationId/project/:projectId',
+            element: <ProjectDetails/>,
+      },
+      {
+            path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId/action/:actionId/operation/:operationId/project',
+            element: <Navigate to="/projects"/>,
+      },
+      {
+            path: '/projects',
+            element: <AllProjects/>,
+      },
+      {
+            path: '/wallets/new',
+            element: <NewWallet/>,
+      },
+      {
+            path: '/programs/new',
+            element: <NewProgram/>,
+      },
+      {
+            path: '/subprograms/new',
+            element: <NewSubProgram/>,
+      },
+      {
+            path : '/actions/new',
+            element : <NewAction/>,
+      },
+      {
+            path: '/operations/new',
+            element: <NewOperation/>,
+      }
       // // {
       // //       path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId/action',
       // //       element: <ActionDetails/>,

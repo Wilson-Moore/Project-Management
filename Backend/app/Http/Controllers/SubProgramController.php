@@ -3,54 +3,56 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subprogram;
-use App\Filters\SubProgramFilter;
+use App\Filters\SubprogramFilter;
+use App\Http\Requests\Subprogram\ShowSubprogramRequest;
 use Illuminate\Http\Request;
-use App\Http\Resources\SubProgram\SubProgramResource;
-use App\Http\Resources\SubProgram\SubProgramCollection;
-use App\Http\Requests\SubProgram\StoreSubProgramRequest;
-use App\Http\Requests\SubProgram\UpdateSubProgramRequest;
+use App\Http\Resources\Subprogram\SubprogramResource;
+use App\Http\Resources\Subprogram\SubprogramCollection;
+use App\Http\Requests\Subprogram\StoreSubprogramRequest;
+use App\Http\Requests\Subprogram\UpdateSubprogramRequest;
+use App\Services\SubprogramService;
 
 class SubprogramController extends Controller
 {
+    public function __construct(
+        protected SubprogramFilter $filter,
+        protected SubprogramService $service
+    ) {}
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $filter=new SubProgramFilter();
-        $query_items=$filter->transform($request);
-        if (count($query_items)==0) {
-            return new SubProgramCollection(SubProgram::paginate());
-        } else {
-            return new SubProgramCollection(SubProgram::where($query_items)->paginate()->appends($request->query()));
-        }
+        $query_items=$this->filter->transform($request);
+        $subprograms=$this->service->all($query_items,$request);
+        return new SubprogramCollection($subprograms);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSubProgramRequest $request)
+    public function store(StoreSubprogramRequest $request)
     {
-        return new SubProgramResource(Subprogram::create($request->all()));
+        $subprogram=$this->service->create($request->all());
+        return (new SubprogramResource($subprogram))->response()->setStatusCode(201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Request $request,Subprogram $subprogram)
+    public function show(ShowSubprogramRequest $request, Subprogram $subprogram)
     {
-        if ($request->query('include_actions')) {
-            $subprogram=$subprogram->load('actions');
-        }
-        return new SubProgramResource($subprogram);
+        $subprogram=$this->service->get($subprogram,$request->allowed_includes());
+        return new SubprogramResource($subprogram);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSubProgramRequest $request, Subprogram $subprogram)
+    public function update(UpdateSubprogramRequest $request, Subprogram $subprogram)
     {
-        $subprogram->update($request->all());
+        $subprogram=$this->service->update($subprogram,$request->validated());
+        return new SubprogramResource($subprogram);
     }
 
     /**
@@ -58,6 +60,7 @@ class SubprogramController extends Controller
      */
     public function destroy(Subprogram $subprogram)
     {
-        $subprogram->delete();
+        $this->service->delete($subprogram);
+        return response()->noContent();
     }
 }

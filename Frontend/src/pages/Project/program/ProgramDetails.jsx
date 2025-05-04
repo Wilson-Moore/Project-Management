@@ -16,37 +16,45 @@ function ProgramDetails() {
   const [errors,setErrors]=useState(null)
   const navigate=useNavigate()
 
-  useEffect(() => {
-    if (walletId) {
-      setLoading(true);
-      axiosClient.get(`/wallets/${walletId}`)
-      .then(({ data }) => {
-            setLoading(false);
-            setwallet(data.data);
-      })
-      .catch(() => {
-            setLoading(false);
-      });
-    }
+    useEffect(() => {
+      if (!walletId) return;
     
-    if (programId) {
-      setLoading(true);
-      axiosClient.get(`/programs/${programId}?include_subprograms=1`)
-      .then(({ data }) => {
-            setLoading(false);
-            setprogram(data.data);
-      })
-      .catch(() => {
-            setLoading(false);
-      });
-    }
-  },[walletId, programId]);
+      const fetchData = async () => {
+        try {
+          setLoading(true);
+          
+          // Fetch wallet data
+          const walletResponse = await axiosClient.get(`/wallets/${walletId}?include=programs`);
+          const walletData = walletResponse.data.data;
+          setwallet(walletData);
 
-  if(!loading) {
-    return (
-      <ProjectLayout program={program} _wallet={wallet} />
-    );
-  }else {
+          if (!programId) {
+            setLoading(false);
+            return;
+          }
+    
+          // Use the freshly fetched walletData instead of the state wallet
+          const foundProgram = walletData.programs.find(program => program.code === programId);
+          if (foundProgram) {
+            // Fetch program data
+            const programResponse = await axiosClient.get(`/programs/${programId}?include=subprograms`);
+            setprogram(programResponse.data.data);
+          }else {
+            setLoading(false);
+            setErrors("Program doesn't exist!");
+          }
+          
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
+          setErrors(error);
+        }
+      };
+    
+      fetchData();
+    }, [walletId, programId]);
+
+  if(loading) {
     return(
       <div className="loading-screen">
         <div className="loading-threedots">
@@ -57,6 +65,19 @@ function ProgramDetails() {
       </div>
     );
   }
+
+  if(errors) {
+    return(
+      <div className="alert">
+        {errors}
+      </div>
+    );
+  }
+
+  return (
+    <ProjectLayout program={program} _wallet={wallet} />
+  );
+  
 }
 
 export default ProgramDetails;

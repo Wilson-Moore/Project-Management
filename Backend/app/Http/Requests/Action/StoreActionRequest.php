@@ -2,12 +2,22 @@
 
 namespace App\Http\Requests\Action;
 
-use App\Rules\Action\ActionCodeRule;
+use App\Services\ProgramService;
+use App\Services\SubprogramService;
+use App\Services\WalletService;
+use App\Traits\Action\ActionValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreActionRequest extends FormRequest
 {
+    use ActionValidationRules;
+
+    public function __construct(
+        protected WalletService $wallet_service,
+        protected ProgramService $program_service,
+        protected SubprogramService $subprogram_service
+    ) {}
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -23,20 +33,14 @@ class StoreActionRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'code'=>[
-                'required','regex:/^[A-Z0-9]{3}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{4}[0-9]{3}[0-9]{3}$/',
-                'size:18',new ActionCodeRule($this)],
-            'type'=>['required',Rule::in(1,2,3)],
-            'title'=>['required'],
-            'subprogram'=>['required','exists:subprograms,id'],
-        ];
+        return $this->base_rules($this->wallet_service, $this->program_service, $this->subprogram_service);
     }
 
     protected function prepareForValidation()
     {
         $this->merge([
-            'subprogram_id'=>$this->subprogram
+            'type'=>$this->type(),
+            'subprogram_id'=>$this->id(),
         ]);
     }
 }
