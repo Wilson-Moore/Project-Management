@@ -26,7 +26,7 @@ function SubProgramDetails() {
         setLoading(true);
         
         // Fetch wallet data
-        const walletResponse = await axiosClient.get(`/wallets/${walletId}?include=programs`);
+        const walletResponse = await axiosClient.get(`/wallets/${walletId}`);
         const walletData = walletResponse.data.data;
         setWallet(walletData);
         
@@ -35,11 +35,8 @@ function SubProgramDetails() {
           return;
         }
   
-        // Use the freshly fetched walletData instead of the state wallet
-        const foundProgram = walletData.programs.find(program => program.code === programId);
-        if (foundProgram) {
           // Fetch program data
-          const programResponse = await axiosClient.get(`/programs/${programId}?include=subprograms`);
+          const programResponse = await axiosClient.get(`/programs/${programId}`);
           const programData = programResponse.data.data;
           setProgram(programData);
           if (!subprogramId) {
@@ -47,18 +44,9 @@ function SubProgramDetails() {
             return;
           }
           
-          // Use the freshly fetched programData instead of the state program
-          //programData.subprograms.find(sub => sub.id === subprogramId);
-          const foundSubprogram = true;
-          if (foundSubprogram) {
             const subprogramResponse = await axiosClient.get(`/subprograms/${subprogramId}?include=actions`);
             setSubprogram(subprogramResponse.data.data);
-          }else {
-            setLoading(false);
-            setErrors("SubProgram doesn't exist!");
-          }
-        }
-        
+          
         setLoading(false);
       } catch (error) {
         setLoading(false);

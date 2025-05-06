@@ -7,7 +7,6 @@ import ActionDetails from "./pages/Project/action/ActionDetails.jsx";
 import WalletDetails from "./pages/Project/wallet/WalletDetails.jsx";
 import ProgramDetails from "./pages/Project/program/ProgramDetails.jsx";
 import SubProgramDetails from "./pages/Project/subProgram/SubProgramDetails.jsx";
-import AllProjects from "./pages/Project/proj/Projects.jsx";
 import OperationDetails from "./pages/Project/operation/OperationDetails.jsx";
 import ProjectDetails from "./pages/Project/proj/ProjectDetails.jsx";
 import AllWallets from "./pages/Project/wallet/Wallets.jsx";
@@ -15,11 +14,14 @@ import AllPrograms from "./pages/Project/program/Programs.jsx";
 import AllSubPrograms from "./pages/Project/subProgram/SubPrograms.jsx";
 import AllOperations from "./pages/Project/operation/Operations.jsx";
 import AllActions from "./pages/Project/action/Actions.jsx";
+import AllProjects from "./pages/Project/proj/Projects.jsx";
 import NewWallet from "./pages/Project/wallet/NewWallet.jsx";
 import NewProgram from "./pages/Project/program/NewProgram.jsx";
 import NewSubProgram from "./pages/Project/subProgram/NewSubProgram.jsx";
 import NewAction from "./pages/Project/action/NewAction.jsx";
 import NewOperation from "./pages/Project/operation/NewOperation.jsx";
+import NewProject from "./pages/Project/proj/NewProject.jsx";
+import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 
 const router = createBrowserRouter([
 {
@@ -28,10 +30,10 @@ const router = createBrowserRouter([
       children: [
       {
             path: '/',
-            element: <Navigate to="/wallets" replace /> // Or your default protected route
+            element: <Dashboard /> // Changed to render the Dashboard component
       },
       {
-            path: '/action',
+            path: '/action/:actionId',
             element: <ActionDetails/>,
       },
       {
@@ -75,11 +77,11 @@ const router = createBrowserRouter([
             element: <SubProgramDetails/>,
       },
       {
-            path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId/action/:actionId/operation/:operationId',
+            path: '/operation/:operationId',
             element: <OperationDetails/>,
       },
       {
-            path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId/action/:actionId/operation',
+            path: '/operation',
             element: <Navigate to="/operations" replace />,
       },
       {
@@ -87,7 +89,7 @@ const router = createBrowserRouter([
             element: <AllOperations/>,
       },
       {
-            path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId/action/:actionId/operation/:operationId/project/:projectId',
+            path: '/project/:projectId',
             element: <ProjectDetails/>,
       },
       {
@@ -117,7 +119,11 @@ const router = createBrowserRouter([
       {
             path: '/operations/new',
             element: <NewOperation/>,
-      }
+      },
+      {
+            path: '/projects/new',
+            element: <NewProject/>,
+      },
       // // {
       // //       path: '/projects/active/wallet/:walletId/program/:programId/subprogram/:subprogramId/action',
       // //       element: <ActionDetails/>,

@@ -45,7 +45,8 @@ trait ActionValidationRules
 
     protected function id(): int
     {
-        preg_match('/^[A-Z0-9]{3}([A-Z0-9]{3})([A-Z0-9]{2})/',$this->code,$matches);
-        return $this->subprogram_service->find(['program_code'=>$matches[1],'code'=>$matches[2]])->id;
+        return preg_match('/^[A-Z0-9]{3}([A-Z0-9]{3})([A-Z0-9]{2})/',$this->code,$matches) ?
+        $this->subprogram_service->find(['program_code'=>$matches[1],'code'=>$matches[2]])->id :
+        -1;
     }
 }

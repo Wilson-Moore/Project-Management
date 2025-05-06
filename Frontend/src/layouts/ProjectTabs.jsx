@@ -21,7 +21,7 @@ function ProjectTabs(props) {
             return (
                   <div className="project-tabs">
                         <TabsNav />
-                        <TabContent program={program} active/>
+                        <TabContent program={program} _wallet={props._wallet} active/>
                   </div>
             );
       }else if(props.subprogram) {
@@ -30,6 +30,18 @@ function ProjectTabs(props) {
                   <div className="project-tabs">
                         <TabsNav />
                         <TabContent subprogram={subprogram} active _program={props._program} _wallet={props._wallet}/>
+                  </div>
+            );
+      }else if(props.action) {
+            const { action } = props;
+            return (
+                  <div className="project-tabs">
+                        <TabsNav clicked={clicked}/>
+                        <TabContent active action={action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet} overview/>
+                        <TabContent />
+                        <TabContent />
+                        <TabContent />
+                        <TabContent />
                   </div>
             );
       }else if(props.operation) {
@@ -49,7 +61,7 @@ function ProjectTabs(props) {
             return (
                   <div className="project-tabs">
                         <TabsNav clicked={clicked}/>
-                        <TabContent project={project} active _operation={props._operation} _action={props._action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet} overview/>
+                        <TabContent project={project} active overview/>
                   </div>
             );
       }

@@ -17,7 +17,7 @@ function ProjectLayout(props) {
             return (
                   <div className="project-layout">
                         <ProjectHeader program={program} _wallet={props._wallet}/>
-                        <ProjectTabs program={program} />
+                        <ProjectTabs program={program} _wallet={props._wallet}/>
                   </div>
             );
       }else if(props.subprogram) {
@@ -26,6 +26,14 @@ function ProjectLayout(props) {
                   <div className="project-layout">
                         <ProjectHeader subprogram={subprogram} _program={props._program} _wallet={props._wallet}/>
                         <ProjectTabs subprogram={subprogram} _program={props._program} _wallet={props._wallet}/>
+                  </div>
+            );
+      }else if(props.action) {
+            const { action } = props;
+            return (
+                  <div className="project-layout">
+                        <ProjectHeader  action={action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet}/>
+                        <ProjectTabs action={action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet}/>
                   </div>
             );
       }else if(props.operation) {
@@ -40,8 +48,8 @@ function ProjectLayout(props) {
             const { project } = props;
             return (
                   <div className="project-layout">
-                        <ProjectHeader project={project} _operation={props._operation} _action={props._action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet}/>
-                        <ProjectTabs project={project} _operation={props._operation} _action={props._action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet}/>
+                        <ProjectHeader project={project}/>
+                        <ProjectTabs project={project} />
                   </div>
             );
       }

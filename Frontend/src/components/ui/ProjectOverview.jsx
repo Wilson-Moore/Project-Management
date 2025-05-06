@@ -1,49 +1,52 @@
 import OperationItem from "./OperationItem";
+import './../../assets/styles/projectOverview.css'
 
 function ProjectOverview(props) {
       if(props.wallet) {
             const { wallet } = props;
             return (
-                  <div className="project-overview">
-                        <div className="overview-section">
-                              <h3>Informations sur le portefeuille</h3>
-                              <h5>Code: {wallet.code}</h5>
-                              <h5>Intitulé: {wallet.title}</h5>
-                        </div>
-                        <div className="overview-section" style={{backgroundColor: "white"}}>
-                              <h3>les opérations</h3>
-                              {wallet.programs ? wallet.programs.length > 0 ? (
-                              wallet.programs.map((operation, index) => (
-                                    <OperationItem key={index} entity ={operation} operationName={operation.title || "No title"} year="2024" isObserved creator="Fischer" status={index === 0 ? "Fini" : "En cours"} />
-                              ))
-                              ) : (
-                                    <p>Aucune program trouvée</p>
-                              ):
-                                    <p>Aucune program trouvée</p>
-                              }
+                  <div className="detail-grid">
+                        <div className="detail-column">
+                              <div className="detail-row">
+                              <div className="detail-cell">
+                              <h3 className="detail-label">Code de Portefeuille:</h3>
+                              <p className="detail-value">{wallet.code}</p>
+                              </div>
+                              </div>
+                              <div className="detail-row">
+                              <div className="detail-cell">
+                              <h3 className="detail-label">Intitulé de Portefeuille:</h3>
+                              <p className="detail-value">{wallet.title}</p>
+                              </div>
+                              </div>
                         </div>
                   </div>
             );
       }else if(props.program) {
             const { program } = props;
             return (
-                  <div className="project-overview">
-                        <div className="overview-section">
-                              <h3>Informations sur le programme</h3>
-                              <h5>Code: {program.code}</h5>
-                              <h5>Intitulé: {program.title}</h5>
-                        </div>
-                        <div className="overview-section" style={{backgroundColor: "white"}}>
-                              <h3>les opérations</h3>
-                              {program.subprograms ? program.subprograms.length > 0 ? (
-                              program.subprograms.map((operation, index) => (
-                                    <OperationItem key={index} entity ={operation} operationName={operation.title || "No title"} year="2024" isObserved creator="Fischer" status={index === 0 ? "Fini" : "En cours"} />
-                              ))
-                              ) : (
-                                    <p>Aucune sous-program trouvée</p>
-                              ):
-                                    <p>Aucune sous-program trouvée</p>
-                              }
+                  <div className="detail-grid">
+                        <div className="detail-column">
+                              <div className="detail-row">
+                              <div className="detail-cell">
+                                    <h3 className="detail-label">Code de Programme:</h3>
+                                    <p className="detail-value">{program.code}</p>
+                              </div>
+                              <div className="detail-cell">
+                                    <h3 className="detail-label">Code de Portefeuille:</h3>
+                                    <p className="detail-value">{props._wallet.code}</p>
+                              </div>
+                              </div>
+                              <div className="detail-row">
+                              <div className="detail-cell">
+                                    <h3 className="detail-label">Intitulé de Programme:</h3>
+                                    <p className="detail-value">{program.title}</p>
+                              </div>
+                              <div className="detail-cell">
+                                    <h3 className="detail-label">Intitulé de Portefeuille:</h3>
+                                    <p className="detail-value">{props._wallet.title}</p>
+                              </div>
+                              </div>
                         </div>
                   </div>
             );
@@ -51,27 +54,75 @@ function ProjectOverview(props) {
       }else if(props.subprogram) {
             const { subprogram } = props;
             return (
-                  <div className="project-overview">
-                        <div className="overview-section">
-                              <h3>Informations sur le sous-programme</h3>
-                              <h5>Code: {subprogram.code}</h5>
-                              <h5>Intitulé: {subprogram.title}</h5>
-                              <h5>Code du programme: {props._program.code}</h5>
-                              <h5>Intitulé du programme: {props._program.title}</h5>
-                              <h5>Code du portefeuille: {props._wallet.code}</h5>
-                              <h5>Intitulé du portefeuille: {props._wallet.title}</h5>
+                  <div className="detail-grid">
+                        <div className="detail-column">
+                              <div className="detail-row">
+                              <div className="detail-cell">
+                                    <h3 className="detail-label">Code de Sous-Programme:</h3>
+                                    <p className="detail-value">{subprogram.code}</p>
+                              </div>
+                              <div className="detail-cell">
+                                    <h3 className="detail-label">Code de Programme:</h3>
+                                    <p className="detail-value">{props._program.code}</p>
+                              </div>
+                              
+                              </div>
+                              <div className="detail-row">
+                              <div className="detail-cell">
+                                    <h3 className="detail-label">Intitulé de Sous-Programme:</h3>
+                                    <p className="detail-value">{subprogram.title}</p>
+                              </div>
+                              <div className="detail-cell">
+                                    <h3 className="detail-label">Intitulé de Programme:</h3>
+                                    <p className="detail-value">{props._program.title}</p>
+                              </div>
+                              
+                              </div>
                         </div>
-                        <div className="overview-section" style={{backgroundColor: "white"}}>
-                              <h3>les opérations</h3>
-                              {subprogram.actions ? subprogram.actions.length > 0 ? (
-                              subprogram.actions.map((operation, index) => (
-                                    <OperationItem key={index} entity ={operation} operationName={operation.title || "No title"} year="2024" isObserved creator="Fischer" status={index === 0 ? "Fini" : "En cours"} />
-                              ))
-                              ) : (
-                                    <p>Aucune opération trouvée</p>
-                              ):
-                                    <p>Aucune opération trouvée</p>
-                              }
+                        <div className="detail-column">
+                              <div className="detail-row">
+                                    <div className="detail-cell">
+                                          <h3 className="detail-label">Code de Portefeuille:</h3>
+                                          <p className="detail-value">{props._wallet.code}</p>
+                                    </div>
+                              </div>
+                              <div className="detail-row">
+                                    <div className="detail-cell">
+                                          <h3 className="detail-label">Intitulé de Portefeuille:</h3>
+                                          <p className="detail-value">{props._wallet.title}</p>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            );
+      }else if(props.action) {
+            const { action } = props;
+
+            let formattedCode = '';
+            for (let i = 0; i < action.code.length; i++) {
+                  if (i === 3 || i === 6 || i === 8 || i === 12 || i === 15) {
+                  formattedCode += '.';
+                  }
+                  if (i < action.code.length) {
+                  formattedCode += action.code[i];
+                  }
+            }
+
+            return (
+                  <div className="detail-grid">
+                        <div className="detail-column">
+                              <div className="detail-row">
+                              <div className="detail-cell">
+                              <h3 className="detail-label">Code d'Action:</h3>
+                              <p className="detail-value">{formattedCode}</p>
+                              </div>
+                              </div>
+                              <div className="detail-row">
+                              <div className="detail-cell">
+                              <h3 className="detail-label">Intitulé d'Action:</h3>
+                              <p className="detail-value">{action.title}</p>
+                              </div>
+                              </div>
                         </div>
                   </div>
             );
@@ -88,29 +139,132 @@ function ProjectOverview(props) {
                   }
             }
             return (
-                  <div className="project-overview-simple">
-                              <h5>N° de l'opération: {formattedCode}</h5>
-                              <h5>Intitulé de l'Opération: {operation.title}</h5>
-                              <h5>Année de notification: {operation.date_of_notification.slice(0,4)}</h5>
-                              <h5>AP Actuelle: {operation.current_ap}</h5>
-                              <h5>AP Initial: {operation.initial_ap}</h5>
-                              <h5>Révaluation: -</h5>
-                              <h5>Situation: {operation.situation}</h5>
-                              <h5>Observation: {operation.observation || "-"}</h5>
-                              <h5>Individualisée: -</h5>
+                  <div className="detail-grid">
+                        <div className="detail-column">
+                              <div className="detail-row">
+                              <div className="detail-cell">
+                              <h3 className="detail-label">N° de l'opération:</h3>
+                              <p className="detail-value">{formattedCode}</p>
+                              </div>
+                              <div className="detail-cell">
+                              <h3 className="detail-label">Intitulé de l'Opération:</h3>
+                              <p className="detail-value">{operation.title}</p>
+                              </div>
+                              </div>
+                              <div className="detail-row">
+                              <div className="detail-cell">
+                              <h3 className="detail-label">Année de notification:</h3>
+                              <p className="detail-value">{operation.date_of_notification?.slice(0,4) || '2025'}</p>
+                              </div>
+                              <div className="detail-cell">
+                              <h3 className="detail-label">AP Actuelle:</h3>
+                              <p className="detail-value">{operation.current_ap || '323000'}</p>
+                              </div>
+                              </div>
+                        </div>
+                        
+                        <div className="detail-column">
+                              <div className="detail-row">
+                              <div className="detail-cell">
+                              <h3 className="detail-label">AP Initial:</h3>
+                              <p className="detail-value">{operation.initial_ap || '300000'}</p>
+                              </div>
+                              <div className="detail-cell">
+                              <h3 className="detail-label">Révaluation:</h3>
+                              <p className="detail-value">{operation.revaluation || '-'}</p>
+                              </div>
+                              </div>
+                              <div className="detail-row">
+                              <div className="detail-cell">
+                              <h3 className="detail-label">Situation:</h3>
+                              <p className="detail-value">{operation.situation || 'on halt'}</p>
+                              </div>
+                              <div className="detail-cell">
+                              <h3 className="detail-label">Observation:</h3>
+                              <p className="detail-value">{operation.observation || '-'}</p>
+                              </div>
+                              </div>
+                        </div>
+                        
+                        <div className="detail-wide">
+                              <div className="detail-row">
+                              <div className="detail-cell detail-quarter">
+                              <h3 className="detail-label">Individualisée:</h3>
+                              <p className="detail-value">{operation.individualized || '-'}</p>
+                              </div>
+                              </div>
+                        </div>
                   </div>
             );
       }else if(props.project) {
             const { project } = props;
             return (
-                  <div className="project-overview-simple">
+                  <>
+                  {/* <div className="project-overview-simple">
                         <h5>N° du projet: {project.id || "-"}</h5>
                         <h5>Intitulé du projet: {project.objectif || "-"}</h5>
                         <h5>Date de début: {project.start_date.slice(0,10) || "-"}</h5>
                         <h5>Date d'évaluation: {project.assessment_date.slice(0,10) || "-"}</h5>
                         <h5>Duration: {project.duration || "-"}</h5>
                         <h5>coût: {project.cost + ".00da" || "-"}</h5>
+                  </div> */}
+                  <div className="detail-grid">
+                  <div className="detail-column">
+                        <div className="detail-row">
+                        {/* <div className="detail-cell">
+                        <h3 className="detail-label">N° du projet: </h3>
+                        <p className="detail-value">{project.id || "-"}</p>
+                        </div> */}
+                        <div className="detail-cell">
+                        <h3 className="detail-label">Intitulé du projet: </h3>
+                        <p className="detail-value">{project.objectif || "-"}</p>
+                        </div>
+                        </div>
+                        <div className="detail-row">
+                        <div className="detail-cell">
+                        <h3 className="detail-label">Date de début: </h3>
+                        <p className="detail-value">{project.start_date.slice(0,10) || "-"}</p>
+                        </div>
+                        <div className="detail-cell">
+                        <h3 className="detail-label">Date d'évaluation: </h3>
+                        <p className="detail-value">{project.assessment_date.slice(0,10) || "-"}</p>
+                        </div>
+                        </div>
                   </div>
+                  
+                  <div className="detail-column">
+                        <div className="detail-row">
+                        <div className="detail-cell">
+                        <h3 className="detail-label">Duration: </h3>
+                        <p className="detail-value">{project.duration || "-"}</p>
+                        </div>
+                        <div className="detail-cell">
+                        <h3 className="detail-label">coût: </h3>
+                        <p className="detail-value">{project.cost + ".00da" || "-"}</p>
+                        </div>
+                        </div>
+                        <div className="detail-row">
+                        <div className="detail-cell">
+                        <h3 className="detail-label">Situation:</h3>
+                        <p className="detail-value">{ 'on halt'}</p>
+                        </div>
+                        <div className="detail-cell">
+                        <h3 className="detail-label">Observation:</h3>
+                        <p className="detail-value">{ '-'}</p>
+                        </div>
+                        </div>
+                  </div>
+                  
+                  <div className="detail-wide">
+                        <div className="detail-row">
+                        <div className="detail-cell detail-quarter">
+                        <h3 className="detail-label">Individualisée:</h3>
+                        <p className="detail-value">{ '-'}</p>
+                        </div>
+                        </div>
+                  </div>
+            </div>
+            </>
             );
       }
       

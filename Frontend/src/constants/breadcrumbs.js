@@ -3,25 +3,24 @@ import WalletDetails from "../pages/Project/wallet/WalletDetails";
 
 export const BREADCRUMB_TEMPLATES = {
       actionDetails: [
-      { path: "/projects", label: "Projects", key: "projects" },
-      { path: "/projects/active", label: "Active Projects", key: "activeProjects" },
+      {path: "/", label: "Home", key: "home"},
+      // { 
+      //       path: "/projects/active/wallet/:walletId",
+      //       // label: "Wallet", // Default/fallback 
+      //       key: "walletName" 
+      // },
+      // { 
+      //       path: "/projects/active/wallet/:walletId/program/:programId", 
+      //       // label: "Programme", 
+      //       key: "programName" 
+      // },
+      // { 
+      //       path: "/projects/active/wallet/:walletId/program/:programId/subprogram/:subProgramId", 
+      //       // label: "Sub-Programme", 
+      //       key: "subProgramName" 
+      // },
       { 
-            path: "/projects/active/wallet/:walletId",
-            // label: "Wallet", // Default/fallback 
-            key: "walletName" 
-      },
-      { 
-            path: "/projects/active/wallet/:walletId/program/:programId", 
-            // label: "Programme", 
-            key: "programName" 
-      },
-      { 
-            path: "/projects/active/wallet/:walletId/program/:programId/subprogram/:subProgramId", 
-            // label: "Sub-Programme", 
-            key: "subProgramName" 
-      },
-      { 
-            path: "/projects/active/wallet/:walletId/program/:programId/subprogram/:subProgramId/action/:actionId",
+            path: "/action/:actionId",
             // label: "Action", 
             key: "actionId" 
       } // No path = current page
@@ -29,8 +28,7 @@ export const BREADCRUMB_TEMPLATES = {
 
       // Add more breadcrumb templates as needed
       walletDetails: [
-            {path: "/projects", label: "Projects", key: "projects"},
-            {path: "/projects/active", label: "Active Projects", key: "activeProjects"},
+            {path: "/", label: "Home", key: "home"},
             {
                   path: "/projects/active/wallet/:walletId",
                   // label: "Wallet", // Default/fallback
@@ -39,8 +37,7 @@ export const BREADCRUMB_TEMPLATES = {
       ],
 
       programDetails: [
-            {path: "/projects", label: "Projects", key: "projects"},
-            {path: "/projects/active", label: "Active Projects", key: "activeProjects"},
+            {path: "/", label: "Home", key: "home"},
             {
                   path: "/projects/active/wallet/:walletId",
                   // label: "Wallet", // Default/fallback
@@ -54,8 +51,7 @@ export const BREADCRUMB_TEMPLATES = {
       ],
 
       subprogramDetails: [
-            {path: "/projects", label: "Projects", key: "projects"},
-            {path: "/projects/active", label: "Active Projects", key: "activeProjects"},
+            {path: "/", label: "Home", key: "home"},
             {
                   path: "/projects/active/wallet/:walletId",
                   // label: "Wallet", // Default/fallback
@@ -74,30 +70,30 @@ export const BREADCRUMB_TEMPLATES = {
       ],
 
       operationDetails: [
-            { path: "/projects", label: "Projects", key: "projects" },
-            { path: "/projects/active", label: "Active Projects", key: "activeProjects" },
+            {path: "/", label: "Home", key: "home"},
+            // { path: "/projects/active", label: "Active Projects", key: "activeProjects" },
+            // { 
+            //       path: "/projects/active/wallet/:walletId",
+            //       // label: "Wallet", // Default/fallback 
+            //       key: "walletName" 
+            // },
+            // { 
+            //       path: "/projects/active/wallet/:walletId/program/:programId", 
+            //       // label: "Programme", 
+            //       key: "programName" 
+            // },
+            // { 
+            //       path: "/projects/active/wallet/:walletId/program/:programId/subprogram/:subProgramId", 
+            //       // label: "Sub-Programme", 
+            //       key: "subProgramName" 
+            // },
+            // { 
+            //       path: "/projects/active/wallet/:walletId/program/:programId/subprogram/:subProgramId/action/:actionId",
+            //       // label: "Action", 
+            //       key: "actionName" 
+            // },
             { 
-                  path: "/projects/active/wallet/:walletId",
-                  // label: "Wallet", // Default/fallback 
-                  key: "walletName" 
-            },
-            { 
-                  path: "/projects/active/wallet/:walletId/program/:programId", 
-                  // label: "Programme", 
-                  key: "programName" 
-            },
-            { 
-                  path: "/projects/active/wallet/:walletId/program/:programId/subprogram/:subProgramId", 
-                  // label: "Sub-Programme", 
-                  key: "subProgramName" 
-            },
-            { 
-                  path: "/projects/active/wallet/:walletId/program/:programId/subprogram/:subProgramId/action/:actionId",
-                  // label: "Action", 
-                  key: "actionName" 
-            },
-            { 
-                  path: "/projects/active/wallet/:walletId/program/:programId/subprogram/:subProgramId/action/:actionId/operation/:operationId",
+                  path: "/operation/:operationId",
                   // label: "Operation",
                   key: "operationName" 
             },
@@ -105,8 +101,7 @@ export const BREADCRUMB_TEMPLATES = {
       ],
 
       projectDetails: [
-            { path: "/projects", label: "Projects", key: "projects" },
-            { path: "/projects/active", label: "Active Projects", key: "activeProjects" },
+            {path: "/", label: "Home", key: "home"},
             { 
                   path: "/projects/active/wallet/:walletId",
                   // label: "Wallet", // Default/fallback 

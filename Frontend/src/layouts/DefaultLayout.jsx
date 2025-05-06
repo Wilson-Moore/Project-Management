@@ -30,21 +30,13 @@ export default function DefaultLayout() {
   return (
     <div id="defaultLayout">
       <aside>
-        <h1>Dashboard</h1>
-        {/* <Link to="/wallets">Wallets</Link>
-        <Link to="/programs">Programs</Link>
-        <Link to="/subprograms">SubPrograms</Link>
-        <Link to="/actions">Actions</Link> */}
       </aside>
       <div className="content">
         <header>
-          <div>
-            Header
-          </div>
-          <div>
+          {/* <div>
             {user.name}&nbsp;&nbsp;
             <a onClick={onLogout} className="btn-logout" href="#">Logout</a>
-          </div>
+          </div> */}
         </header>
         <main>
           <Outlet/>

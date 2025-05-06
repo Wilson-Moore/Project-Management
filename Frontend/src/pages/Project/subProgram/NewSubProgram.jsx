@@ -1,75 +1,116 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import axiosClient from "../../../axios-client.js";
-import {NotificationStateContext} from "../../../contexts/NotificationContextProvider.jsx";
+// SubProgramModel.jsx
+import { useState } from 'react';
+import './../../../assets/styles/model.css';
 
-export default function UserForm() {
-      const navigate=useNavigate();
-      let {subprogramId}=useParams();
-      const [subprogram,setsubprogram]=useState({id: '',code: '',title: '',program_code: ''})
-      const [errors,setErrors]=useState(null)
-      const [loading,setLoading]=useState(false)
-      const {setNotification}=NotificationStateContext()
+export default function SubProgramModel({ onClose, onSave, initialData, isUpdate = false }) {
+      const [subprogram, setSubProgram] = useState(initialData);
+      const [errors, setErrors] = useState(null);
+      const [loading, setLoading] = useState(false);
+
+      const handleChange = (e) => {
+      const { name, value } = e.target;
+      setSubProgram(prev => ({ ...prev, [name]: value }));
+      };
+
+      const handleSubmit = (e) => {
+      e.preventDefault();
       
-      useEffect(() => {
-            if (subprogramId) {
-            setLoading(true);
-            axiosClient.get(`/subprograms/${subprogramId}`)
-                  .then(({ data }) => {
-                  setLoading(false);
-                  setsubprogram(data.data);
-                  })
-                  .catch(() => {
-                  setLoading(false);
-                  });
+      setLoading(true);
+      
+      // Pass the data to the parent component
+      onSave(subprogram)
+            .then(() => {
+            setLoading(false);
+            onClose();
+            })
+            .catch(err => {
+            setLoading(false);
+            if (err.response && err.response.status === 422) {
+            setErrors(err.response.data.errors);
             }
-      }, [subprogramId]);
-
-      const onSubmit = ev => {
-            ev.preventDefault();
-            const request = subprogramId
-            ? axiosClient.put(`/subprograms/${subprogram.id}`,subprogram)
-            : axiosClient.post('/subprograms',subprogram);
-
-      request
-      .then(() => {
-            setNotification(subprogramId ? 'subProgram was successfully updated' : 'subProgram was successfully created');
-            navigate('/subprograms');
-      })
-      .catch(err => {
-            const response = err.response;
-            if (response && response.status === 422) {
-            setErrors(response.data.errors);
-            }
-      });
-      }
+            });
+      };
 
       return (
-      <>
-      {subprogramId&&<h1>Update SubProgram: {subprogram.title}</h1>}
-      {!subprogramId&&<h1>New SubProgram</h1>}
-      <div className="card animated fadeInDown">
+      <div className="modal-overlay">
+            <div className="modal-container">
+            <div className="modal-header">
+            <h2>{isUpdate ? `Update SubProgram: ${initialData.title}` : 'New SubProgram'}</h2>
+            <button onClick={onClose} className="close-button">&times;</button>
+            </div>
+            
+            <div className="modal-body">
             {loading && (
-            <div className="text-center">
-            Loading...
-            </div>
+                  <div className="loading-container">
+                  <div className="loader"></div>
+                  </div>
             )}
-            {errors &&
-            <div className="alert">
-            {Object.keys(errors).map(key => (
+            
+            {errors && (
+                  <div className="error-alert">
+                  {Object.keys(errors).map(key => (
                   <p key={key}>{errors[key][0]}</p>
-            ))}
-            </div>
-            }
-            {!loading && (
-            <form onSubmit={onSubmit}>
-            <input value={subprogram.code} onChange={ev => setsubprogram({...subprogram, code: ev.target.value})} placeholder="Code"/>
-            <input value={subprogram.title} onChange={ev => setsubprogram({...subprogram, title: ev.target.value})} placeholder="Title"/>
-            <input value={subprogram.program_code} onChange={ev => setsubprogram({...subprogram, program_code: ev.target.value})} placeholder="Program Code"/>
-            <button className="btn">Save</button>
-            </form>
+                  ))}
+                  </div>
             )}
+            
+            {!loading && (
+                  <form onSubmit={handleSubmit}>
+                  <div className="form-group">
+                  <label htmlFor="code">Code</label>
+                  <input
+                        id="code"
+                        name="code"
+                        type="text"
+                        value={subprogram.code}
+                        onChange={handleChange}
+                        placeholder="Enter subprogram code"
+                  />
+                  </div>
+                  
+                  <div className="form-group">
+                  <label htmlFor="title">Title</label>
+                  <input
+                        id="title"
+                        name="title"
+                        type="text"
+                        value={subprogram.title}
+                        onChange={handleChange}
+                        placeholder="Enter subprogram title"
+                  />
+                  </div>
+                  
+                  <div className="form-group">
+                  <label htmlFor="program_code">Program code</label>
+                  <input
+                        id="program_code"
+                        name="program_code"
+                        type="text"
+                        value={subprogram.program_code}
+                        onChange={handleChange}
+                        placeholder="Enter program code"
+                  />
+                  </div>
+
+                  <div className="form-actions">
+                  <button
+                        type="button"
+                        onClick={onClose}
+                        className="btn btn-cancel"
+                  >
+                        Cancel
+                  </button>
+                  <button
+                        type="submit"
+                        className="btn btn-primary"
+                  >
+                        {isUpdate ? 'Update' : 'Create'}
+                  </button>
+                  </div>
+                  </form>
+            )}
+            </div>
+            </div>
       </div>
-      </>
-      )
+      );
 }

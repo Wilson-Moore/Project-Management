@@ -5,7 +5,7 @@ function AllProjectHeader(props) {
       return (
             <div className="actions-header">
                   <div className="breadcrumbs">
-                        <a href="/projects">Projects</a>
+                        <a href="/">Home</a>
                         <span className="separator"> &gt; </span>
                         <span className="current">Tous les {props.txt}</span>
                   </div>
@@ -13,9 +13,9 @@ function AllProjectHeader(props) {
                   <div className="actions-title">
                         <h1>Tous les {props.txt}</h1>
                         <div className="actions-status-summary">
-                              <span className="action-status status-in-progress">En cours: {props.encours}</span>
-                              <span className="action-status status-completed">Fini: {props.fini}</span>
-                              <span className="action-status status-pending">En Attente: {props.enattente}</span>
+                        {props.encours ? <span className="action-status status-in-progress">En cours: {props.encours}</span> : ''}
+                        {props.fini ? <span className="action-status status-completed">Fini: {props.fini}</span> : ''}
+                        {props.enattente ? <span className="action-status status-pending">En Attente: {props.enattente}</span> : ''}
                         </div>
                   </div>
 

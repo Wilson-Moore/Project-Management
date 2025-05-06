@@ -32,6 +32,7 @@
     .tab-content {
       display: none;
       animation: fadeIn 0.3s ease;
+      margin-top: 24px;
     }
     
     .tab-content.active {

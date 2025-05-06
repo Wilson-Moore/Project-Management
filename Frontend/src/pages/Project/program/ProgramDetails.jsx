@@ -24,7 +24,7 @@ function ProgramDetails() {
           setLoading(true);
           
           // Fetch wallet data
-          const walletResponse = await axiosClient.get(`/wallets/${walletId}?include=programs`);
+          const walletResponse = await axiosClient.get(`/wallets/${walletId}`);
           const walletData = walletResponse.data.data;
           setwallet(walletData);
 
@@ -33,16 +33,10 @@ function ProgramDetails() {
             return;
           }
     
-          // Use the freshly fetched walletData instead of the state wallet
-          const foundProgram = walletData.programs.find(program => program.code === programId);
-          if (foundProgram) {
             // Fetch program data
             const programResponse = await axiosClient.get(`/programs/${programId}?include=subprograms`);
             setprogram(programResponse.data.data);
-          }else {
-            setLoading(false);
-            setErrors("Program doesn't exist!");
-          }
+          
           
           setLoading(false);
         } catch (error) {
@@ -69,7 +63,7 @@ function ProgramDetails() {
   if(errors) {
     return(
       <div className="alert">
-        {errors}
+        {errors.message}
       </div>
     );
   }

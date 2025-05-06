@@ -1,75 +1,116 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import axiosClient from "../../../axios-client.js";
-import {NotificationStateContext} from "../../../contexts/NotificationContextProvider.jsx";
+// ProgramModel.jsx
+import { useState } from 'react';
+import './../../../assets/styles/model.css';
 
-export default function NewProgram() {
-      const navigate=useNavigate();
-      let {programid}=useParams();
-      const [program,setprogram]=useState({code: '',title: '',wallet_code: ''})
-      const [errors,setErrors]=useState(null)
-      const [loading,setLoading]=useState(false)
-      const {setNotification}=NotificationStateContext()
+export default function ProgramModel({ onClose, onSave, initialData, isUpdate = false }) {
+      const [program, setProgram] = useState(initialData);
+      const [errors, setErrors] = useState(null);
+      const [loading, setLoading] = useState(false);
 
-      useEffect(() => {
-      if (programid) {
-            setLoading(true);
-            axiosClient.get(`/programs/${programid}`)
-            .then(({ data }) => {
-            setLoading(false);
-            setprogram(data.data);
-            })
-            .catch(() => {
-            setLoading(false);
-            });
-      }
-      }, [programid]);
+      const handleChange = (e) => {
+      const { name, value } = e.target;
+      setProgram(prev => ({ ...prev, [name]: value }));
+      };
 
-      const onSubmit = ev => {
-      ev.preventDefault();
-      const request = programid
-            ? axiosClient.put(`/programs/${program.code}`,program)
-            : axiosClient.post('/programs',program);
-
-      request
+      const handleSubmit = (e) => {
+      e.preventDefault();
+      
+      setLoading(true);
+      
+      // Pass the data to the parent component
+      onSave(program)
             .then(() => {
-            setNotification(programid ? 'program was successfully updated' : 'program was successfully created');
-            navigate('/programs');
+            setLoading(false);
+            onClose();
             })
             .catch(err => {
-            const response = err.response;
-            if (response && response.status === 422) {
-            setErrors(response.data.errors);
+            setLoading(false);
+            if (err.response && err.response.status === 422) {
+            setErrors(err.response.data.errors);
             }
             });
-      }
+      };
 
       return (
-      <>
-            {programid&&<h1>Update Program: {program.title}</h1>}
-            {!programid&&<h1>New Program</h1>}
-            <div className="card animated fadeInDown">
-            {loading && (
-            <div className="text-center">
-                  Loading...
+      <div className="modal-overlay">
+            <div className="modal-container">
+            <div className="modal-header">
+            <h2>{isUpdate ? `Update Program: ${initialData.title}` : 'New Program'}</h2>
+            <button onClick={onClose} className="close-button">&times;</button>
             </div>
+            
+            <div className="modal-body">
+            {loading && (
+                  <div className="loading-container">
+                  <div className="loader"></div>
+                  </div>
             )}
-            {errors &&
-            <div className="alert">
+            
+            {errors && (
+                  <div className="error-alert">
                   {Object.keys(errors).map(key => (
                   <p key={key}>{errors[key][0]}</p>
                   ))}
-            </div>
-            }
+                  </div>
+            )}
+            
             {!loading && (
-            <form onSubmit={onSubmit}>
-                  <input value={program.code} onChange={ev => setprogram({...program, code: ev.target.value})} placeholder="Code"/>
-                  <input value={program.title} onChange={ev => setprogram({...program, title: ev.target.value})} placeholder="Title"/>
-                  <input value={program.wallet_code} onChange={ev => setprogram({...program, wallet_code: ev.target.value})} placeholder="Wallet Code"/>
-                  <button className="btn">Save</button>
-            </form>
+                  <form onSubmit={handleSubmit}>
+                  <div className="form-group">
+                  <label htmlFor="code">Code</label>
+                  <input
+                        id="code"
+                        name="code"
+                        type="text"
+                        value={program.code}
+                        onChange={handleChange}
+                        placeholder="Enter program code"
+                  />
+                  </div>
+                  
+                  <div className="form-group">
+                  <label htmlFor="title">Title</label>
+                  <input
+                        id="title"
+                        name="title"
+                        type="text"
+                        value={program.title}
+                        onChange={handleChange}
+                        placeholder="Enter program title"
+                  />
+                  </div>
+                  
+                  <div className="form-group">
+                  <label htmlFor="wallet_code">Wallet code</label>
+                  <input
+                        id="wallet_code"
+                        name="wallet_code"
+                        type="text"
+                        value={program.wallet_code}
+                        onChange={handleChange}
+                        placeholder="Enter wallet code"
+                  />
+                  </div>
+
+                  <div className="form-actions">
+                  <button
+                        type="button"
+                        onClick={onClose}
+                        className="btn btn-cancel"
+                  >
+                        Cancel
+                  </button>
+                  <button
+                        type="submit"
+                        className="btn btn-primary"
+                  >
+                        {isUpdate ? 'Update' : 'Create'}
+                  </button>
+                  </div>
+                  </form>
             )}
             </div>
-      </>
-      )
+            </div>
+      </div>
+      );
 }

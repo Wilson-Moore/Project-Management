@@ -15,16 +15,17 @@ function ProjectHeader(props) {
                   }));
             };
 
+            const statusclass = "status" + (wallet.active_status == 'Active' ? ' status-in-progress' : '');
             return (
                   <div className="project-header">
                         <BreadCrumbs items={updateBreadcrumbPaths(BREADCRUMB_TEMPLATES.walletDetails)} dynamicLabels={{ walletName: wallet.title }} itemIds={{ walletId: wallet.code }} />
                         <div className="project-title">
                               <h1>Détails du portefeuille</h1>
                               <div className="project-status">
-                                    <span className="status in-progress">In Progress</span>
+                                    <span className={statusclass}>{wallet.active_status}</span>
                               </div>
                         </div>
-                        <ProjectMeta />
+                        <ProjectMeta wallet={wallet} />
                   </div>
             );
       }else if(props.program) {
@@ -39,21 +40,22 @@ function ProjectHeader(props) {
                   }));
             };
 
+            const statusclass = "status" + (program.active_status == 'Active' ? ' status-in-progress' : '');
             return (
                   <div className="project-header">
                         <BreadCrumbs items={updateBreadcrumbPaths(BREADCRUMB_TEMPLATES.programDetails)} dynamicLabels={{ programName: program.title, walletName: props._wallet.title }} itemIds={{ programId: program.code, walletId: props._wallet.code}} />
                         <div className="project-title">
                               <h1>Détails du programme</h1>
                               <div className="project-status">
-                                    <span className="status in-progress">In Progress</span>
+                                    <span className={statusclass}>{program.active_status}</span>
                               </div>
                         </div>
-                        <ProjectMeta />
+                        <ProjectMeta program={program} _wallet={props._wallet} />
                   </div>
             );
       } else if (props.subprogram) {
             const { subprogram } = props;
-
+            
             const updateBreadcrumbPaths = (subprogramDetails) => {
                   return subprogramDetails.map(item => ({
                         ...item,
@@ -64,18 +66,48 @@ function ProjectHeader(props) {
                   }));
             };
 
+            const statusclass = "status" + (subprogram.active_status == 'Active' ? ' status-in-progress' : '');
             return (
                   <div className="project-header">
                         <BreadCrumbs items={updateBreadcrumbPaths(BREADCRUMB_TEMPLATES.subprogramDetails)} dynamicLabels={{ subProgramName: subprogram.title, programName: props._program.title, walletName: props._wallet.title }} itemIds={{ subprogramId: subprogram.code, programId: props._program.code, walletId: props._wallet.code }} />
                         <div className="project-title">
                               <h1>Détails du sous-programme</h1>
                               <div className="project-status">
-                                    <span className="status in-progress">In Progress</span>
+                                    <span className={statusclass}>{subprogram.active_status}</span>
                               </div>
                         </div>
-                        <ProjectMeta />
+                        <ProjectMeta subprogram={subprogram} _program={props._program} _wallet={props._wallet}/>
                   </div>
             );
+      }else if(props.action) {
+            const { action } = props;
+
+            const updateBreadcrumbPaths = (actionDetails) => {
+                  return actionDetails.map(item => ({
+                        ...item,
+                        path: item.path
+                              .replace(':walletId', props._wallet.code || '')
+                              .replace(':programId', props._program.code || '')
+                              .replace(':subProgramId', props._subprogram.id || '')
+                              .replace(':actionId', action.code || '')
+                  }));
+            };
+
+            const statusclass = "status" + (action.active_status == 'Active' ? ' en-cours' : '');
+            return (
+                  <div className="project-header">
+                        <BreadCrumbs items={updateBreadcrumbPaths(BREADCRUMB_TEMPLATES.actionDetails)} dynamicLabels={{actionName: action.title, subProgramName: props._subprogram.title, programName: props._program.title, walletName: props._wallet.title }} itemIds={{actionId: action.code, subProgramId: props._subprogram.id, programId: props._program.code, walletId: props._wallet.code }} />
+                        <div className="project-title">
+                              <h1>Détails d'Action</h1>
+                              <div className="project-status">
+                                    <span className={statusclass}>{action.active_status}</span>
+                              </div>
+                        </div>
+                        <ProjectMeta action={action}/>
+                  </div>
+            );
+            
+
       }else if(props.operation) {
             const { operation } = props;
 
@@ -108,29 +140,29 @@ function ProjectHeader(props) {
       }else if(props.project) {
             const { project } = props;
 
-            const updateBreadcrumbPaths = (propjectDetails) => {
-                  return propjectDetails.map(item => ({
-                        ...item,
-                        path: item.path
-                              .replace(':walletId', props._wallet.code || '')
-                              .replace(':programId', props._program.code || '')
-                              .replace(':subProgramId', props._subprogram.id || '')
-                              .replace(':actionId', props._action.code || '')
-                              .replace(':operationId', props._operation.number || '')
-                              .replace(':projectId', project.id || '')
-                  }));
-            };
+            // const updateBreadcrumbPaths = (propjectDetails) => {
+            //       return propjectDetails.map(item => ({
+            //             ...item,
+            //             path: item.path
+            //                   .replace(':walletId', props._wallet.code || '')
+            //                   .replace(':programId', props._program.code || '')
+            //                   .replace(':subProgramId', props._subprogram.id || '')
+            //                   .replace(':actionId', props._action.code || '')
+            //                   .replace(':operationId', props._operation.number || '')
+            //                   .replace(':projectId', project.id || '')
+            //       }));
+            // };
 
             return (
                   <div className="project-header">
-                        <BreadCrumbs items={updateBreadcrumbPaths(BREADCRUMB_TEMPLATES.projectDetails)} dynamicLabels={{ projectName: project.objectif, operationName: props._operation.title, actionName: props._action.title, subProgramName: props._subprogram.title, programName: props._program.title, walletName: props._wallet.title }} itemIds={{ projectId: project.id, operationId: props._operation.number, actionId: props._action.code, subProgramId: props._subprogram.id, programId: props._program.code, walletId: props._wallet.code }} />
+                        {/* <BreadCrumbs items={updateBreadcrumbPaths(BREADCRUMB_TEMPLATES.projectDetails)} dynamicLabels={{ projectName: project.objectif, operationName: props._operation.title, actionName: props._action.title, subProgramName: props._subprogram.title, programName: props._program.title, walletName: props._wallet.title }} itemIds={{ projectId: project.id, operationId: props._operation.number, actionId: props._action.code, subProgramId: props._subprogram.id, programId: props._program.code, walletId: props._wallet.code }} /> */}
                         <div className="project-title">
                               <h1>Détails du projet</h1>
                               <div className="project-status">
-                                    <span className="status in-progress">In Progress</span>
+                                    <span className="status in-progress">{project.situation}</span>
                               </div>
                         </div>
-                        <ProjectMeta />
+                        <ProjectMeta project={project} />
                   </div>
             );
       }

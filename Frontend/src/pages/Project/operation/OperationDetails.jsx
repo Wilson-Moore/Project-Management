@@ -6,9 +6,6 @@ import {NotificationStateContext} from "../../../contexts/NotificationContextPro
 
 function OperationDetails() {
       const { 
-            walletId, 
-            programId,
-            subprogramId,
             operationId,
       } = useParams();
       const [wallet, setWallet] = useState({code: '', title: '', programs: []});
@@ -24,84 +21,22 @@ function OperationDetails() {
       const actionId = operationId.slice(2,20);
 
       useEffect(() => {
-            if (!walletId) return;
             
             const fetchData = async () => {
                   try {
-                  setLoading(true);
-                  
-                  // Fetch wallet data
-                  const walletResponse = await axiosClient.get(`/wallets/${walletId}?include=programs`);
-                  const walletData = walletResponse.data.data;
-                  setWallet(walletData);
-                  
-                  if (!programId) {
-                  setLoading(false);
-                  return;
-                  }
-            
-                  // Use the freshly fetched walletData instead of the state wallet
-                  const foundProgram = walletData.programs.find(program => program.code === programId);
-                  if (foundProgram) {
-                  // Fetch program data
-                  const programResponse = await axiosClient.get(`/programs/${programId}?include=subprograms`);
-                  const programData = programResponse.data.data;
-                  setProgram(programData);
-            
-                  if (!subprogramId) {
+                        setLoading(true);
+                        const operationResponse = await axiosClient.get(`/operations/${operationId}?include=projects,consultations`);
+                        const operationData = operationResponse.data.data;
+                        setOperation(operationData);
                         setLoading(false);
-                        return;
-                  }
-            
-                  // Use the freshly fetched programData instead of the state program
-                  // const foundSubprogram = programData.subprograms.find(sub => sub.id === subprogramId);
-                  const foundSubprogram = true;
-                  if (foundSubprogram) {
-                        const subprogramResponse = await axiosClient.get(`/subprograms/${subprogramId}?include=actions`);
-                        const subprogramData = subprogramResponse.data.data;
-                        setSubprogram(subprogramData);
-
-                        if (!actionId) {
-                              setLoading(false);
-                              return;
-                        }
-
-                        // Use the freshly fetched subprogramData instead of the state subprogram
-                        const foundAction = true;
-                        if (foundAction) {
-                              const actionResponse = await axiosClient.get(`/actions/${actionId}?include=operations`);
-                              const actionData = actionResponse.data.data;
-                              setAction(actionData);
-
-                              if (!operationId) {
-                                    setLoading(false);
-                                    return;
-                              }
-
-                              // Use the freshly fetched actionData instead of the state action
-                              const foundOperation = true;
-                              if (foundOperation) {
-                                    const operationResponse = await axiosClient.get(`/operations/${operationId}`);
-                                    const operationData = operationResponse.data.data;
-                                    setOperation(operationData);
-                              } else {
-                                    setErrors("Operation not found");
-                              }
-                        }
-
-                  }
-                  
-                  }
-                  
-                  setLoading(false);
                   } catch (error) {
-                  setLoading(false);
-                  setErrors(error);
+                        setLoading(false);
+                        setErrors(error);
                   }
             };
             
             fetchData();
-      }, [walletId, programId, subprogramId, actionId, operationId]);
+      }, [operationId]);
 
       if (loading) {
       return (

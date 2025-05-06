@@ -1,0 +1,87 @@
+/* Tabs navigation */
+.tabs-container {
+      border-bottom: 1px solid #e5e7eb;
+      margin-bottom: 24px;
+}
+
+.tabs-nav {
+      display: flex;
+      margin-bottom: -1px;
+}
+
+.tab-button {
+      margin-right: 32px;
+      padding: 16px 4px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #6b7280;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+}
+
+.tab-button:hover {
+      color: #4b5563;
+      border-bottom-color: #d1d5db;
+}
+
+.tab-button.active-tab {
+      color: #3b82f6;
+      border-bottom-color: #3b82f6;
+}
+
+/* Details section */
+.detail-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+}
+
+@media (min-width: 768px) {
+      .detail-grid {
+      grid-template-columns: repeat(2, 1fr);
+      }
+}
+
+.detail-wide {
+      grid-column: 1 / -1;
+}
+
+.detail-column {
+      display: flex;
+      flex-direction: column;
+}
+
+.detail-row {
+      display: flex;
+      margin-bottom: 16px;
+}
+
+.detail-cell {
+      width: 50%;
+      margin-right: 30px;
+}
+
+.detail-quarter {
+      width: 25%;
+}
+
+.detail-label {
+      font-size: 14px;
+      color: #6b7280;
+      margin: 0 0 4px 0;
+}
+
+.detail-value {
+      font-size: 14px;
+      font-weight: 500;
+      margin: 0;
+}
+
+/* Empty tab placeholder */
+.empty-tab {
+      padding: 32px 0;
+      text-align: center;
+      color: #6b7280;
+}

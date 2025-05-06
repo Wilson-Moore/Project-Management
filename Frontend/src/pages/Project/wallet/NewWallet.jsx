@@ -1,74 +1,104 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import axiosClient from "../../../axios-client.js";
-import {NotificationStateContext} from "../../../contexts/NotificationContextProvider.jsx";
+// WalletModel.jsx
+import { useState } from 'react';
+import './../../../assets/styles/model.css';
 
-export default function NewWallet() {
-  const navigate=useNavigate();
-  let {walletId}=useParams();
-  const [wallet,setwallet]=useState({code: '',title: ''})
-  const [errors,setErrors]=useState(null)
-  const [loading,setLoading]=useState(false)
-  const {setNotification}=NotificationStateContext()
+export default function WalletModel({ onClose, onSave, initialData = { code: '', title: '' }, isUpdate = false }) {
+  const [wallet, setWallet] = useState(initialData);
+  const [errors, setErrors] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (walletId) {
-      setLoading(true);
-      axiosClient.get(`/wallets/${walletId}`)
-        .then(({ data }) => {
-          setLoading(false);
-          setwallet(data.data);
-        })
-        .catch(() => {
-          setLoading(false);
-        });
-    }
-  }, [walletId]);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setWallet(prev => ({ ...prev, [name]: value }));
+  };
 
-  const onSubmit = ev => {
-    ev.preventDefault();
-    const request = walletId
-      ? axiosClient.put(`/wallets/${wallet.code}`,wallet)
-      : axiosClient.post('/wallets',wallet);
-
-    request
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    setLoading(true);
+    
+    // Pass the data to the parent component
+    onSave(wallet)
       .then(() => {
-        setNotification(walletId ? 'Wallet was successfully updated' : 'Wallet was successfully created');
-        navigate('/wallets');
+        setLoading(false);
+        onClose();
       })
       .catch(err => {
-        const response = err.response;
-        if (response && response.status === 422) {
-          setErrors(response.data.errors);
+        setLoading(false);
+        if (err.response && err.response.status === 422) {
+          setErrors(err.response.data.errors);
         }
       });
-  }
+  };
 
   return (
-    <>
-      {walletId&&<h1>Update Wallet: {wallet.title}</h1>}
-      {!walletId&&<h1>New Wallet</h1>}
-      <div className="card animated fadeInDown">
-        {loading && (
-          <div className="text-center">
-            Loading...
-          </div>
-        )}
-        {errors &&
-          <div className="alert">
-            {Object.keys(errors).map(key => (
-              <p key={key}>{errors[key][0]}</p>
-            ))}
-          </div>
-        }
-        {!loading && (
-          <form onSubmit={onSubmit}>
-            <input value={wallet.code} onChange={ev => setwallet({...wallet, code: ev.target.value})} placeholder="Code"/>
-            <input value={wallet.title} onChange={ev => setwallet({...wallet, title: ev.target.value})} placeholder="Title"/>
-            <button className="btn">Save</button>
-          </form>
-        )}
+    <div className="modal-overlay">
+      <div className="modal-container">
+        <div className="modal-header">
+          <h2>{isUpdate ? `Update Wallet: ${initialData.title}` : 'New Wallet'}</h2>
+          <button onClick={onClose} className="close-button">&times;</button>
+        </div>
+        
+        <div className="modal-body">
+          {loading && (
+            <div className="loading-container">
+              <div className="loader"></div>
+            </div>
+          )}
+          
+          {errors && (
+            <div className="error-alert">
+              {Object.keys(errors).map(key => (
+                <p key={key}>{errors[key][0]}</p>
+              ))}
+            </div>
+          )}
+          
+          {!loading && (
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="code">Code</label>
+                <input
+                  id="code"
+                  name="code"
+                  type="text"
+                  value={wallet.code}
+                  onChange={handleChange}
+                  placeholder="Enter wallet code"
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="title">Title</label>
+                <input
+                  id="title"
+                  name="title"
+                  type="text"
+                  value={wallet.title}
+                  onChange={handleChange}
+                  placeholder="Enter wallet title"
+                />
+              </div>
+              
+              <div className="form-actions">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="btn btn-cancel"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                >
+                  {isUpdate ? 'Update' : 'Create'}
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
       </div>
-    </>
-  )
+    </div>
+  );
 }

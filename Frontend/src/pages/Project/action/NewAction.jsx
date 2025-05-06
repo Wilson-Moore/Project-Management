@@ -1,81 +1,104 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import axiosClient from "../../../axios-client.js";
-import {NotificationStateContext} from "../../../contexts/NotificationContextProvider.jsx";
+// ActionModel.jsx
+import { useState } from 'react';
+import './../../../assets/styles/model.css';
 
-export default function UserForm() {
-      const navigate=useNavigate();
-      let {actionId}=useParams();
-      const [action,setaction]=useState({code: '',title: ''})
-      const [errors,setErrors]=useState(null)
-      const [loading,setLoading]=useState(false)
-      const {setNotification}=NotificationStateContext()
+export default function ActionModel({ onClose, onSave, initialData, isUpdate = false }) {
+      const [action, setAction] = useState(initialData);
+      const [errors, setErrors] = useState(null);
+      const [loading, setLoading] = useState(false);
+
+      const handleChange = (e) => {
+      const { name, value } = e.target;
+      setAction(prev => ({ ...prev, [name]: value }));
+      };
+
+      const handleSubmit = (e) => {
+      e.preventDefault();
       
-      useEffect(() => {
-      if (actionId) {
       setLoading(true);
-      axiosClient.get(`/actions/${actionId}`)
-            .then(({ data }) => {
-            setLoading(false);
-            setaction(data.data);
-            })
-            .catch(() => {
-            setLoading(false);
-            });
-      }
-      }, [actionId]);
-
-      const onSubmit = ev => {
-            ev.preventDefault();
-            const request = actionId
-            ? axiosClient.put(`/actions/${action.code}`,action)
-            : axiosClient.post('/actions',action);
-
-            request
+      
+      // Pass the data to the parent component
+      onSave(action)
             .then(() => {
-                  setNotification(actionId ? 'action was successfully updated' : 'action was successfully created');
-                  navigate('/actions');
+            setLoading(false);
+            onClose();
             })
             .catch(err => {
-                  const response = err.response;
-                  if (response && response.status === 422) {
-                  setErrors(response.data.errors);
-                  }
+            setLoading(false);
+            if (err.response && err.response.status === 422) {
+            setErrors(err.response.data.errors);
+            }
             });
-      }
+      };
 
       return (
-      <>
-      {actionId&&<h1>Update action: {action.code}</h1>}
-      {!actionId&&<h1>New action</h1>}
-      <div className="card animated fadeInDown">
+      <div className="modal-overlay">
+            <div className="modal-container">
+            <div className="modal-header">
+            <h2>{isUpdate ? `Update Action: ${initialData.title}` : 'New Action'}</h2>
+            <button onClick={onClose} className="close-button">&times;</button>
+            </div>
+            
+            <div className="modal-body">
             {loading && (
-            <div className="text-center">
-            Loading...
-            </div>
+                  <div className="loading-container">
+                  <div className="loader"></div>
+                  </div>
             )}
-            {errors &&
-            <div className="alert">
-            {Object.keys(errors).map(key => (
+            
+            {errors && (
+                  <div className="error-alert">
+                  {Object.keys(errors).map(key => (
                   <p key={key}>{errors[key][0]}</p>
-            ))}
-            </div>
-            }
-            {!loading && (
-            <form onSubmit={onSubmit}>
-            <input value={action.code} onChange={ev => setaction({...action, code: ev.target.value})} placeholder="Code"/>
-            <input value={action.title} onChange={ev => setaction({...action, title: ev.target.value})} placeholder="Title"/>
-            {/* <input value={action.subprogram_id} onChange={ev => setaction({...action, subprogram_id: ev.target.value})} placeholder="subprogram_id"/> */}
-            {/* <select value={action.type} onChange={ev => setaction({...action, type: ev.target.value})} placeholder="Type">
-                  <option value="1">internal</option>
-                  <option value="2">external</option>
-                  <option value="3">unique</option>
-            </select> */}
-            {/* <input value={action.subprogram_id} onChange={ev => setaction({...action, subprogram_id: ev.target.value})} placeholder="SubProgram id"/> */}
-            <button className="btn">Save</button>
-            </form>
+                  ))}
+                  </div>
             )}
+            
+            {!loading && (
+                  <form onSubmit={handleSubmit}>
+                  <div className="form-group">
+                  <label htmlFor="code">Code</label>
+                  <input
+                        id="code"
+                        name="code"
+                        type="text"
+                        value={action.code}
+                        onChange={handleChange}
+                        placeholder="Enter action code"
+                  />
+                  </div>
+                  
+                  <div className="form-group">
+                  <label htmlFor="title">Title</label>
+                  <input
+                        id="title"
+                        name="title"
+                        type="text"
+                        value={action.title}
+                        onChange={handleChange}
+                        placeholder="Enter action title"
+                  />
+                  </div>
+
+                  <div className="form-actions">
+                  <button
+                        type="button"
+                        onClick={onClose}
+                        className="btn btn-cancel"
+                  >
+                        Cancel
+                  </button>
+                  <button
+                        type="submit"
+                        className="btn btn-primary"
+                  >
+                        {isUpdate ? 'Update' : 'Create'}
+                  </button>
+                  </div>
+                  </form>
+            )}
+            </div>
+            </div>
       </div>
-      </>
-      )
+      );
 }

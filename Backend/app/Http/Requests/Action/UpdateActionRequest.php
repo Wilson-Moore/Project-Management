@@ -43,11 +43,9 @@ class UpdateActionRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        if ($this->has('type')&&$this->has('subprogram_id')) {
-            $this->merge([
-                'type'=>$this->type(),
-                'subprogram_id'=>$this->id(),
-            ]);
-        }
+        $this->merge([
+            'type'=>$this->type(),
+            'subprogram_id'=>$this->id(),
+        ]);    
     }
 }

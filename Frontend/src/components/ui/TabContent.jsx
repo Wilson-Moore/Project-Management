@@ -16,7 +16,7 @@ function TabContent(props) {
             const { program } = props;
             return (
                   <div className={className}>
-                        <ProjectOverview program={program} />
+                        <ProjectOverview program={program} _wallet={props._wallet} />
                   </div>
             );
       }else if(props.subprogram) {
@@ -26,7 +26,15 @@ function TabContent(props) {
                         <ProjectOverview subprogram={subprogram} _program={props._program} _wallet={props._wallet} />
                   </div>
             );
-      }else if(props.operation) {
+      }else if(props.action) {
+            const { action} = props;
+            return (
+                  <div className={className}>
+                        <ProjectOverview action={action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet} />
+                  </div>
+            );
+      }
+      else if(props.operation) {
             const { operation } = props;
             return (
                   <div className={className}>
@@ -39,7 +47,7 @@ function TabContent(props) {
             const { project } = props;
             return (
                   <div className={className}>
-                        {props.overview ? <ProjectOverview project={project} _operation={props._operation} _action={props._action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet} /> : ""}
+                        {props.overview ? <ProjectOverview project={project}  /> : ""}
                   </div>
             );
       }else {
