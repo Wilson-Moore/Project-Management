@@ -20,6 +20,7 @@ return new class extends Migration
 
             
             $table->foreign("wallet_code")->references("code")->on("wallets")->onDelete("cascade")->onUpdate("cascade");
+            $table->index("wallet_code");
         });
     }
 

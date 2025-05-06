@@ -10,4 +10,14 @@ class OperationService extends BaseService
     {
         $this->model=$operation;
     }
+
+    public function has_projects(Operation $operation): bool
+    {
+        return $operation->projects->isEmpty();
+    }
+
+    public function can_add_project(Operation $operation, int $value): bool
+    {
+        return ($operation->projects()->sum('cost')+$value)<=$operation->current_ap;
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Action extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes,SoftCascadeTrait;
     
     protected $primaryKey='code';
     public $incrementing=false;
@@ -31,6 +32,10 @@ class Action extends Model
 
     protected $appends = [
         'active_status',
+    ];
+
+    protected $softCascade = [
+        'operations'
     ];
 
     public function getActiveStatusAttribute(): string
@@ -57,16 +62,5 @@ class Action extends Model
     public function operations(): HasMany
     {
         return $this->hasMany(Operation::class,"action_code");
-    }
-
-    protected static function booted()
-    {
-        static::deleting(function ($action) {
-            $action->operations->each->delete();
-        });
-
-        static::restored(function ($action) {
-            $action->operations->each->restore();
-        });
     }
 }

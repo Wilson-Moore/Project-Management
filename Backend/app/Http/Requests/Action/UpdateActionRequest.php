@@ -38,16 +38,13 @@ class UpdateActionRequest extends FormRequest
         return $this->has('restore') 
         ? $this->restore_rule()
         : $this->update_rules($this->wallet_service, $this->program_service, $this->subprogram_service);
-        $rules['type']=['required','integer'];
     }
 
     protected function prepareForValidation()
     {
-        if ($this->has('type')&&$this->has('subprogram_id')) {
-            $this->merge([
-                'type'=>$this->type(),
-                'subprogram_id'=>$this->id(),
-            ]);
-        }
+        $this->merge([
+            'type'=>$this->type(),
+            'subprogram_id'=>$this->id(),
+        ]);
     }
 }

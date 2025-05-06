@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Wallet extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes,SoftCascadeTrait;
     
     protected $primaryKey='code';
     public $incrementing=false;
@@ -28,6 +29,10 @@ class Wallet extends Model
         'active_status',
     ];
 
+    protected $softCascade = [
+        'programs'
+    ];
+
     public function getActiveStatusAttribute(): string
     {
         return $this->trashed() ? "Archived" : "Active";
@@ -36,16 +41,5 @@ class Wallet extends Model
     public function programs(): HasMany
     {
         return $this->hasMany(Program::class,"wallet_code");
-    }
-
-    protected static function booted()
-    {
-        static::deleting(function ($wallet) {
-            $wallet->programs->each->delete();
-        });
-
-        static::restored(function ($wallet) {
-            $wallet->programs->each->restore();
-        });
     }
 }

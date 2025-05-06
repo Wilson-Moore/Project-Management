@@ -21,6 +21,7 @@ return new class extends Migration
 
             $table->foreign("program_code")->references("code")->on("programs")->onDelete("cascade")->onUpdate("cascade");
             $table->unique(["code","program_code"]);
+            $table->index("program_code");
         });
     }
 

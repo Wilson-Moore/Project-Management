@@ -21,6 +21,7 @@ return new class extends Migration
 
             
             $table->foreign("subprogram_id")->references("id")->on("subprograms")->onDelete("cascade")->onUpdate("cascade");
+            $table->index("subprogram_id");
         });
     }
 

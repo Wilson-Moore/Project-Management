@@ -24,6 +24,7 @@ return new class extends Migration
 
             
             $table->foreign("action_code")->references("code")->on("actions")->onDelete("cascade")->onUpdate("cascade");
+            $table->index("action_code");
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Operation extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes,SoftCascadeTrait;
 
     protected $primaryKey='number';
     public $incrementing=false;
@@ -33,6 +34,11 @@ class Operation extends Model
         'current_ap'=>'integer',
         'situation'=>'integer',
         'action_code'=>'string',
+    ];
+
+    protected $softCascade = [
+        'projects',
+        'consultations'
     ];
 
     public function getSituationLabelAttribute(): string
@@ -67,18 +73,5 @@ class Operation extends Model
     public function consultations(): HasMany
     {
         return $this->hasMany(Consultation::class,"operation_number");
-    }
-
-    protected static function booted()
-    {
-        static::deleting(function ($operation) {
-            $operation->projects->each->delete();
-            $operation->consultations->each->delete();
-        });
-
-        static::restored(function ($operation) {
-            $operation->projects->each->restore();
-            $operation->consultations->each->restore();
-        });
     }
 }
