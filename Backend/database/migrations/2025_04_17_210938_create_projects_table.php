@@ -19,11 +19,13 @@ return new class extends Migration
             $table->string("duration");
             $table->dateTime("assessment_date");
             $table->string("operation_number");
+            $table->string("co_contractor")->nullable();
             $table->timestamps();
             $table->softDeletes();
 
 
             $table->foreign("operation_number")->references("number")->on("operations")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("co_contractor")->references("nif")->on("partners")->onUpdate("cascade")->nullOnDelete();
             $table->index("operation_number");
         });
     }

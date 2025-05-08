@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Action\Type;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,13 +46,8 @@ class Action extends Model
 
     public function getTypeLabelAttribute(): string
     {
-        return match ($this->type) 
-        {
-            1=>'internal',
-            2=>'external',
-            3=>'unique',
-            default=>'unknown',
-        };
+        $type=Type::tryFrom($this->type);
+        return $type->label() ?? 'unknown';
     }
 
     public function subprogram(): BelongsTo

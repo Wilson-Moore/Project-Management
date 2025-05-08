@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Operation\Situation;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -49,12 +50,8 @@ class Operation extends Model
 
     public function getSituationLabelAttribute(): string
     {
-        return match ($this->situation) 
-        {
-            1=>'in the works',
-            2=>'on halt',
-            default=>'unknown',
-        };
+        $situation=Situation::tryFrom($this->situation);
+        return $situation->label() ?? 'unknown';
     }
 
     protected $appends = [

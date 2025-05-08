@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Notice;
+namespace App\Http\Requests\Partner;
 
-use App\Traits\HasRestore;
-use App\Traits\Notice\NoticeValidationRules;
+use App\Traits\Partner\PartnerValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateNoticeRequest extends FormRequest
+class StorePartnerRequest extends FormRequest
 {
-    use NoticeValidationRules,HasRestore;
+    use PartnerValidationRules;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +24,6 @@ class UpdateNoticeRequest extends FormRequest
      */
     public function rules(): array
     {
-        return $this->has('restore') 
-        ? $this->restore_rule() 
-        : $this->update_rules();
+        return $this->base_rules();
     }
 }
