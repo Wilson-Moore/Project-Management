@@ -2,6 +2,7 @@ import BreadCrumbs from './../components/ui/BreadCrumbs.jsx'
 import ProjectMeta from './../components/ui/ProjectMeta.jsx'
 import './../assets/styles/projectHeader.css'
 import { BREADCRUMB_TEMPLATES } from '../constants/breadcrumbs.js';
+import AddNew from './../components/ui/AddNew.jsx'
 
 function ProjectHeader(props) {
       if(props.wallet) {
@@ -26,6 +27,7 @@ function ProjectHeader(props) {
                               </div>
                         </div>
                         <ProjectMeta wallet={wallet} />
+                        <AddNew wallet={wallet} txt="programme"/>
                   </div>
             );
       }else if(props.program) {
@@ -35,11 +37,11 @@ function ProjectHeader(props) {
                   return programDetails.map(item => ({
                         ...item,
                         path: item.path
-                              .replace(':walletId', props._wallet.code || '')
-                              .replace(':programId', program.code || '')
+                        .replace(':walletId', props._wallet.code || '')
+                        .replace(':programId', program.code || '')
                   }));
             };
-
+            
             const statusclass = "status" + (program.active_status == 'Active' ? ' status-in-progress' : '');
             return (
                   <div className="project-header">
@@ -51,6 +53,7 @@ function ProjectHeader(props) {
                               </div>
                         </div>
                         <ProjectMeta program={program} _wallet={props._wallet} />
+                        <AddNew program={program} txt="sousprogramme"/>
                   </div>
             );
       } else if (props.subprogram) {
@@ -60,12 +63,12 @@ function ProjectHeader(props) {
                   return subprogramDetails.map(item => ({
                         ...item,
                         path: item.path
-                              .replace(':walletId', props._wallet.code || '')
-                              .replace(':programId', props._program.code || '')
-                              .replace(':subProgramId', subprogram.id || '')
+                        .replace(':walletId', props._wallet.code || '')
+                        .replace(':programId', props._program.code || '')
+                        .replace(':subProgramId', subprogram.id || '')
                   }));
             };
-
+            
             const statusclass = "status" + (subprogram.active_status == 'Active' ? ' status-in-progress' : '');
             return (
                   <div className="project-header">
@@ -77,6 +80,7 @@ function ProjectHeader(props) {
                               </div>
                         </div>
                         <ProjectMeta subprogram={subprogram} _program={props._program} _wallet={props._wallet}/>
+                        <AddNew subprogram={subprogram} txt="action"/>
                   </div>
             );
       }else if(props.action) {
@@ -90,12 +94,12 @@ function ProjectHeader(props) {
                               .replace(':programId', props._program.code || '')
                               .replace(':subProgramId', props._subprogram.id || '')
                               .replace(':actionId', action.code || '')
-                  }));
-            };
-
-            const statusclass = "status" + (action.active_status == 'Active' ? ' en-cours' : '');
-            return (
-                  <div className="project-header">
+                        }));
+                  };
+                  
+                  const statusclass = "status" + (action.active_status == 'Active' ? ' en-cours' : '');
+                  return (
+                        <div className="project-header">
                         <BreadCrumbs items={updateBreadcrumbPaths(BREADCRUMB_TEMPLATES.actionDetails)} dynamicLabels={{actionName: action.title, subProgramName: props._subprogram.title, programName: props._program.title, walletName: props._wallet.title }} itemIds={{actionId: action.code, subProgramId: props._subprogram.id, programId: props._program.code, walletId: props._wallet.code }} />
                         <div className="project-title">
                               <h1>Détails d'Action</h1>
@@ -104,25 +108,26 @@ function ProjectHeader(props) {
                               </div>
                         </div>
                         <ProjectMeta action={action}/>
+                        <AddNew action={action} txt="operation"/>
                   </div>
             );
             
-
+            
       }else if(props.operation) {
             const { operation } = props;
-
+            
             const updateBreadcrumbPaths = (operationDetails) => {
                   return operationDetails.map(item => ({
                         ...item,
                         path: item.path
-                              .replace(':walletId', props._wallet.code || '')
-                              .replace(':programId', props._program.code || '')
-                              .replace(':subProgramId', props._subprogram.id || '')
-                              .replace(':actionId', props._action.code || '')
+                        .replace(':walletId', props._wallet.code || '')
+                        .replace(':programId', props._program.code || '')
+                        .replace(':subProgramId', props._subprogram.id || '')
+                        .replace(':actionId', props._action.code || '')
                               .replace(':operationId', operation.number || '')
                   }));
             };
-
+            
             const statusclass = "status" + (operation.situation == 'in the works' ? ' en-cours' : operation.situation == 'on halt' ? ' pending' : '');
             return (
                   <div className="project-header">
@@ -134,6 +139,7 @@ function ProjectHeader(props) {
                               </div>
                         </div>
                         <ProjectMeta operation={operation}/>
+                        <AddNew operation={operation} txt="projet"/>
                   </div>
             );
             

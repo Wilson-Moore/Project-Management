@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import SearchFilters from "./SearchFilters.jsx";
 import OperationItem from './OperationItem.jsx';
-import axiosClient from '../../axios-client.js'; // Make sure the path is correct
+import axiosClient from '../../axios-client.js';
 import ProjectListItem from './ProjectListItem.jsx';
 
 function Projects(props) {

@@ -158,7 +158,7 @@ function ProjectOverview(props) {
                               </div>
                               <div className="detail-cell">
                               <h3 className="detail-label">AP Actuelle:</h3>
-                              <p className="detail-value">{operation.current_ap || '323000'}</p>
+                              <p className="detail-value">{operation.current_ap || '323000'}.00 da</p>
                               </div>
                               </div>
                         </div>
@@ -167,7 +167,7 @@ function ProjectOverview(props) {
                               <div className="detail-row">
                               <div className="detail-cell">
                               <h3 className="detail-label">AP Initial:</h3>
-                              <p className="detail-value">{operation.initial_ap || '300000'}</p>
+                              <p className="detail-value">{operation.initial_ap || '300000'}.00 da</p>
                               </div>
                               <div className="detail-cell">
                               <h3 className="detail-label">Révaluation:</h3>

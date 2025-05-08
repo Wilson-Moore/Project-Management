@@ -115,7 +115,7 @@ function AllProjectLayout(props) {
             return (
                   <div className="project-layout">
                         <AllProjectHeader txt="projets" total={props.projects.length} loading={props.loading} />
-                        <SearchFilters txt="project" />
+                        <SearchFilters txt="projet" />
                         {!props.loading ? <AllProjectList projects={props.projects} /> :
                               <div className="laoding">Loading...</div>
                         }

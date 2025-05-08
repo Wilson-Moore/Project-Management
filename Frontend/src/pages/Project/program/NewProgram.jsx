@@ -1,6 +1,7 @@
 // ProgramModel.jsx
-import { useState } from 'react';
+import { use, useState } from 'react';
 import './../../../assets/styles/model.css';
+import { useEffect } from 'react';
 
 export default function ProgramModel({ onClose, onSave, initialData, isUpdate = false }) {
       const [program, setProgram] = useState(initialData);
@@ -11,6 +12,17 @@ export default function ProgramModel({ onClose, onSave, initialData, isUpdate = 
       const { name, value } = e.target;
       setProgram(prev => ({ ...prev, [name]: value }));
       };
+
+      useEffect(() => {
+            // Add event listener for keydown
+            window.addEventListener('keydown', handleClose);
+
+            // Cleanup function to remove the event listener
+            return () => {
+                  window.removeEventListener('keydown', handleClose);
+            };
+      }, []);
+
 
       const handleSubmit = (e) => {
       e.preventDefault();
@@ -29,6 +41,13 @@ export default function ProgramModel({ onClose, onSave, initialData, isUpdate = 
             setErrors(err.response.data.errors);
             }
             });
+      };
+
+      const handleClose = (event) => {
+            //if pressed esc key
+            if (event.key === 'Escape') {
+                  onClose();
+            }
       };
 
       return (

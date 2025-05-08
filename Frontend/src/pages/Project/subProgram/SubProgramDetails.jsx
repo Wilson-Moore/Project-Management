@@ -25,10 +25,10 @@ function SubProgramDetails() {
       try {
         setLoading(true);
         
-        // Fetch wallet data
-        const walletResponse = await axiosClient.get(`/wallets/${walletId}`);
-        const walletData = walletResponse.data.data;
-        setWallet(walletData);
+        // // Fetch wallet data
+        // const walletResponse = await axiosClient.get(`/wallets/${walletId}`);
+        // const walletData = walletResponse.data.data;
+        // setWallet(walletData);
         
         if (!programId) {
           setLoading(false);

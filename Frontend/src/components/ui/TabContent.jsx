@@ -1,36 +1,44 @@
 import Consultations from './Consultations.jsx';
 import ProjectOverview from './ProjectOverview';
 import Projects from './Projects.jsx';
+import Programs from './Programs.jsx';
+import SubPrograms from './Subprograms.jsx';
+import Actions from './Actions.jsx';
+import Operations from './Operations.jsx';
 
 function TabContent(props) {
       const className = "tab-content" + (props.active ? " active": "");
-
+      
       if(props.wallet) {
             const { wallet } = props;
             return (
                   <div className={className}>
-                        <ProjectOverview wallet={wallet} />
+                        {props.overview ? <ProjectOverview wallet={wallet} /> :
+                        props.programs ? <Programs wallet={wallet}/> : ""}
                   </div>
             );
       }else if(props.program) {
             const { program } = props;
             return (
                   <div className={className}>
-                        <ProjectOverview program={program} _wallet={props._wallet} />
+                        {props.overview ? <ProjectOverview program={program} _wallet={props._wallet} /> :
+                        props.subprograms ? <SubPrograms program={program}/> : ""}
                   </div>
             );
       }else if(props.subprogram) {
             const { subprogram } = props;
             return (
                   <div className={className}>
-                        <ProjectOverview subprogram={subprogram} _program={props._program} _wallet={props._wallet} />
+                        {props.overview ? <ProjectOverview subprogram={subprogram} _program={props._program} _wallet={props._wallet} /> :
+                        props.actions ? <Actions subprogram={subprogram}/> : ""}
                   </div>
             );
       }else if(props.action) {
             const { action} = props;
             return (
                   <div className={className}>
-                        <ProjectOverview action={action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet} />
+                        {props.overview ? <ProjectOverview action={action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet} /> :
+                        props.operations ? <Operations action={action}/> : ""}
                   </div>
             );
       }

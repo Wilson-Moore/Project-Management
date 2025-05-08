@@ -1,189 +1,193 @@
-// NewProject.jsx
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from "react-router-dom";
-import axiosClient from "../../../axios-client.js";
-import { NotificationStateContext } from "../../../contexts/NotificationContextProvider.jsx";
+// ProjectModel.jsx
+import { useState } from 'react';
 import './../../../assets/styles/model.css';
+import {useEffect} from 'react';
 
-export default function NewProject() {
-      const navigate = useNavigate();
-      let { projectId } = useParams();
-      const [project, setProject] = useState({
-      objectif: '',
-      start_date: '', 
-      assessment_date: '', 
-      cost: '', 
-      duration: '', 
-      operation_number: ''
-      });
+export default function ProjectModel({ onClose, onSave, initialData, isUpdate = false }) {
+      const [project, setProject] = useState(initialData);
       const [errors, setErrors] = useState(null);
       const [loading, setLoading] = useState(false);
-      const { setNotification } = NotificationStateContext();
-      
-      useEffect(() => {
-      if (projectId) {
-            setLoading(true);
-            axiosClient.get(`/projects/${projectId}`)
-            .then(({ data }) => {
-            setLoading(false);
-            setProject(data.data);
-            })
-            .catch(() => {
-            setLoading(false);
-            });
-      }
-      }, [projectId]);
-
+      const [formattedCode, setFormattedCode] = useState('');
       const handleChange = (e) => {
       const { name, value } = e.target;
+      
       setProject(prev => ({ ...prev, [name]: value }));
       };
 
-      const onSubmit = (e) => {
+      const formatNumber = (number) => {
+            let formatted = '';
+            for (let i = 0; i < number.length; i++) {
+                  if (i === 1 || i === 2 || i === 5 || i === 8 || i === 10 || i === 14 || i === 17 || i === 20 || i === 22) {
+                        formatted += '.';
+                  }
+                  if (i < number.length) {
+                        formatted += number[i];
+                  }
+            }
+            setFormattedCode(formatted);
+      };
+      useEffect(() => {
+            if (initialData) {
+                  formatNumber(initialData.operation_number.replace(/\./g, ''));
+            }
+            // Add event listener for keydown
+            window.addEventListener('keydown', handleClose);
+
+            // Cleanup function to remove the event listener
+            return () => {
+                  window.removeEventListener('keydown', handleClose);
+            };
+      }, [initialData]);
+
+      const handleSubmit = (e) => {
       e.preventDefault();
-      
-      // Validate form
-      const validationErrors = {};
-      if (!project.objectif.trim()) validationErrors.objectif = ['Objectif is required'];
-      if (!project.start_date.trim()) validationErrors.start_date = ['Start date is required'];
-      if (!project.operation_number.trim()) validationErrors.operation_number = ['Operation number is required'];
-      
-      if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);
-            return;
-      }
       
       setLoading(true);
       
-      const request = projectId
-            ? axiosClient.put(`/projects/${project.id}`, project)
-            : axiosClient.post('/projects', project);
-
-      request
+      // Pass the data to the parent component
+      onSave(project)
             .then(() => {
             setLoading(false);
-            setNotification(projectId ? 'Project was successfully updated' : 'Project was successfully created');
-            navigate('/projects');
+            onClose();
             })
             .catch(err => {
             setLoading(false);
-            const response = err.response;
-            if (response && response.status === 422) {
-            setErrors(response.data.errors);
+            if (err.response && err.response.status === 422) {
+            setErrors(err.response.data.errors);
             }
             });
       };
 
+      const handleClose = (event) => {
+            //if pressed esc key
+            if (event.key === 'Escape') {
+                  onClose();
+            }
+      };
+      
+      const handleNumberChange = (e) => {
+            const { value } = e.target;
+            setProject(prev => ({ ...prev, operation_number: value.replace(/\./g, '') }));
+            formatNumber(value.replace(/\./g, ''));
+      }
+      
       return (
-      <div className="container">
-            <div className="header">
-            <h1>{projectId ? `Update Project: ${project.id}` : 'New Project'}</h1>
+      <div className="modal-overlay">
+            <div className="modal-container">
+            <div className="modal-header">
+            <h2>{isUpdate ? `Update Project: ${initialData.title}` : 'New Project'}</h2>
+            <button onClick={onClose} className="close-button">&times;</button>
             </div>
             
-            <div className="card animated fadeInDown">
+            <div className="modal-body">
             {loading && (
-            <div className="loading-container">
+                  <div className="loading-container">
                   <div className="loader"></div>
-            </div>
+                  </div>
             )}
             
             {errors && (
-            <div className="error-alert">
+                  <div className="error-alert">
                   {Object.keys(errors).map(key => (
                   <p key={key}>{errors[key][0]}</p>
                   ))}
-            </div>
+                  </div>
             )}
             
             {!loading && (
-            <form onSubmit={onSubmit}>
+                  <form onSubmit={handleSubmit}>
+                  
                   <div className="form-group">
-                  <label htmlFor="objectif">Objectif</label>
+                  <label htmlFor="objectif">Objecctif</label>
                   <input
-                  id="objectif"
-                  name="objectif"
-                  type="text"
-                  value={project.objectif}
-                  onChange={handleChange}
-                  placeholder="Enter project objectif"
+                        id="objectif"
+                        name="objectif"
+                        type="text"
+                        value={project.objectif}
+                        onChange={handleChange}
+                        placeholder="Enter project objectif"
                   />
                   </div>
-                  
+
                   <div className="form-group">
                   <label htmlFor="start_date">Date de début</label>
                   <input
-                  id="start_date"
-                  name="start_date"
-                  type="date"
-                  value={project.start_date}
-                  onChange={handleChange}
+                        id="start_date"
+                        name="start_date"
+                        type="text"
+                        value={project.start_date}
+                        onChange={handleChange}
+                        placeholder="yyyy/mm/dd"
                   />
                   </div>
                   
                   <div className="form-group">
-                  <label htmlFor="assessment_date">Date d'évaluation</label>
+                  <label htmlFor="assessment_date">date d'évaluation</label>
                   <input
-                  id="assessment_date"
-                  name="assessment_date"
-                  type="date"
-                  value={project.assessment_date}
-                  onChange={handleChange}
-                  />
-                  </div>
-                  
-                  <div className="form-group">
-                  <label htmlFor="cost">Cost</label>
-                  <input
-                  id="cost"
-                  name="cost"
-                  type="text"
-                  value={project.cost}
-                  onChange={handleChange}
-                  placeholder="Enter project cost"
+                        id="assessment_date"
+                        name="assessment_date"
+                        type="text"
+                        value={project.assessment_date}
+                        onChange={handleChange}
+                        placeholder="yyyy/mm/dd"
                   />
                   </div>
                   
                   <div className="form-group">
                   <label htmlFor="duration">Duration</label>
                   <input
-                  id="duration"
-                  name="duration"
-                  type="text"
-                  value={project.duration}
-                  onChange={handleChange}
-                  placeholder="Enter project duration"
+                        id="duration"
+                        name="duration"
+                        type="text"
+                        value={project.duration}
+                        onChange={handleChange}
+                        placeholder="Enter project duration"
                   />
                   </div>
                   
+                  {/* cost */}
                   <div className="form-group">
-                  <label htmlFor="operation_number">Operation Number</label>
+                  <label htmlFor="cost">Coût</label>
                   <input
-                  id="operation_number"
-                  name="operation_number"
-                  type="text"
-                  value={project.operation_number}
-                  onChange={handleChange}
-                  placeholder="Enter operation number"
+                        id="cost"
+                        name="cost"
+                        type="text"
+                        value={project.cost}
+                        onChange={handleChange}
+                        placeholder="Enter project coût"
                   />
                   </div>
-                  
+
+                  <div className="form-group">
+                  <label htmlFor="operation_number">Numéro d'Opération</label>
+                  <input
+                        id="operation_number"
+                        name="operation_number"
+                        type="text"
+                        value={formattedCode}
+                        onChange={handleNumberChange}
+                        placeholder="Enter project Numéro d'Opération"
+                  />
+                  </div>
+
                   <div className="form-actions">
                   <button
-                  type="button"
-                  onClick={() => navigate('/projects')}
-                  className="btn btn-cancel"
+                        type="button"
+                        onClick={onClose}
+                        className="btn btn-cancel"
                   >
-                  Cancel
+                        Cancel
                   </button>
                   <button
-                  type="submit"
-                  className="btn btn-primary"
+                        type="submit"
+                        className="btn btn-primary"
                   >
-                  {projectId ? 'Update' : 'Create'}
+                        {isUpdate ? 'Update' : 'Create'}
                   </button>
                   </div>
-            </form>
+                  </form>
             )}
+            </div>
             </div>
       </div>
       );

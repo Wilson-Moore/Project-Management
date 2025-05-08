@@ -1,16 +1,43 @@
 // OperationModel.jsx
 import { useState } from 'react';
 import './../../../assets/styles/model.css';
+import {useEffect} from 'react';
 
 export default function OperationModel({ onClose, onSave, initialData, isUpdate = false }) {
       const [operation, setOperation] = useState(initialData);
       const [errors, setErrors] = useState(null);
       const [loading, setLoading] = useState(false);
-
+      const [formattedCode, setFormattedCode] = useState('');
       const handleChange = (e) => {
       const { name, value } = e.target;
+      
       setOperation(prev => ({ ...prev, [name]: value }));
       };
+
+      const formatNumber = (number) => {
+            let formatted = '';
+            for (let i = 0; i < number.length; i++) {
+                  if (i === 1 || i === 2 || i === 5 || i === 8 || i === 10 || i === 14 || i === 17 || i === 20 || i === 22) {
+                        formatted += '.';
+                  }
+                  if (i < number.length) {
+                        formatted += number[i];
+                  }
+            }
+            setFormattedCode(formatted);
+      };
+      useEffect(() => {
+            if (initialData) {
+                  formatNumber(initialData.number.replace(/\./g, ''));
+            }
+            // Add event listener for keydown
+            window.addEventListener('keydown', handleClose);
+
+            // Cleanup function to remove the event listener
+            return () => {
+                  window.removeEventListener('keydown', handleClose);
+            };
+      }, [initialData]);
 
       const handleSubmit = (e) => {
       e.preventDefault();
@@ -31,6 +58,19 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
             });
       };
 
+      const handleClose = (event) => {
+            //if pressed esc key
+            if (event.key === 'Escape') {
+                  onClose();
+            }
+      };
+      
+      const handleNumberChange = (e) => {
+            const { value } = e.target;
+            setOperation(prev => ({ ...prev, number: value.replace(/\./g, ''), action_code: value.replace(/\./g, '').slice(2, -5) }));
+            formatNumber(value.replace(/\./g, ''));
+      }
+      
       return (
       <div className="modal-overlay">
             <div className="modal-container">
@@ -62,8 +102,8 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
                         id="number"
                         name="number"
                         type="text"
-                        value={operation.number}
-                        onChange={ev => setOperation({...operation, number: ev.target.value, action_code: ev.target.value.slice(2,-5)})}
+                        value={formattedCode}
+                        onChange={handleNumberChange}
                         placeholder="Enter operation number"
                   />
                   </div>

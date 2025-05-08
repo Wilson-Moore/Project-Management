@@ -1,6 +1,7 @@
 // SubProgramModel.jsx
 import { useState } from 'react';
 import './../../../assets/styles/model.css';
+import { useEffect } from 'react';
 
 export default function SubProgramModel({ onClose, onSave, initialData, isUpdate = false }) {
       const [subprogram, setSubProgram] = useState(initialData);
@@ -11,6 +12,17 @@ export default function SubProgramModel({ onClose, onSave, initialData, isUpdate
       const { name, value } = e.target;
       setSubProgram(prev => ({ ...prev, [name]: value }));
       };
+
+      
+      useEffect(() => {
+           // Add event listener for keydown
+            window.addEventListener('keydown', handleClose);
+
+            // Cleanup function to remove the event listener
+            return () => {
+                  window.removeEventListener('keydown', handleClose);
+            };
+      }, []);
 
       const handleSubmit = (e) => {
       e.preventDefault();
@@ -29,6 +41,13 @@ export default function SubProgramModel({ onClose, onSave, initialData, isUpdate
             setErrors(err.response.data.errors);
             }
             });
+      };
+
+      const handleClose = (event) => {
+            //if pressed esc key
+            if (event.key === 'Escape') {
+                  onClose();
+            }
       };
 
       return (

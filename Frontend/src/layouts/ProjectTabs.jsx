@@ -12,43 +12,43 @@ function ProjectTabs(props) {
             const { wallet } = props;
             return (
                   <div className="project-tabs">
-                        <TabsNav />
-                        <TabContent wallet={wallet} active/>
+                        <TabsNav type='wallet'/>
+                        <TabContent wallet={wallet} active overview/>
+                        <TabContent wallet={wallet} programs/>
                   </div>
             );
       }else if(props.program) {
             const { program } = props;
             return (
                   <div className="project-tabs">
-                        <TabsNav />
-                        <TabContent program={program} _wallet={props._wallet} active/>
+                        <TabsNav type='program'/>
+                        <TabContent program={program} _wallet={props._wallet} active overview/>
+                        <TabContent program={program} _wallet={props._wallet} subprograms/>
                   </div>
             );
       }else if(props.subprogram) {
             const { subprogram } = props;
             return (
                   <div className="project-tabs">
-                        <TabsNav />
-                        <TabContent subprogram={subprogram} active _program={props._program} _wallet={props._wallet}/>
+                        <TabsNav type='subprogram'/>
+                        <TabContent subprogram={subprogram} active _program={props._program} _wallet={props._wallet} overview/>
+                        <TabContent subprogram={subprogram} _program={props._program} _wallet={props._wallet} actions/>
                   </div>
             );
       }else if(props.action) {
             const { action } = props;
             return (
                   <div className="project-tabs">
-                        <TabsNav clicked={clicked}/>
+                        <TabsNav type='action'/>
                         <TabContent active action={action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet} overview/>
-                        <TabContent />
-                        <TabContent />
-                        <TabContent />
-                        <TabContent />
+                        <TabContent action={action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet} operations/>
                   </div>
             );
       }else if(props.operation) {
             const { operation } = props;
             return (
                   <div className="project-tabs">
-                        <TabsNav clicked={clicked}/>
+                        <TabsNav type='operation'/>
                         <TabContent operation={operation} active _action={props._action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet} overview/>
                         <TabContent />
                         <TabContent operation={operation} consultations/>
@@ -60,7 +60,7 @@ function ProjectTabs(props) {
             const { project } = props;
             return (
                   <div className="project-tabs">
-                        <TabsNav clicked={clicked}/>
+                        <TabsNav type='project'/>
                         <TabContent project={project} active overview/>
                   </div>
             );
