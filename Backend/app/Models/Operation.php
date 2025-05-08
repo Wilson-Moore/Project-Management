@@ -22,7 +22,10 @@ class Operation extends Model
         'date_of_notification',
         'initial_ap',
         'current_ap',
+        'revaluation',
         'situation',
+        'observation',
+        'individualized',
         'action_code',
     ];
 
@@ -33,6 +36,9 @@ class Operation extends Model
         'initial_ap'=>'integer',
         'current_ap'=>'integer',
         'situation'=>'integer',
+        'revaluation'=>'integer',
+        'observation'=>'string',
+        'individualized'=>'integer',
         'action_code'=>'string',
     ];
 
@@ -73,5 +79,10 @@ class Operation extends Model
     public function consultations(): HasMany
     {
         return $this->hasMany(Consultation::class,"operation_number");
+    }
+
+    public function notices(): HasMany
+    {
+        return $this->hasMany(Notice::class,"operation_number");
     }
 }

@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('consultations', function (Blueprint $table) {
+        Schema::create('notices', function (Blueprint $table) {
             $table->id();
-            $table->dateTime("signature_date");
-            $table->dateTime("duration");
+            $table->dateTime("arab_publication_date")->nullable();
+            $table->dateTime("french_publication_date")->nullable();
+            $table->dateTime("BOMOP_date")->nullable();
             $table->text("observation")->nullable();
             $table->string("operation_number");
             $table->timestamps();
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('consultations');
+        Schema::dropIfExists('notices');
     }
 };

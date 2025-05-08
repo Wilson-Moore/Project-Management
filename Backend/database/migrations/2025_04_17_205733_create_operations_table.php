@@ -16,8 +16,11 @@ return new class extends Migration
             $table->string("title");
             $table->dateTime("date_of_notification");
             $table->unsignedBigInteger("initial_ap");
-            $table->unsignedBigInteger("current_ap");
+            $table->unsignedBigInteger("current_ap")->nullable();
+            $table->integer("revaluation")->nullable();
             $table->integer("situation");
+            $table->text("observation")->nullable();
+            $table->boolean("individualized")->default(false);
             $table->string("action_code");
             $table->timestamps();
             $table->softDeletes();

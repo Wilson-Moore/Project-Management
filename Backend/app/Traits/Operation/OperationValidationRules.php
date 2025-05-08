@@ -13,9 +13,12 @@ trait OperationValidationRules
             'number'=>['required','unique:operations,number',new OperationNumberRule($this->number,$this->date_of_notification,$action_service)],
             'title'=>['required'],
             'date_of_notification'=>['required','date'],
-            'current_ap'=>['required','integer'],
             'initial_ap'=>['required','integer'],
+            'current_ap'=>['sometimes','nullable','integer'],
+            'revaluation'=>['sometimes','nuallable','integer'],
             'situation'=>['required','integer'],
+            'observation'=>['sometimes','nullable'],
+            'individualized'=>['nullable','boolean'],
             'action_code'=>['required','exists:actions,code'],
         ];
     }

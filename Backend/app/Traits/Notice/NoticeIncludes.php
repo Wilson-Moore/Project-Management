@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Traits\Operation;
+namespace App\Traits\Notice;
 
 use App\Traits\HasIncludes;
 
-trait OperationIncludes
+trait NoticeIncludes
 {
     use HasIncludes;
-    
+
     protected function allowed(): array
     {
-        return ['action','projects','consultations','notices'];
+        return ['operation'];
     }
 
     public function allowed_includes()

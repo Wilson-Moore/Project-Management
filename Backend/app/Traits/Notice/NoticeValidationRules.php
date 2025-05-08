@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Traits\Consultation;
+namespace App\Traits\Notice;
 
-use App\Rules\DurationRule;
-
-trait ConsultationValidationRules
-{    
+trait NoticeValidationRules
+{
     protected function base_rules(): array
     {
         return [
-            'signature_date'=>['required','date'],
-            'duration'=>['required',new DurationRule()],
+            'arab_publication_date'=>['sometimes','nullable','date'],
+            'french_publication_date'=>['sometimes','nullable','date'],
+            'BOMOP_date'=>['sometimes','nullable','date'],
             'observation'=>['sometimes','nullable'],
             'operation_number'=>['required','exists:operations,number'],
         ];
