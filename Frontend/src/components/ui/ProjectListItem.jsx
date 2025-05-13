@@ -51,7 +51,6 @@ function ProjectListItem(props) {
                     <div className="action-details">
                         <span className="action-name">{props.subprogram.title}</span>
                         <div className="action-meta">
-                            <span>Id-{props.subprogram.id}</span>
                             <span>Code-{props.subprogram.code}</span>
                             <span>Program-Code-{props.subprogram.program.code}</span>
                         </div>
@@ -116,7 +115,7 @@ function ProjectListItem(props) {
                         <span className="action-name">{props.operation.title}</span>
                         <div className="action-meta">
                             <span>Code-{formattedCode}</span>
-                            <span>AP-Actuelle: {props.operation.current_ap}.00da</span>
+                            {props.operation.current_ap ? <span>AP-Actuelle: {props.operation.current_ap}.00da</span> : props.operation.initial_ap ? <span>AP-Initial: {props.operation.initial_ap}.00da</span> : ''}
                         </div>
                     </div>
                 </div>
@@ -137,12 +136,6 @@ function ProjectListItem(props) {
                 formattedCode += props.project.operation.number[i];
             }
         }
-        // const walletCode = props.operation.action.code.slice(0, 3);
-        // const programCode = props.operation.action.code.slice(3, 6);
-        // const subprogramCode = props.operation.action.code.slice(6, 8);
-        // const actionCode = props.operation.action.code.slice(8, 12);
-        // const operationCode = props.operation.number.slice(0,2) + props.operation.number.slice(-3, props.operation.number.length);
-
         return (
             <div className="action-item" data-id={props.project.id} data-status="in-progress" data-year="2024" data-process="administrative">
                 <div className="action-info">
@@ -160,6 +153,37 @@ function ProjectListItem(props) {
                 </div>
                 <div className="action-actions">
                     <a href={`/project/${props.project.id}`} className="btn-secondary">View Details</a>
+                    
+                </div>
+            </div>
+        );
+    }else if (props.consultation) {
+        let formattedCode = '';
+        for (let i = 0; i < props.consultation.operation.number.length; i++) {
+            if (i === 1 || i === 2 || i === 5 || i === 8 || i === 10 || i === 14 || i === 17 || i === 20 || i === 22) {
+                formattedCode += '.';
+            }
+            if (i < props.consultation.operation.number.length) {
+                formattedCode += props.consultation.operation.number[i];
+            }
+        }
+        return (
+            <div className="action-item" data-id={props.consultation.id} data-status="in-progress" data-year="2024" data-process="administrative">
+                <div className="action-info">
+                    <div className="action-icon">
+                        <i className="icon-action"></i>
+                    </div>
+                    <div className="action-details">
+                        <span className="action-name">{props.consultation.observation}</span>
+                        <div className="action-meta">
+                            <span>{formattedCode}</span>
+                            <span>Date de signature: {props.consultation.signature_date}</span>
+                            <span>Durée: {props.consultation.duration}</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="action-actions">
+                    <a href={`/consultation/${props.consultation.id}`} className="btn-secondary">View Details</a>
                     
                 </div>
             </div>

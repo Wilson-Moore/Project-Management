@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\Action\Type;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Action extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes,SoftCascadeTrait;
     
     protected $primaryKey='code';
     public $incrementing=false;
@@ -33,6 +35,10 @@ class Action extends Model
         'active_status',
     ];
 
+    protected $softCascade = [
+        'operations'
+    ];
+
     public function getActiveStatusAttribute(): string
     {
         return $this->trashed() ? "Archived" : "Active";
@@ -40,13 +46,8 @@ class Action extends Model
 
     public function getTypeLabelAttribute(): string
     {
-        return match ($this->type) 
-        {
-            1=>'internal',
-            2=>'external',
-            3=>'unique',
-            default=>'unknown',
-        };
+        $type=Type::tryFrom($this->type);
+        return $type->label() ?? 'unknown';
     }
 
     public function subprogram(): BelongsTo
@@ -57,16 +58,5 @@ class Action extends Model
     public function operations(): HasMany
     {
         return $this->hasMany(Operation::class,"action_code");
-    }
-
-    protected static function booted()
-    {
-        static::deleting(function ($action) {
-            $action->operations->each->delete();
-        });
-
-        static::restored(function ($action) {
-            $action->operations->each->restore();
-        });
     }
 }

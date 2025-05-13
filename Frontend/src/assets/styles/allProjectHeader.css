@@ -9,6 +9,15 @@ margin-bottom: 1.5rem;
 font-size: 0.9rem;
 margin-bottom: 1rem;
 color: #666;
+display: flex;
+align-items: center;
+gap: 0.1rem;
+}
+
+.breadcrumbs span {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
 }
 
 .breadcrumbs a {

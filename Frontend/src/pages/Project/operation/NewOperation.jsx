@@ -8,6 +8,9 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
       const [errors, setErrors] = useState(null);
       const [loading, setLoading] = useState(false);
       const [formattedCode, setFormattedCode] = useState('');
+      const [formattedIAp, setFormattedIAp] = useState('');
+      const [formattedCAp, setFormattedCAp] = useState('');
+
       const handleChange = (e) => {
       const { name, value } = e.target;
       
@@ -26,9 +29,37 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
             }
             setFormattedCode(formatted);
       };
+
+      const formatAp = (ap, fieldName) => {
+            let formatted = '';
+            for (let i = 0; i < ap.length; i++) {
+                  // Add a space every 3 characters
+                  if (i > 0 && i % 3 === 0) {
+                        formatted += ' ';
+                  }
+                  if (i < ap.length) {
+                        formatted += ap[i];
+                  }
+            }
+      
+            // Dynamically update the corresponding field
+            setOperation(prev => ({ ...prev, [fieldName]: ap.replace(/\ /g, '') }));
+            if (fieldName === 'initial_ap') {
+                  setFormattedIAp(formatted);
+            } else if (fieldName === 'current_ap') {
+                  setFormattedCAp(formatted); // Optional: Add another state if needed
+            }
+      };
+
       useEffect(() => {
             if (initialData) {
                   formatNumber(initialData.number.replace(/\./g, ''));
+                  if (initialData.initial_ap) {
+                        formatAp(initialData.initial_ap.replace(/\ /g, ''), 'initial_ap');
+                  }
+                  if (initialData.current_ap) {
+                        formatAp(initialData.current_ap.replace(/\ /g, ''), 'current_ap');
+                  }
             }
             // Add event listener for keydown
             window.addEventListener('keydown', handleClose);
@@ -70,6 +101,11 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
             setOperation(prev => ({ ...prev, number: value.replace(/\./g, ''), action_code: value.replace(/\./g, '').slice(2, -5) }));
             formatNumber(value.replace(/\./g, ''));
       }
+
+      const handleApChange = (e) => {
+            const { name, value } = e.target;
+            formatAp(value.replace(/\ /g, ''), name);
+      };
       
       return (
       <div className="modal-overlay">
@@ -121,27 +157,27 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
                   </div>
 
                   <div className="form-group">
-                  <label htmlFor="initial_ap">Initial AP</label>
-                  <input
-                        id="initial_ap"
-                        name="initial_ap"
-                        type="text"
-                        value={operation.initial_ap}
-                        onChange={handleChange}
-                        placeholder="Enter operation initial ap"
-                  />
+                        <label htmlFor="initial_ap">Initial AP</label>
+                        <input
+                              id="initial_ap"
+                              name="initial_ap"
+                              type="text"
+                              value={formattedIAp}
+                              onChange={handleApChange}
+                              placeholder="Enter operation initial ap"
+                        />
                   </div>
-                  
+
                   <div className="form-group">
-                  <label htmlFor="current_ap">Current AP</label>
-                  <input
-                        id="current_ap"
-                        name="current_ap"
-                        type="text"
-                        value={operation.current_ap}
-                        onChange={handleChange}
-                        placeholder="Enter operation current ap"
-                  />
+                        <label htmlFor="current_ap">Current AP</label>
+                        <input
+                              id="current_ap"
+                              name="current_ap"
+                              type="text"
+                              value={formattedCAp}
+                              onChange={handleApChange}
+                              placeholder="Enter operation current ap"
+                        />
                   </div>
                   
                   <div className="form-group">
@@ -152,7 +188,7 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
                         type="text"
                         value={operation.date_of_notification}
                         onChange={handleChange}
-                        placeholder="Enter operation date de notification"
+                        placeholder="yyyy/mm/dd"
                         />
                   </div>
                   

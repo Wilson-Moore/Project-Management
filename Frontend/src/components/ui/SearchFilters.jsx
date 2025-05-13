@@ -58,7 +58,7 @@ function SearchFilters(props) {
       let idField = 'code';
       if (entityType === 'operation') idField = 'number';
       if (entityType === 'projet') idField = 'id';
-      
+
       const request = isUpdate
             ? axiosClient.patch(`/${endpoint}/${entityData[idField]}`, entityData)
             : axiosClient.post(`/${endpoint}`, entityData);
@@ -69,7 +69,10 @@ function SearchFilters(props) {
             : `${entityType} was successfully created`
             );
             
-            // You might want to add refresh logic here or handle it in the parent component
+            // refresh the page after saving
+            setTimeout(() => {
+                  window.location.reload();
+            }, 1000);
       });
       };
 

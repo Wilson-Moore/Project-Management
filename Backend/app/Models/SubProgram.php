@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Subprogram extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes,SoftCascadeTrait;
 
     protected $fillable = [
         'code',
@@ -27,6 +28,10 @@ class Subprogram extends Model
         'active_status',
     ];
 
+    protected $softCascade = [
+        'actions'
+    ];
+
     public function getActiveStatusAttribute(): string
     {
         return $this->trashed() ? "Archived" : "Active";
@@ -40,16 +45,5 @@ class Subprogram extends Model
     public function actions(): HasMany
     {
         return $this->hasMany(Action::class);
-    }
-
-    protected static function booted()
-    {
-        static::deleting(function ($subprogram) {
-            $subprogram->actions->each->delete();
-        });
-        
-        static::restored(function ($subprogram) {
-            $subprogram->actions->each->restore();
-        });
     }
 }

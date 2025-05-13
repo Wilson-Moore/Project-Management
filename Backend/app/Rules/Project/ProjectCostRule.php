@@ -24,20 +24,17 @@ class ProjectCostRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $operation=$this->operation_service->find(['number'=>$this->operation_number]);
-
         if (!$operation) {
             $fail('provide',"Can't change cost without specifiying the operation");
             return;
         }
 
-        if ($operation->projects->count()===0&&($value>$operation->current_ap)) {
+        if ($this->operation_service->has_projects($operation)===0&&(!$this->operation_service->can_add_project($operation,$value))) {
             $fail('exceed',"Project's cost exceeds operation's current ap");
             return;
         }
 
-        $project_sum=$operation->projects->pluck('cost')->sum();
-        
-        if (($project_sum+$value)>$operation->current_ap) {
+        if (!$this->operation_service->can_add_project($operation,$value)) {
             $fail('exceeds',"Can't add project for it would allow the cost of the projects to exceeds the operation current ap");
         }
     }

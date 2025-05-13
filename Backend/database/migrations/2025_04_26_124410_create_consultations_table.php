@@ -15,13 +15,14 @@ return new class extends Migration
             $table->id();
             $table->dateTime("signature_date");
             $table->dateTime("duration");
-            $table->text("observation");
+            $table->text("observation")->nullable();
             $table->string("operation_number");
             $table->timestamps();
             $table->softDeletes();
 
 
             $table->foreign("operation_number")->references("number")->on("operations")->onDelete("cascade")->onUpdate("cascade");
+            $table->index("operation_number");
         });
     }
 

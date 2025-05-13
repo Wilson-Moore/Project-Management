@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\Operation\Situation;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Operation extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes,SoftCascadeTrait;
 
     protected $primaryKey='number';
     public $incrementing=false;
@@ -21,7 +23,10 @@ class Operation extends Model
         'date_of_notification',
         'initial_ap',
         'current_ap',
+        'revaluation',
         'situation',
+        'observation',
+        'individualized',
         'action_code',
     ];
 
@@ -32,17 +37,21 @@ class Operation extends Model
         'initial_ap'=>'integer',
         'current_ap'=>'integer',
         'situation'=>'integer',
+        'revaluation'=>'integer',
+        'observation'=>'string',
+        'individualized'=>'integer',
         'action_code'=>'string',
+    ];
+
+    protected $softCascade = [
+        'projects',
+        'consultations'
     ];
 
     public function getSituationLabelAttribute(): string
     {
-        return match ($this->situation) 
-        {
-            1=>'in the works',
-            2=>'on halt',
-            default=>'unknown',
-        };
+        $situation=Situation::tryFrom($this->situation);
+        return $situation->label() ?? 'unknown';
     }
 
     protected $appends = [
@@ -69,16 +78,8 @@ class Operation extends Model
         return $this->hasMany(Consultation::class,"operation_number");
     }
 
-    protected static function booted()
+    public function notices(): HasMany
     {
-        static::deleting(function ($operation) {
-            $operation->projects->each->delete();
-            $operation->consultations->each->delete();
-        });
-
-        static::restored(function ($operation) {
-            $operation->projects->each->restore();
-            $operation->consultations->each->restore();
-        });
+        return $this->hasMany(Notice::class,"operation_number");
     }
 }

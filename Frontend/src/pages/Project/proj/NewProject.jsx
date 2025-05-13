@@ -8,10 +8,29 @@ export default function ProjectModel({ onClose, onSave, initialData, isUpdate = 
       const [errors, setErrors] = useState(null);
       const [loading, setLoading] = useState(false);
       const [formattedCode, setFormattedCode] = useState('');
+      const [formattedCost, setFormattedCost] = useState('');
+      
       const handleChange = (e) => {
       const { name, value } = e.target;
       
       setProject(prev => ({ ...prev, [name]: value }));
+      };
+
+      const formatCost = (ap) => {
+            let formatted = '';
+            for (let i = 0; i < ap.length; i++) {
+                  // Add a space every 3 characters
+                  if (i > 0 && i % 3 === 0) {
+                        formatted += ' ';
+                  }
+                  if (i < ap.length) {
+                        formatted += ap[i];
+                  }
+            }
+      
+            // Dynamically update the corresponding field
+            setProject(prev => ({ ...prev, cost: ap.replace(/\ /g, '') }));
+            setFormattedCost(formatted);
       };
 
       const formatNumber = (number) => {
@@ -29,6 +48,10 @@ export default function ProjectModel({ onClose, onSave, initialData, isUpdate = 
       useEffect(() => {
             if (initialData) {
                   formatNumber(initialData.operation_number.replace(/\./g, ''));
+                  
+                  if (initialData.cost) {
+                        formatAp(initialData.cost.replace(/\ /g, ''));
+                  }
             }
             // Add event listener for keydown
             window.addEventListener('keydown', handleClose);
@@ -71,6 +94,51 @@ export default function ProjectModel({ onClose, onSave, initialData, isUpdate = 
             formatNumber(value.replace(/\./g, ''));
       }
       
+      const handleCostChange = (e) => {
+            const { value } = e.target;
+            formatCost(value.replace(/\ /g, ''));
+      };
+
+      const handleDuration = (e) => {
+            const { name, value } = e.target;
+
+            const sanitizedValue = parseInt(value, 10) || 0;
+      
+            // Update the corresponding duration field
+            setProject((prev) => {
+                  const currentDuration = prev.duration || 'P0Y0M0D';
+                  const durationRegex = /^P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)D)?$/;
+                  const match = currentDuration.match(durationRegex);
+
+                  const years = match?.[1] || 0;
+                  const months = match?.[2] || 0;
+                  const days = match?.[3] || 0;
+      
+                  // Construct the ISO 8601 duration format
+                  const updatedDuration = {
+                        years: name === 'years' ? sanitizedValue : years,
+                        months: name === 'months' ? sanitizedValue : months,
+                        days: name === 'days' ? sanitizedValue : days,
+                  };
+
+                   // Construct the ISO 8601 duration format
+                  const isoDuration = `P${updatedDuration.years}Y${updatedDuration.months}M${updatedDuration.days}D`;
+      
+                  return { ...prev, duration: isoDuration };
+            });
+      };
+
+      const parseDuration = (duration) => {
+            const durationRegex = /^P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)D)?$/;
+            const match = duration.match(durationRegex);
+      
+            return {
+                  years: match?.[1] || 0,
+                  months: match?.[2] || 0,
+                  days: match?.[3] || 0,
+            };
+      };
+
       return (
       <div className="modal-overlay">
             <div className="modal-container">
@@ -135,14 +203,45 @@ export default function ProjectModel({ onClose, onSave, initialData, isUpdate = 
                   
                   <div className="form-group">
                   <label htmlFor="duration">Duration</label>
+                  <div className="subform-group">
+
+                  <label htmlFor="years">years</label>
+                  <input
+                        id="years"
+                        name="years"
+                        type="number"
+                        value={parseDuration(project.duration).years}
+                        onChange={handleDuration}
+                        placeholder="Years"
+                        min={0}
+                  />
+                  <label htmlFor="months">months</label>
+                  <input
+                        id="months"
+                        name="months"
+                        type="number"
+                        value={parseDuration(project.duration).months}
+                        onChange={handleDuration}
+                        placeholder="Months"
+                        min={0}
+                  />
+                  <label htmlFor="days">days</label>
+                  <input
+                        id="days"
+                        name="days"
+                        type="number"
+                        value={parseDuration(project.duration).days}
+                        onChange={handleDuration}
+                        placeholder="Days"
+                        min={0}
+                  />
                   <input
                         id="duration"
                         name="duration"
-                        type="text"
-                        value={project.duration}
-                        onChange={handleChange}
-                        placeholder="Enter project duration"
+                        type="hidden"
+                        value={project.duration || ''}
                   />
+                  </div>
                   </div>
                   
                   {/* cost */}
@@ -152,8 +251,8 @@ export default function ProjectModel({ onClose, onSave, initialData, isUpdate = 
                         id="cost"
                         name="cost"
                         type="text"
-                        value={project.cost}
-                        onChange={handleChange}
+                        value={formattedCost}
+                        onChange={handleCostChange}
                         placeholder="Enter project coût"
                   />
                   </div>

@@ -18,16 +18,19 @@ function OperationDetails() {
       const [errors, setErrors] = useState(null)
       const navigate = useNavigate()
 
-      const actionId = operationId.slice(2,20);
 
       useEffect(() => {
             
             const fetchData = async () => {
                   try {
                         setLoading(true);
-                        const operationResponse = await axiosClient.get(`/operations/${operationId}?include=projects,consultations`);
+                        const operationResponse = await axiosClient.get(`/operations/${operationId}?include=projects,consultations,action.subprogram.program.wallet`);
                         const operationData = operationResponse.data.data;
                         setOperation(operationData);
+                        setWallet(operationData.action.subprogram.program.wallet);
+                        setProgram(operationData.action.subprogram.program);
+                        setSubprogram(operationData.action.subprogram);
+                        setAction(operationData.action);
                         setLoading(false);
                   } catch (error) {
                         setLoading(false);

@@ -13,6 +13,11 @@
 .breadcrumbs a {
       color: var(--primary-color);
       text-decoration: none;
+      max-width: 200px; /* Set the maximum width */
+      white-space: nowrap; /* Prevent text from wrapping */
+      overflow: hidden; /* Hide overflowing text */
+      text-overflow: ellipsis; /* Add ellipsis to truncated text */
+      display: inline-block; /* Make the link an inline-block element */
 }
 
 .breadcrumbs a:hover {
@@ -85,4 +90,13 @@
 .meta-value {
       font-size: 0.95rem;
       font-weight: 500;
+}
+
+.add-new {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--primary-color);
+      cursor: pointer;
 }

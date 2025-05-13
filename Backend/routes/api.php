@@ -8,7 +8,9 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\SubProgramController;
 use App\Http\Controllers\ActionController;
 use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\OperationController;
+use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProjectController;
 
 Route::post('/signup',[AuthController::class,'signup']);
@@ -28,4 +30,6 @@ Route::group(['namespace'=>'App\Http\Controllers','middleware'=>'auth:sanctum'],
     Route::apiResource("operations",OperationController::class);
     Route::apiResource("projects",ProjectController::class);
     Route::apiResource("consultations",ConsultationController::class);
+    Route::apiResource("notices",NoticeController::class);
+    Route::apiResource("partners",PartnerController::class);
 });

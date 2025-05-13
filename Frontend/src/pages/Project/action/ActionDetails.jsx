@@ -22,9 +22,12 @@ function ActionDetails() {
             const fetchData = async () => {
                   try {
                         setLoading(true);
-                        const actionResponse = await axiosClient.get(`/actions/${actionId}?include=operations`);
+                        const actionResponse = await axiosClient.get(`/actions/${actionId}?include=operations,subprogram.program.wallet`);
                         const actionData = actionResponse.data.data;
                         setAction(actionData);
+                        setWallet(actionData.subprogram.program.wallet);
+                        setProgram(actionData.subprogram.program);
+                        setSubprogram(actionData.subprogram);
                         setLoading(false);
                   } catch (error) {
                         setLoading(false);

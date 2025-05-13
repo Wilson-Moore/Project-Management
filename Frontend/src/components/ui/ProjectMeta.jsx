@@ -81,6 +81,7 @@ function ProjectMeta(props) {
                   formattedCode += operation.number[i];
                   }
             }
+
             return (
                   <div className="project-meta">
                         <div className="meta-item">
@@ -94,7 +95,7 @@ function ProjectMeta(props) {
                               <span className="meta-value">{operation.date_of_notification.slice(0,4)}</span></div>
                         <div className="meta-item">
                               <span className="meta-label">AP Actuelle :</span>
-                              <span className="meta-value">{operation.current_ap + ".00da"}</span></div>
+                              <span className="meta-value">{operation.current_ap ? operation.current_ap + ".00da" : operation.initial_ap ? operation.initial_ap + ".00da" : ''}</span></div>
                   </div>
             );
       }
@@ -102,17 +103,17 @@ function ProjectMeta(props) {
       return (
             <div className="project-meta">
                   <div className="meta-item">
-                        <span className="meta-label">IDENTIFIANT :</span>
-                        <span className="meta-value">ID-2024-045</span></div>
+                        <span className="meta-label">Objectif du projet :</span>
+                        <span className="meta-value">{props.project.objectif}</span></div>
                   <div className="meta-item">
-                        <span className="meta-label">Le processus :</span>
-                        <span className="meta-value">Administrative Building</span></div>
+                        <span className="meta-label">Démarrage :</span>
+                        <span className="meta-value">{props.project.start_date.slice(0,10)}</span></div>
                   <div className="meta-item">
-                        <span className="meta-label">Date de signature :</span>
-                        <span className="meta-value">15 Mar 2024</span></div>
+                        <span className="meta-label">Évaluation :</span>
+                        <span className="meta-value">{props.project.assessment_date.slice(0,10)}</span></div>
                   <div className="meta-item">
-                        <span className="meta-label">Temps de préparation :</span>
-                        <span className="meta-value">1 mois</span></div>
+                        <span className="meta-label">Coût :</span>
+                        <span className="meta-value">{props.project.cost ? props.project.cost + ".00da" : ''}</span></div>
             </div>
       );
 }

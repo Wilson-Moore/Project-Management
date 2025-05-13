@@ -48,8 +48,8 @@ function ProjectLayout(props) {
             const { project } = props;
             return (
                   <div className="project-layout">
-                        <ProjectHeader project={project}/>
-                        <ProjectTabs project={project} />
+                        <ProjectHeader project={project} _operation={props._operation} _action={props._action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet}/>
+                        <ProjectTabs project={project} _operation={props._operation} _action={props._action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet}/>
                   </div>
             );
       }

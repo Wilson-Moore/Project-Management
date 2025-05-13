@@ -1,22 +1,51 @@
 // ActionModel.jsx
 import { useState } from 'react';
 import './../../../assets/styles/model.css';
+import { useEffect } from 'react';
 
 export default function ActionModel({ onClose, onSave, initialData, isUpdate = false }) {
       const [action, setAction] = useState(initialData);
       const [errors, setErrors] = useState(null);
       const [loading, setLoading] = useState(false);
+      const [formattedCode, setFormattedCode] = useState('');
 
       const handleChange = (e) => {
       const { name, value } = e.target;
       setAction(prev => ({ ...prev, [name]: value }));
       };
 
+      const formatCode = (code) => {
+            let formatted = '';
+            for (let i = 0; i < code.length; i++) {
+                  if (i === 3 || i === 6 || i === 8 || i === 12 || i === 15) {
+                        formatted += '.';
+                  }
+                  if (i < code.length) {
+                        formatted += code[i];
+                  }
+            }
+            setFormattedCode(formatted);
+      };
+
+      useEffect(() => {
+            if (initialData) {
+                  formatCode(initialData.code.replace(/\./g, ''));
+            }
+            // Add event listener for keydown
+            window.addEventListener('keydown', handleClose);
+
+            // Cleanup function to remove the event listener
+            return () => {
+                  window.removeEventListener('keydown', handleClose);
+            };
+      }, [initialData]);
+      
+
       const handleSubmit = (e) => {
       e.preventDefault();
       
       setLoading(true);
-      
+            
       // Pass the data to the parent component
       onSave(action)
             .then(() => {
@@ -30,6 +59,20 @@ export default function ActionModel({ onClose, onSave, initialData, isUpdate = f
             }
             });
       };
+
+      const handleCodeChange = (e) => {
+            const { value } = e.target;
+            setAction(prev => ({ ...prev, code: value.replace(/\./g, '')}));
+            formatCode(value.replace(/\./g, ''));
+      }
+
+      const handleClose = (event) => {
+            //if pressed esc key
+            if (event.key === 'Escape') {
+                  onClose();
+            }
+      };
+      
 
       return (
       <div className="modal-overlay">
@@ -62,8 +105,8 @@ export default function ActionModel({ onClose, onSave, initialData, isUpdate = f
                         id="code"
                         name="code"
                         type="text"
-                        value={action.code}
-                        onChange={handleChange}
+                        value={formattedCode}
+                        onChange={handleCodeChange}
                         placeholder="Enter action code"
                   />
                   </div>

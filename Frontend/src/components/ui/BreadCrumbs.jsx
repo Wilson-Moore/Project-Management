@@ -12,7 +12,7 @@ function BreadCrumbs(props) {
                         {index === props.items.length - 1 || !item.path ? (
                         <span className="current">{label}</span>
                   ) : (
-                        <a href={item.path}>{label}</a>
+                        <a href={item.path} title={label}>{label}</a>
                   )}
                   </span>
                   );

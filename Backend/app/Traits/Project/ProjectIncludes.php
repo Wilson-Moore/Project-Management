@@ -10,7 +10,7 @@ trait ProjectIncludes
 
     protected function allowed(): array
     {
-        return ['operation'];
+        return ['operation','operation.action.subprogram.program.wallet'];
     }
 
     public function allowed_includes()

@@ -15,12 +15,13 @@ return new class extends Migration
             $table->string("code",18)->primary();
             $table->smallInteger("type");
             $table->string("title");
-            $table->string("subprogram_id");
+            $table->integer("subprogram_id");
             $table->timestamps();
             $table->softDeletes();
 
             
             $table->foreign("subprogram_id")->references("id")->on("subprograms")->onDelete("cascade")->onUpdate("cascade");
+            $table->index("subprogram_id");
         });
     }
 

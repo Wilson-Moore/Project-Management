@@ -16,6 +16,7 @@ class Project extends Model
         'start_date',
         'duration',
         'assessment_date',
+        'co_contractor',
         'operation_number',
     ];
 
@@ -26,6 +27,7 @@ class Project extends Model
         'duration'=>'string',
         'assessment_date'=>'datetime',
         'operation_number'=>'string',
+        'co_contractor'=>'string',
     ];
 
     protected $appends = [
@@ -55,5 +57,10 @@ class Project extends Model
     public function operation(): BelongsTo
     {
         return $this->belongsTo(Operation::class,"operation_number");
+    }
+
+    public function partner(): BelongsTo
+    {
+        return $this->belongsTo(Partner::class,"nif");
     }
 }

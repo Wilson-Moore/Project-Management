@@ -5,9 +5,7 @@ import axiosClient from "../../../axios-client.js";
 import {NotificationStateContext} from "../../../contexts/NotificationContextProvider.jsx";
 
 function SubProgramDetails() {
-  const { 
-    walletId, 
-    programId,
+  const {
     subprogramId,
   } = useParams();
   const [wallet, setWallet] = useState({code: '', title: '', programs: []});
@@ -19,33 +17,20 @@ function SubProgramDetails() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!walletId) return;
   
     const fetchData = async () => {
       try {
         setLoading(true);
         
-        // // Fetch wallet data
-        // const walletResponse = await axiosClient.get(`/wallets/${walletId}`);
-        // const walletData = walletResponse.data.data;
-        // setWallet(walletData);
-        
-        if (!programId) {
-          setLoading(false);
-          return;
-        }
-  
-          // Fetch program data
-          const programResponse = await axiosClient.get(`/programs/${programId}`);
-          const programData = programResponse.data.data;
-          setProgram(programData);
           if (!subprogramId) {
             setLoading(false);
             return;
           }
           
-            const subprogramResponse = await axiosClient.get(`/subprograms/${subprogramId}?include=actions`);
+            const subprogramResponse = await axiosClient.get(`/subprograms/${subprogramId}?include=actions,program.wallet`);
             setSubprogram(subprogramResponse.data.data);
+            setWallet(subprogramResponse.data.data.program.wallet);
+            setProgram(subprogramResponse.data.data.program);
           
         setLoading(false);
       } catch (error) {
@@ -55,7 +40,7 @@ function SubProgramDetails() {
     };
   
     fetchData();
-  }, [walletId, programId, subprogramId,]);
+  }, [subprogramId,]);
 
   if (loading) {
     return (

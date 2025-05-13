@@ -11,7 +11,7 @@ trait ConsultationValidationRules
         return [
             'signature_date'=>['required','date'],
             'duration'=>['required',new DurationRule()],
-            'observation'=>['required'],
+            'observation'=>['sometimes','nullable'],
             'operation_number'=>['required','exists:operations,number'],
         ];
     }

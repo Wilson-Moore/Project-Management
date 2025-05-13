@@ -10,7 +10,7 @@ trait ActionIncludes
 
     protected function allowed(): array
     {
-        return ['subprogram','operations'];
+        return ['subprogram','operations','subprogram.program.wallet'];
     }
 
     public function allowed_includes()

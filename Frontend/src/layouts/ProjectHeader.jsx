@@ -124,7 +124,7 @@ function ProjectHeader(props) {
                         .replace(':programId', props._program.code || '')
                         .replace(':subProgramId', props._subprogram.id || '')
                         .replace(':actionId', props._action.code || '')
-                              .replace(':operationId', operation.number || '')
+                        .replace(':operationId', operation.number || '')
                   }));
             };
             
@@ -139,36 +139,41 @@ function ProjectHeader(props) {
                               </div>
                         </div>
                         <ProjectMeta operation={operation}/>
-                        <AddNew operation={operation} txt="projet"/>
+                        <div className='add-new'>
+                              <AddNew operation={operation} txt="projet"/>
+                              <AddNew operation={operation} txt="consultation"/>
+                        </div>
                   </div>
             );
             
       }else if(props.project) {
             const { project } = props;
 
-            // const updateBreadcrumbPaths = (propjectDetails) => {
-            //       return propjectDetails.map(item => ({
-            //             ...item,
-            //             path: item.path
-            //                   .replace(':walletId', props._wallet.code || '')
-            //                   .replace(':programId', props._program.code || '')
-            //                   .replace(':subProgramId', props._subprogram.id || '')
-            //                   .replace(':actionId', props._action.code || '')
-            //                   .replace(':operationId', props._operation.number || '')
-            //                   .replace(':projectId', project.id || '')
-            //       }));
-            // };
+            const updateBreadcrumbPaths = (propjectDetails) => {
+                  return propjectDetails.map(item => ({
+                        ...item,
+                        path: item.path
+                              .replace(':walletId', props._wallet.code || '')
+                              .replace(':programId', props._program.code || '')
+                              .replace(':subProgramId', props._subprogram.id || '')
+                              .replace(':actionId', props._action.code || '')
+                              .replace(':operationId', props._operation.number || '')
+                              .replace(':projectId', project.id || '')
+                  }));
+            };
 
+            const statusclass = "status" + (project.active_status == 'Active' ? ' en-cours' :  ' pending');
             return (
                   <div className="project-header">
-                        {/* <BreadCrumbs items={updateBreadcrumbPaths(BREADCRUMB_TEMPLATES.projectDetails)} dynamicLabels={{ projectName: project.objectif, operationName: props._operation.title, actionName: props._action.title, subProgramName: props._subprogram.title, programName: props._program.title, walletName: props._wallet.title }} itemIds={{ projectId: project.id, operationId: props._operation.number, actionId: props._action.code, subProgramId: props._subprogram.id, programId: props._program.code, walletId: props._wallet.code }} /> */}
+                        <BreadCrumbs items={updateBreadcrumbPaths(BREADCRUMB_TEMPLATES.projectDetails)} dynamicLabels={{ projectName: project.objectif, operationName: props._operation.title, actionName: props._action.title, subProgramName: props._subprogram.title, programName: props._program.title, walletName: props._wallet.title }} itemIds={{ projectId: project.id, operationId: props._operation.number, actionId: props._action.code, subProgramId: props._subprogram.id, programId: props._program.code, walletId: props._wallet.code }} />
                         <div className="project-title">
                               <h1>Détails du projet</h1>
                               <div className="project-status">
-                                    <span className="status in-progress">{project.situation}</span>
+                                    <span className={statusclass}>{project.active_status}</span>
                               </div>
                         </div>
-                        <ProjectMeta project={project} />
+                        <ProjectMeta project={project} _operation={props._operation} _action={props._action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet}/>
+                        <AddNew project={project} txt="projet"/>
                   </div>
             );
       }

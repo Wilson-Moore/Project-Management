@@ -6,7 +6,6 @@ import {NotificationStateContext} from "../../../contexts/NotificationContextPro
 
 function ProgramDetails() {
   const { 
-    walletId, 
     programId,
   } = useParams();
   const [wallet,setwallet]=useState({code: '',title: '',programs: []});
@@ -17,16 +16,10 @@ function ProgramDetails() {
   const navigate=useNavigate()
 
     useEffect(() => {
-      if (!walletId) return;
     
       const fetchData = async () => {
         try {
           setLoading(true);
-          
-          // Fetch wallet data
-          const walletResponse = await axiosClient.get(`/wallets/${walletId}`);
-          const walletData = walletResponse.data.data;
-          setwallet(walletData);
 
           if (!programId) {
             setLoading(false);
@@ -34,8 +27,9 @@ function ProgramDetails() {
           }
     
             // Fetch program data
-            const programResponse = await axiosClient.get(`/programs/${programId}?include=subprograms`);
+            const programResponse = await axiosClient.get(`/programs/${programId}?include=subprograms,wallet`);
             setprogram(programResponse.data.data);
+            setwallet(programResponse.data.data.wallet);
           
           
           setLoading(false);
@@ -46,7 +40,7 @@ function ProgramDetails() {
       };
     
       fetchData();
-    }, [walletId, programId]);
+    }, [programId]);
 
   if(loading) {
     return(

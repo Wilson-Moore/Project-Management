@@ -32,20 +32,20 @@ function ProjectOverview(props) {
                                     <h3 className="detail-label">Code de Programme:</h3>
                                     <p className="detail-value">{program.code}</p>
                               </div>
-                              <div className="detail-cell">
+                              {/* <div className="detail-cell">
                                     <h3 className="detail-label">Code de Portefeuille:</h3>
                                     <p className="detail-value">{props._wallet.code}</p>
-                              </div>
+                              </div> */}
                               </div>
                               <div className="detail-row">
                               <div className="detail-cell">
                                     <h3 className="detail-label">Intitulé de Programme:</h3>
                                     <p className="detail-value">{program.title}</p>
                               </div>
-                              <div className="detail-cell">
+                              {/* <div className="detail-cell">
                                     <h3 className="detail-label">Intitulé de Portefeuille:</h3>
                                     <p className="detail-value">{props._wallet.title}</p>
-                              </div>
+                              </div> */}
                               </div>
                         </div>
                   </div>
@@ -138,6 +138,36 @@ function ProjectOverview(props) {
                   formattedCode += operation.number[i];
                   }
             }
+
+            if (operation.current_ap) {
+                  let formattedCAp = '';
+                  for (let i = 0; i < operation.current_ap.length; i++) {
+                        if (i > 0 && (operation.current_ap.length - i) % 3 === 0) {
+                                    formattedCAp += ' ';
+                        }
+                        formattedCAp += operation.current_ap[i];
+                  }
+            }
+            let formattedCAp = '';
+            let formattedIAp = '';
+
+            ['current_ap', 'initial_ap'].forEach((key) => {
+                  let formattedValue = '';
+                  let value = operation[key] ? operation[key].toString() : '';
+                  for (let i = 0; i < value.length; i++) {
+                        // for every 3 numbers make a space
+                        if (i > 0 && i % 3 === 0) {
+                                    formattedValue += ' ';
+                        }
+
+                        if (i < value.length) {
+                                    formattedValue += value[i];
+                        }
+                  }
+                  if (key === 'current_ap') formattedCAp = formattedValue;
+                  if (key === 'initial_ap') formattedIAp = formattedValue;
+            });
+
             return (
                   <div className="detail-grid">
                         <div className="detail-column">
@@ -158,7 +188,7 @@ function ProjectOverview(props) {
                               </div>
                               <div className="detail-cell">
                               <h3 className="detail-label">AP Actuelle:</h3>
-                              <p className="detail-value">{operation.current_ap || '323000'}.00 da</p>
+                              <p className="detail-value">{operation.current_ap ? formattedCAp + '.00 da': '-'}</p>
                               </div>
                               </div>
                         </div>
@@ -167,7 +197,7 @@ function ProjectOverview(props) {
                               <div className="detail-row">
                               <div className="detail-cell">
                               <h3 className="detail-label">AP Initial:</h3>
-                              <p className="detail-value">{operation.initial_ap || '300000'}.00 da</p>
+                              <p className="detail-value">{operation.initial_ap ? formattedIAp + '.00 da': '-'}</p>
                               </div>
                               <div className="detail-cell">
                               <h3 className="detail-label">Révaluation:</h3>
@@ -244,10 +274,6 @@ function ProjectOverview(props) {
                         </div>
                         </div>
                         <div className="detail-row">
-                        <div className="detail-cell">
-                        <h3 className="detail-label">Situation:</h3>
-                        <p className="detail-value">{ 'on halt'}</p>
-                        </div>
                         <div className="detail-cell">
                         <h3 className="detail-label">Observation:</h3>
                         <p className="detail-value">{ '-'}</p>
