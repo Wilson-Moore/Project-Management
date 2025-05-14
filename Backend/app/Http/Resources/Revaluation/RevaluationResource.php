@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Resources\Notice;
+namespace App\Http\Resources\Revaluation;
 
 use App\Http\Resources\Operation\OperationResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class NoticeResource extends JsonResource
+class RevaluationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,15 +16,11 @@ class NoticeResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'=>$this->id,
-            'arab_publication_date'=>$this->arab_publication_date,
-            'french_publication_date'=>$this->french_publication_date,
-            'BOMOP_date'=>$this->BOMOP_date,
-            'observation'=>$this->observation,
-            'active_status'=>$this->active_status,
+            'year'=>$this->year,
+            'amount'=>$this->amount,
             'operation'=>$this->whenLoaded('operation',
                 fn()=>new OperationResource($this->operation),
-                fn()=>['number'=>$this->operation_number]
+                fn()=>['operation_number'=>$this->operation_number]
             ),
         ];
     }

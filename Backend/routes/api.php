@@ -12,6 +12,7 @@ use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\OperationController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\RevaluationController;
 
 Route::post('/signup',[AuthController::class,'signup']);
 Route::post('/login',[AuthController::class,'login']);
@@ -28,8 +29,9 @@ Route::group(['namespace'=>'App\Http\Controllers','middleware'=>'auth:sanctum'],
     Route::apiResource("subprograms",SubProgramController::class);
     Route::apiResource("actions",ActionController::class);
     Route::apiResource("operations",OperationController::class);
-    Route::apiResource("projects",ProjectController::class);
     Route::apiResource("consultations",ConsultationController::class);
     Route::apiResource("notices",NoticeController::class);
+    Route::apiResource("revaluations",RevaluationController::class);
     Route::apiResource("partners",PartnerController::class);
+    Route::apiResource("projects",ProjectController::class);
 });

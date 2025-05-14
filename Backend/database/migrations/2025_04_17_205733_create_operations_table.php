@@ -17,7 +17,6 @@ return new class extends Migration
             $table->dateTime("date_of_notification");
             $table->unsignedBigInteger("initial_ap");
             $table->unsignedBigInteger("current_ap")->nullable();
-            $table->integer("revaluation")->nullable();
             $table->integer("situation");
             $table->text("observation")->nullable();
             $table->boolean("individualized")->default(false);

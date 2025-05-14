@@ -11,20 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('revaluations', function (Blueprint $table) {
             $table->id();
-            $table->text("objectif")->nullable();
-            $table->unsignedBigInteger("cost")->nullable();
-            $table->string("duration")->nullable();
+            $table->year("year");
+            $table->integer("amount");
             $table->string("operation_number");
-            $table->string("co_contractor")->nullable();
             $table->timestamps();
             $table->softDeletes();
 
-
             $table->foreign("operation_number")->references("number")->on("operations")->onDelete("cascade")->onUpdate("cascade");
-            $table->foreign("co_contractor")->references("nif")->on("partners")->onUpdate("cascade")->nullOnDelete();
-            $table->index("operation_number");
         });
     }
 
@@ -33,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('revaluations');
     }
 };

@@ -15,7 +15,6 @@ trait OperationValidationRules
             'date_of_notification'=>['required','date'],
             'initial_ap'=>['required','integer'],
             'current_ap'=>['sometimes','nullable','integer'],
-            'revaluation'=>['sometimes','nuallable','integer'],
             'situation'=>['required','integer'],
             'observation'=>['sometimes','nullable'],
             'individualized'=>['nullable','boolean'],

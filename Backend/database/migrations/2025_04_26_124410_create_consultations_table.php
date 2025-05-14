@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('consultations', function (Blueprint $table) {
             $table->id();
             $table->dateTime("signature_date");
-            $table->dateTime("duration");
+            $table->dateTime("duration")->nullable();
             $table->text("observation")->nullable();
             $table->string("operation_number");
             $table->timestamps();
