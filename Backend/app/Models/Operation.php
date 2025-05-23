@@ -87,4 +87,9 @@ class Operation extends Model
     {
         return $this->hasMany(Revaluation::class,"operation_number");
     }
+
+    public function documents()
+    {
+        return $this->morphMany(Document::class,'documentable');
+    }
 }

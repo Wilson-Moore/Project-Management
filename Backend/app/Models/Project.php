@@ -63,4 +63,9 @@ class Project extends Model
     {
         return $this->belongsTo(Partner::class,"nif");
     }
+
+    public function documents()
+    {
+        return $this->morphMany(Document::class,'documentable');
+    }
 }

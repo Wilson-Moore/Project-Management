@@ -4,6 +4,7 @@ namespace App\Http\Resources\Operation;
 
 use App\Http\Resources\Action\ActionResource;
 use App\Http\Resources\Consultation\ConsultationCollection;
+use App\Http\Resources\Document\DocumentCollection;
 use App\Http\Resources\Notice\NoticeCollection;
 use App\Http\Resources\Project\ProjectCollection;
 use App\Http\Resources\Revaluation\RevaluationCollection;
@@ -37,6 +38,7 @@ class OperationResource extends JsonResource
             'consultations'=>ConsultationCollection::make($this->whenLoaded('consultations')),
             'notices'=>NoticeCollection::make($this->whenLoaded('notices')),
             'revaluations'=>RevaluationCollection::make($this->whenLoaded('revaluations')),
+            'documents'=>DocumentCollection::make($this->whenLoaded('documents')),
         ];
     }
 }

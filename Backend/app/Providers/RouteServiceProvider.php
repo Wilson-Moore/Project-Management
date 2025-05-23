@@ -4,9 +4,12 @@ namespace App\Providers;
 
 use App\Models\Action;
 use App\Models\Consultation;
+use App\Models\Notice;
 use App\Models\Operation;
+use App\Models\Partner;
 use App\Models\Program;
 use App\Models\Project;
+use App\Models\Revaluation;
 use App\Models\Subprogram;
 use App\Models\Wallet;
 use Illuminate\Support\Facades\Route;
@@ -42,11 +45,20 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind('operation', function ($value) {
             return Operation::withTrashed()->findOrFail($value);
         });
-        Route::bind('project', function ($value) {
-            return Project::withTrashed()->findOrFail($value);
-        });
         Route::bind('consultation', function ($value) {
             return Consultation::withTrashed()->findOrFail($value);
+        });
+        Route::bind('notice', function ($value) {
+            return Notice::withTrashed()->findOrFail($value);
+        });
+        Route::bind('revaluation', function ($value) {
+            return Revaluation::withTrashed()->findOrFail($value);
+        });
+        Route::bind('partner', function ($value) {
+            return Partner::withTrashed()->findOrFail($value);
+        });
+        Route::bind('project', function ($value) {
+            return Project::withTrashed()->findOrFail($value);
         });
     }
 }
