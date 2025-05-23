@@ -14,15 +14,34 @@ class QueryFilter
     {
         $elo_query=[];
 
-        foreach($this->parms as $parm=>$operators) {
-            $query=$request->query($parm);
+        foreach ($this->parms as $param => $operators) {
+            $query=$request->query($param);
+
             if (!isset($query)) {
                 continue;
             }
-            $column=$this->column_map[$parm]??$parm;
+
+            $column=$this->column_map[$param] ?? $param;
+
             foreach ($operators as $operator) {
-                if (isset($query[$operator])) {
-                    $elo_query[]=[$column,$this->operator_map[$operator],$query[$operator]];
+                if (!isset($query[$operator])) {
+                    continue;
+                }
+
+                $value=$query[$operator];
+
+                if ($operator==='bt'&&is_array($value)&&isset($value['from'],$value['to'])) {
+                    $elo_query[]=[$column,'BETWEEN',[$value['from'],$value['to']]];
+                }
+                elseif ($operator==='in') {
+                    $values=is_array($value) ? $value : explode(',',$value);
+                    $elo_query[]=[$column,'IN',$values];
+                }
+                elseif ($operator==='null') {
+                    $elo_query[]=[$column,$value ? 'IS NULL' : 'IS NOT NULL'];
+                }
+                else {
+                    $elo_query[]=[$column,$this->operator_map[$operator],$value];
                 }
             }
         }

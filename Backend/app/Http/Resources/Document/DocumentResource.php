@@ -33,7 +33,7 @@ class DocumentResource extends JsonResource
         ];
     }
 
-    private function previewable(): bool
+    private function Previewable(): bool
     {
         return in_array($this->mime_type,['application/pdf','image/jpeg','image/png','text/plain',]);
     }

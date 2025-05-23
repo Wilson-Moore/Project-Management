@@ -2,18 +2,20 @@
 
 namespace App\Services;
 
+use App\Traits\AdjustQuery;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 abstract class BaseService
 {
+    use AdjustQuery;
     protected Model $model;
 
     public function all(array $query_items, Request $request): LengthAwarePaginator
     {
-        return empty($query_items) ? $this->model->paginate()
-        : $this->model->where($query_items)->paginate()->appends($request->query());
+        $query=$this->adjust($query_items,$this->model->newQuery());
+        return empty($query_items) ? $this->model->paginate() : $query->paginate()->appends($request->query());
     }
 
     public function create(array $data): Model

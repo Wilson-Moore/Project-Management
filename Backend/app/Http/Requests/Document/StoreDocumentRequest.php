@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests\Document;
 
+use App\Traits\Document\DocumentValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreDocumentRequest extends FormRequest
 {
+    use DocumentValidationRules;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,13 +23,6 @@ class StoreDocumentRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'document' => [
-                'required',
-                'file',
-                'mimes:pdf,docx,csv,txt',
-                'max:10240',
-            ],
-        ];
+        return $this->base_rules();
     }
 }
