@@ -24,9 +24,10 @@ return new class extends Migration
             $table->string("fax")->unique()->nullable();
             $table->smallInteger("domain")->nullable();
             $table->smallInteger("category")->nullable();
-            $table->boolean("micro")->default(false)->nullable();
+            $table->boolean("micro")->default(false);
             $table->string("trade_register")->unique();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

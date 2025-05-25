@@ -7,6 +7,7 @@ use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\SubProgramController;
 use App\Http\Controllers\ActionController;
+use App\Http\Controllers\BlacklistController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\NoticeController;
@@ -34,13 +35,14 @@ Route::group(['namespace'=>'App\Http\Controllers','middleware'=>'auth:sanctum'],
     Route::apiResource("notices",NoticeController::class);
     Route::apiResource("revaluations",RevaluationController::class);
     Route::apiResource("partners",PartnerController::class);
+    Route::apiResource("blacklists",BlacklistController::class);
     Route::apiResource("projects",ProjectController::class);
 
     
-    Route::post('{modelType}/{model}/documents',[DocumentController::class,'store']);
-    Route::prefix('documents')->group(function () {
-        Route::get('/{document}/download',[DocumentController::class,'download'])->name('documents.download');
-        Route::get('/{document}/preview',[DocumentController::class,'preview'])->name('documents.preview');
-        Route::delete('/{document}',[DocumentController::class,'destroy']);
+    Route::prefix('documents/')->group(function () {
+        Route::post('{modelType}/{model}',[DocumentController::class,'store']);
+        Route::get('{document}/download',[DocumentController::class,'download'])->name('documents.download');
+        Route::get('{document}/preview',[DocumentController::class,'preview'])->name('documents.preview');
+        Route::delete('{document}',[DocumentController::class,'destroy']);
     });
 });
