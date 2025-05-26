@@ -17,7 +17,7 @@ class HumanmeanResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'ncas'=>$this->ncas,
+            'cnas'=>$this->cnas,
             'full_name'=>$this->family_name.' '.$this->name,
             'employer'=>$this->whenLoaded('partner',
                 fn()=>new PartnerResource($this->partner),

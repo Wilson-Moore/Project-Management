@@ -12,7 +12,7 @@ use App\Models\Humanmean;
 use App\Services\HumanmeanService;
 use Illuminate\Http\Request;
 
-class HumanmeansController extends Controller
+class HumanmeanController extends Controller
 {
     public function __construct(
         protected HumanmeanFilter $filter,

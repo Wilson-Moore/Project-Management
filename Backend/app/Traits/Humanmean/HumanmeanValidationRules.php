@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Traits\Blacklist;
+namespace App\Traits\Humanmean;
 
 trait HumanmeanValidationRules
 {    
     protected function base_rules(): array
     {
         return [
-            'ncas'=>['required','string'],
-            'family_name'=>['required','string',],
+            'cnas'=>['required','string'],
+            'family_name'=>['required','string'],
             'name'=>['required','string'],
             'employer'=>['required','exists:partners,nif'],
-            'project_id'=>['required','exists:projects,id'],
+            'project_id'=>['sometimes','exists:projects,id'],
         ];
     }
 

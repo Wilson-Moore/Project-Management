@@ -12,7 +12,7 @@ use App\Models\Materialmean;
 use App\Services\MaterialmeanService;
 use Illuminate\Http\Request;
 
-class MaterialmeansController extends Controller
+class MaterialmeanController extends Controller
 {
     public function __construct(
         protected MaterialmeanFilter $filter,

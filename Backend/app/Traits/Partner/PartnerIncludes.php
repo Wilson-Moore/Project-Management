@@ -10,7 +10,7 @@ trait PartnerIncludes
     
     protected function allowed(): array
     {
-        return ['projects'];
+        return ['projects','humanmeans','materialmeans'];
     }
 
     public function allowed_includes()

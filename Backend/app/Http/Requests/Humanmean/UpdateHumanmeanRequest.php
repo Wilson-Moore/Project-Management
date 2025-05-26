@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Humanmean;
 
-use App\Traits\Blacklist\HumanmeanValidationRules;
+use App\Traits\Humanmean\HumanmeanValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateHumanmeanRequest extends FormRequest

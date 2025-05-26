@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Materialmean;
 
-use App\Traits\Blacklist\MaterialmeanValidationRules;
+use App\Traits\Materialmean\MaterialmeanValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreMaterialmeanRequest extends FormRequest

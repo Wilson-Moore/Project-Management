@@ -10,7 +10,10 @@ use App\Http\Controllers\ActionController;
 use App\Http\Controllers\BlacklistController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\HumanmeanController;
+use App\Http\Controllers\MaterialmeanController;
 use App\Http\Controllers\NoticeController;
+use App\Http\Controllers\ODSController;
 use App\Http\Controllers\OperationController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProjectController;
@@ -37,6 +40,9 @@ Route::group(['namespace'=>'App\Http\Controllers','middleware'=>'auth:sanctum'],
     Route::apiResource("partners",PartnerController::class);
     Route::apiResource("blacklists",BlacklistController::class);
     Route::apiResource("projects",ProjectController::class);
+    Route::apiResource("humanmeans",HumanmeanController::class);
+    Route::apiResource("materialmeans",MaterialmeanController::class);
+    Route::apiResource("ods",ODSController::class);
 
     
     Route::prefix('documents/')->group(function () {

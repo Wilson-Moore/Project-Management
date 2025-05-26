@@ -18,11 +18,11 @@ class MaterialmeanResource extends JsonResource
     {
         return [
             'number'=>$this->number,
-            'type'=>$this->$this->type,
-            'registration'=>$this->$this->registration,
-            'employer'=>$this->whenLoaded('partner',
+            'type'=>$this->type,
+            'registration'=>$this->registration,
+            'owner'=>$this->whenLoaded('partner',
                 fn()=>new PartnerResource($this->partner),
-                fn()=>['nif'=>$this->employer]
+                fn()=>['nif'=>$this->owner]
             ),
             'project'=>$this->whenLoaded('project',
                 fn()=>new ProjectResource($this->project),

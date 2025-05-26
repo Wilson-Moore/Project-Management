@@ -12,7 +12,7 @@ class Humanmean extends Model
     protected $keyType='string';
 
     protected $fillable = [
-        'ncas',
+        'cnas',
         'family_name',
         'name',
         'employer',
@@ -20,7 +20,7 @@ class Humanmean extends Model
     ];
 
     protected $casts = [
-        'ncas'=>'string',
+        'cnas'=>'string',
         'family_name'=>'string',
         'name'=>'string',
         'employer'=>'string',

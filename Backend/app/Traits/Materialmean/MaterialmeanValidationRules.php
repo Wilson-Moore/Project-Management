@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits\Blacklist;
+namespace App\Traits\Materialmean;
 
 trait MaterialmeanValidationRules
 {    
@@ -10,8 +10,8 @@ trait MaterialmeanValidationRules
             'number'=>['required','string'],
             'type'=>['required','string',],
             'registration'=>['required','string'],
-            'employer'=>['required','exists:partners,nif'],
-            'project_id'=>['required','exists:projects,id'],
+            'owner'=>['required','exists:partners,nif'],
+            'project_id'=>['sometimes','exists:projects,id'],
         ];
     }
 

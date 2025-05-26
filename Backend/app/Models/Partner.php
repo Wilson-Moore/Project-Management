@@ -70,12 +70,12 @@ class Partner extends Model
 
     public function humanmeans(): HasMany
     {
-        return $this->hasMany(Humanmeans::class,"employer");
+        return $this->hasMany(Humanmean::class,"employer");
     }
 
     public function materialmeans(): HasMany
     {
-        return $this->hasMany(Materialmeans::class,"owner");
+        return $this->hasMany(Materialmean::class,"owner");
     }
 
     public function blacklist(): HasOne
