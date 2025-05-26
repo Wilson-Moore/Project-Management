@@ -68,6 +68,16 @@ class Partner extends Model
         return $this->hasMany(Project::class,"co_contractor");
     }
 
+    public function humanmeans(): HasMany
+    {
+        return $this->hasMany(Humanmeans::class,"employer");
+    }
+
+    public function materialmeans(): HasMany
+    {
+        return $this->hasMany(Materialmeans::class,"owner");
+    }
+
     public function blacklist(): HasOne
     {
         return $this->hasOne(Blacklist::class,"partner_nif");

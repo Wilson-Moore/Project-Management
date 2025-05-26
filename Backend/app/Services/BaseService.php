@@ -36,7 +36,12 @@ abstract class BaseService
 
     public function delete(Model $model): void
     {
-        $model->trashed() ? $model->forceDelete() : $model->delete();
+        if (in_array(\Illuminate\Database\Eloquent\SoftDeletes::class, class_uses_recursive($model))) {
+            $model->trashed() ? $model->forceDelete() : $model->delete();
+        } else {
+            $model->delete();
+        }
+        
     }
 
     public function restore(Model $model): Model

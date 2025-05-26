@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
@@ -61,11 +62,21 @@ class Project extends Model
 
     public function partner(): BelongsTo
     {
-        return $this->belongsTo(Partner::class,"nif");
+        return $this->belongsTo(Partner::class,"co_contractor");
     }
 
     public function documents()
     {
         return $this->morphMany(Document::class,'documentable');
+    }
+
+    public function humanmeans(): HasMany
+    {
+        return $this->hasMany(Humanmeans::class,"project_id");
+    }
+
+    public function materialmeans(): HasMany
+    {
+        return $this->hasMany(Materialmeans::class,"project_id");
     }
 }

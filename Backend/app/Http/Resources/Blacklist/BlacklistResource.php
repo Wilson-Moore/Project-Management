@@ -16,6 +16,7 @@ class BlacklistResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id'=>$this->id,
             'entry_date'=>$this->entry_date->toDateString(),
             'exit_date'=>$this->exit_date->toDateString(),
             'reason'=>$this->reason,
