@@ -65,6 +65,11 @@ class Project extends Model
         return $this->belongsTo(Partner::class,"co_contractor");
     }
 
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function documents()
     {
         return $this->morphMany(Document::class,'documentable');
@@ -72,11 +77,11 @@ class Project extends Model
 
     public function humanmeans(): HasMany
     {
-        return $this->hasMany(Humanmeans::class,"project_id");
+        return $this->hasMany(Humanmean::class,"project_id");
     }
 
     public function materialmeans(): HasMany
     {
-        return $this->hasMany(Materialmeans::class,"project_id");
+        return $this->hasMany(Materialmean::class,"project_id");
     }
 }
