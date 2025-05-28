@@ -20,7 +20,7 @@ abstract class BaseService
         if (in_array(strtolower($sortDir),['asc','desc'])) {
             $query->orderBy($sortBy, $sortDir);
         }
-        return $query->paginate($perPage)->appends($request->query());
+        return $query->paginate()->appends($request->query());
     }
 
     public function create(array $data): Model
