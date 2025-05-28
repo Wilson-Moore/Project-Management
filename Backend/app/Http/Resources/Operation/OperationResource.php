@@ -27,7 +27,7 @@ class OperationResource extends JsonResource
             'initial_ap'=>$this->initial_ap,
             'current_ap'=>$this->current_ap,
             'situation'=>$this->situation_label,
-            'observatin'=>$this->observation,
+            'observation'=>$this->observation,
             'individualized'=>$this->individualized,
             'active_status'=>$this->active_status,
             'action'=>$this->whenLoaded('action',

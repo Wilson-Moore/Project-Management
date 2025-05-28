@@ -15,7 +15,13 @@ abstract class BaseService
     public function all(array $query_items, Request $request): LengthAwarePaginator
     {
         $query=$this->adjust($query_items,$this->model->newQuery());
-        return empty($query_items) ? $this->model->paginate() : $query->paginate()->appends($request->query());
+        $sortBy=$request->input('sort_by','created_at');
+        $sortDir=$request->input('sort_dir','desc');
+        if (in_array(strtolower($sortDir),['asc','desc'])) {
+            $query->orderBy($sortBy, $sortDir);
+        }
+        $perPage=$request->input('per_page',15);
+        return $query->paginate($perPage)->appends($request->query());
     }
 
     public function create(array $data): Model

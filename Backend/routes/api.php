@@ -13,8 +13,8 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HumanmeanController;
 use App\Http\Controllers\MaterialmeanController;
 use App\Http\Controllers\NoticeController;
-use App\Http\Controllers\ODSController;
 use App\Http\Controllers\OperationController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RevaluationController;
@@ -42,7 +42,7 @@ Route::group(['namespace'=>'App\Http\Controllers','middleware'=>'auth:sanctum'],
     Route::apiResource("projects",ProjectController::class);
     Route::apiResource("humanmeans",HumanmeanController::class);
     Route::apiResource("materialmeans",MaterialmeanController::class);
-    Route::apiResource("ods",ODSController::class);
+    Route::apiResource("ods",OrderController::class);
 
     
     Route::prefix('documents/')->group(function () {
