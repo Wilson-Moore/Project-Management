@@ -6,6 +6,7 @@ import axiosClient from "../../axios-client.js";
 import {NotificationStateContext} from "../../contexts/NotificationContextProvider.jsx";
 import {UserStateContext} from "../../contexts/UserContextProvider.jsx";
 import ProjectListItem from './../../components/ui/ProjectListItem.jsx'
+import SearchFilters from './../../components/ui/SearchFilters.jsx';
 
 const Dashboard = () => {
       const {user,token,setUser,setToken,notification}=UserStateContext();
@@ -63,7 +64,7 @@ const Dashboard = () => {
                   <input type="text" placeholder="Search..." />
             </div>
             <div className="actions-buttons">
-                  <Link to="/projects/new" className="btn-primary">New Project</Link>
+                  <SearchFilters txt="operation" noOverlay/>
             </div>
             </div>
             </div>
@@ -76,7 +77,7 @@ const Dashboard = () => {
                   <Link to="/projects" className="view-all">View All</Link>
             </div>
             <div className="card-content">
-                  {recentProjects.map((project) => (
+                  {recentProjects.slice(0,5).map((project) => (
                         <ProjectListItem key={project.id} project={project} />
                   ))}
             </div>
@@ -127,6 +128,13 @@ const Dashboard = () => {
                         <Link to="/projects" className="category-card">
                               <div className="category-info">
                                     <h3>Projects</h3>
+                              </div>
+                        </Link>
+                  </div>
+                  <div className="deadline-item">
+                        <Link to="/partners" className="category-card">
+                              <div className="category-info">
+                                    <h3>Partners</h3>
                               </div>
                         </Link>
                   </div>

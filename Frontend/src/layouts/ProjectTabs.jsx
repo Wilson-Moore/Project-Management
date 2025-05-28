@@ -50,9 +50,9 @@ function ProjectTabs(props) {
                   <div className="project-tabs">
                         <TabsNav type='operation'/>
                         <TabContent operation={operation} active _action={props._action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet} overview/>
-                        <TabContent />
+                        <TabContent operation={operation} documents/>
                         <TabContent operation={operation} consultations/>
-                        <TabContent />
+                        <TabContent operation={operation} notices />
                         <TabContent operation={operation} projects/>
                   </div>
             );
@@ -62,6 +62,22 @@ function ProjectTabs(props) {
                   <div className="project-tabs">
                         <TabsNav type='project'/>
                         <TabContent project={project} active overview/>
+                  </div>
+            );
+      }else if(props.consultation) {
+            const { consultation } = props;
+            return (
+                  <div className="project-tabs">
+                        <TabsNav type='consultation'/>
+                        <TabContent consultation={consultation} active overview/>
+                  </div>
+            );
+      }else if(props.notice) {
+            const { notice } = props;
+            return (
+                  <div className="project-tabs">
+                        <TabsNav type='notice'/>
+                        <TabContent notice={notice} active overview/>
                   </div>
             );
       }

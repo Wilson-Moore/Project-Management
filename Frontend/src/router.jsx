@@ -9,18 +9,15 @@ import ProgramDetails from "./pages/Project/program/ProgramDetails.jsx";
 import SubProgramDetails from "./pages/Project/subProgram/SubProgramDetails.jsx";
 import OperationDetails from "./pages/Project/operation/OperationDetails.jsx";
 import ProjectDetails from "./pages/Project/proj/ProjectDetails.jsx";
+import ConsultationDetails from "./pages/Project/consultation/ConsultationDetails.jsx"
+import NoticeDetails from "./pages/Project/notice/NoticeDetails.jsx"
 import AllWallets from "./pages/Project/wallet/Wallets.jsx";
 import AllPrograms from "./pages/Project/program/Programs.jsx";
 import AllSubPrograms from "./pages/Project/subProgram/SubPrograms.jsx";
 import AllOperations from "./pages/Project/operation/Operations.jsx";
 import AllActions from "./pages/Project/action/Actions.jsx";
 import AllProjects from "./pages/Project/proj/Projects.jsx";
-import NewWallet from "./pages/Project/wallet/NewWallet.jsx";
-import NewProgram from "./pages/Project/program/NewProgram.jsx";
-import NewSubProgram from "./pages/Project/subProgram/NewSubProgram.jsx";
-import NewAction from "./pages/Project/action/NewAction.jsx";
-import NewOperation from "./pages/Project/operation/NewOperation.jsx";
-import NewProject from "./pages/Project/proj/NewProject.jsx";
+import AllPartners from "./pages/Partner/Partners.jsx";
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 
 const router = createBrowserRouter([
@@ -100,6 +97,18 @@ const router = createBrowserRouter([
             path: '/projects',
             element: <AllProjects/>,
       },
+      {
+            path:'/consultation/:consultationId',
+            element: <ConsultationDetails />
+      },
+      {
+            path: '/partners',
+            element: <AllPartners/>,
+      },
+      {
+            path:'/notice/:noticeId',
+            element: <NoticeDetails />
+      }
       ]
 },
 {

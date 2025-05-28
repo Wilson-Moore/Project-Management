@@ -10,6 +10,7 @@ import NewSubProgram from "../../pages/Project/subprogram/NewSubProgram.jsx";
 import NewAction from "../../pages/Project/action/NewAction.jsx";
 import NewOperation from "../../pages/Project/operation/NewOperation.jsx";
 import NewProject from "../../pages/Project/proj/NewProject.jsx";
+import NewPartner from "../../pages/Partner/NewPartner.jsx";
 
 function SearchFilters(props) {
       const navigate = useNavigate();
@@ -24,7 +25,9 @@ function SearchFilters(props) {
       'sousprogramme': 3,
       'action': 4,
       'operation': 5,
-      'projet': 6
+      'projet': 6,
+      'consultation': 7,
+      'partner': 8,
       };
       
       // Map entity types to their default data structure
@@ -34,7 +37,8 @@ function SearchFilters(props) {
       'sousprogramme': { id: '', code: '', title: '', program_code: '' },
       'action': { code: '', title: '' },
       'operation': { number: '', title: '', date_of_notification: '', initial_ap: '', current_ap: '', situation: '1', action_code: '' },
-      'projet': { objectif: '', start_date: '', assessment_date: '', cost: '', duration: '', operation_number: '' }
+      'projet': { objectif: '', start_date: '', assessment_date: '', cost: '', duration: '', operation_number: '' },
+      'partner': { nif:'', company_name:'', address:'', mobile1:'', mobile2:'', phone:'', email:'', status:'1', city:'', fax:'', domain:'1', trade_register:''}
       };
       
       const openCreateModal = (txt) => {
@@ -125,6 +129,7 @@ function SearchFilters(props) {
             onSave={(data) => handleSave(data, 'operation')}
             initialData={editingItem || defaultData['operation']}
             isUpdate={!!editingItem}
+            noOverlay = {props.noOverlay}
             />
             )}
             
@@ -134,6 +139,27 @@ function SearchFilters(props) {
             onClose={closeModal}
             onSave={(data) => handleSave(data, 'project')}
             initialData={editingItem || defaultData['projet']}
+            isUpdate={!!editingItem}
+            />
+            )}
+
+            {/* Modal for Consultation */}
+            {/* {isModalOpen === 7 && (
+            <NewProject
+            onClose={closeModal}
+            onSave={(data) => handleSave(data, 'project')}
+            initialData={editingItem || defaultData['projet']}
+            isUpdate={!!editingItem}
+            />
+            )} */}
+
+            {/* Modal for Partner */}
+
+            {isModalOpen === 8 && (
+            <NewPartner
+            onClose={closeModal}
+            onSave={(data) => handleSave(data, 'partner')}
+            initialData={editingItem || defaultData['partner']}
             isUpdate={!!editingItem}
             />
             )}
@@ -148,9 +174,9 @@ function SearchFilters(props) {
             </div>
             </div>
 
-            <div className="filter-active-container" id="filter-active-container">
+            {/* <div className="filter-active-container" id="filter-active-container">
             <div id="active-filters">
-            {/* {Active filters will be displayed here} */}
+            {/* {Active filters will be displayed here} 
             </div>
             <button className="filter-reset" id="reset-filters">Reset all filters</button>
             </div>
@@ -185,7 +211,7 @@ function SearchFilters(props) {
             <option value="renovation">Renovation</option>
             <option value="maintenance">Maintenance</option>
             </select>
-            </div>
+            </div> */}
       </>
       );
 }

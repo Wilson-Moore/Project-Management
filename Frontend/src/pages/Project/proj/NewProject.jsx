@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './../../../assets/styles/model.css';
 import {useEffect} from 'react';
 
-export default function ProjectModel({ onClose, onSave, initialData, isUpdate = false }) {
+export default function ProjectModel({ onClose, onSave, initialData, isUpdate = false, disabled = false }) {
       const [project, setProject] = useState(initialData);
       const [errors, setErrors] = useState(null);
       const [loading, setLoading] = useState(false);
@@ -154,13 +154,13 @@ export default function ProjectModel({ onClose, onSave, initialData, isUpdate = 
                   </div>
             )}
             
-            {errors && (
+            {/* {errors && (
                   <div className="error-alert">
                   {Object.keys(errors).map(key => (
                   <p key={key}>{errors[key][0]}</p>
                   ))}
                   </div>
-            )}
+            )} */}
             
             {!loading && (
                   <form onSubmit={handleSubmit}>
@@ -175,6 +175,11 @@ export default function ProjectModel({ onClose, onSave, initialData, isUpdate = 
                         onChange={handleChange}
                         placeholder="Enter project objectif"
                   />
+                  {errors?.objectif && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.objectif}
+                              </p>
+                        )}
                   </div>
 
                   <div className="form-group">
@@ -187,6 +192,11 @@ export default function ProjectModel({ onClose, onSave, initialData, isUpdate = 
                         onChange={handleChange}
                         placeholder="yyyy/mm/dd"
                   />
+                  {errors?.start_date && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.start_date}
+                              </p>
+                        )}
                   </div>
                   
                   <div className="form-group">
@@ -199,6 +209,11 @@ export default function ProjectModel({ onClose, onSave, initialData, isUpdate = 
                         onChange={handleChange}
                         placeholder="yyyy/mm/dd"
                   />
+                  {errors?.assessment_date && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.assessment_date}
+                              </p>
+                        )}
                   </div>
                   
                   <div className="form-group">
@@ -242,7 +257,25 @@ export default function ProjectModel({ onClose, onSave, initialData, isUpdate = 
                         value={project.duration || ''}
                   />
                   </div>
+                  {errors?.duration && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.duration}
+                              </p>
+                        )}
                   </div>
+
+                  {/* co_contractor
+                  <div className="form-group">
+                  <label htmlFor="co_contractor">Co contractor</label>
+                  <input
+                        id="co_contractor"
+                        name="co_contractor"
+                        type="text"
+                        value={project.co_contractor}
+                        onChange={handleChange}
+                        placeholder="Enter project co contractor"
+                  />
+                  </div> */}
                   
                   {/* cost */}
                   <div className="form-group">
@@ -255,6 +288,11 @@ export default function ProjectModel({ onClose, onSave, initialData, isUpdate = 
                         onChange={handleCostChange}
                         placeholder="Enter project coût"
                   />
+                  {errors?.cost && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.cost}
+                              </p>
+                        )}
                   </div>
 
                   <div className="form-group">
@@ -266,7 +304,13 @@ export default function ProjectModel({ onClose, onSave, initialData, isUpdate = 
                         value={formattedCode}
                         onChange={handleNumberChange}
                         placeholder="Enter project Numéro d'Opération"
-                  />
+                        disabled = {disabled}
+                        />
+                        {errors?.operation_number && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.operation_number}
+                              </p>
+                        )}
                   </div>
 
                   <div className="form-actions">

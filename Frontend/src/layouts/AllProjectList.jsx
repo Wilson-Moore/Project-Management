@@ -49,6 +49,16 @@ function AllProjectList(props) {
                         ))}
                   </div>
             );
+      }else if(props.consultations) {
+            
+      }else if(props.partners) {
+            return (
+                  <div className="actions-list" id="actions-list">
+                        {props.partners.map((partner) => (
+                              <ProjectListItem key={partner.nif} partner={partner} />
+                        ))}
+                  </div>
+            );
       }
 }
 

@@ -23,7 +23,7 @@ function ProjectDetails() {
             const fetchData = async () => {
                   try {
                   
-                        const projectResponse = await axiosClient.get(`/projects/${projectId}?include=operation.action.subprogram.program.wallet`);
+                        const projectResponse = await axiosClient.get(`/projects/${projectId}?include=operation.action.subprogram.program.wallet,partner`);
                         const projectData = projectResponse.data.data;
                         setProject(projectData);
                         setOperation(projectData.operation);

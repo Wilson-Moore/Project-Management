@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './../../../assets/styles/model.css';
 import { useEffect } from 'react';
 
-export default function ActionModel({ onClose, onSave, initialData, isUpdate = false }) {
+export default function ActionModel({ onClose, onSave, initialData, isUpdate = false, disabled = false }) {
       const [action, setAction] = useState(initialData);
       const [errors, setErrors] = useState(null);
       const [loading, setLoading] = useState(false);
@@ -89,13 +89,13 @@ export default function ActionModel({ onClose, onSave, initialData, isUpdate = f
                   </div>
             )}
             
-            {errors && (
+            {/* {errors && (
                   <div className="error-alert">
                   {Object.keys(errors).map(key => (
                   <p key={key}>{errors[key][0]}</p>
                   ))}
                   </div>
-            )}
+            )} */}
             
             {!loading && (
                   <form onSubmit={handleSubmit}>
@@ -109,6 +109,11 @@ export default function ActionModel({ onClose, onSave, initialData, isUpdate = f
                         onChange={handleCodeChange}
                         placeholder="Enter action code"
                   />
+                  {errors?.code && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.code}
+                              </p>
+                        )}
                   </div>
                   
                   <div className="form-group">
@@ -121,6 +126,11 @@ export default function ActionModel({ onClose, onSave, initialData, isUpdate = f
                         onChange={handleChange}
                         placeholder="Enter action title"
                   />
+                  {errors?.title && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.title}
+                              </p>
+                        )}
                   </div>
 
                   <div className="form-actions">

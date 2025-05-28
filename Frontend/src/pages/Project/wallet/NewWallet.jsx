@@ -64,13 +64,13 @@ export default function WalletModel({ onClose, onSave, initialData = { code: '',
             </div>
           )}
           
-          {errors && (
+          {/* {errors && (
             <div className="error-alert">
               {Object.keys(errors).map(key => (
                 <p key={key}>{errors[key][0]}</p>
               ))}
             </div>
-          )}
+          )} */}
           
           {!loading && (
             <form onSubmit={handleSubmit}>
@@ -84,6 +84,11 @@ export default function WalletModel({ onClose, onSave, initialData = { code: '',
                   onChange={handleChange}
                   placeholder="Enter wallet code"
                 />
+                {errors?.code && (
+                  <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                        {errors.code}
+                  </p>
+                )}
               </div>
               
               <div className="form-group">
@@ -96,6 +101,11 @@ export default function WalletModel({ onClose, onSave, initialData = { code: '',
                   onChange={handleChange}
                   placeholder="Enter wallet title"
                 />
+                {errors?.title && (
+                  <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                        {errors.title}
+                  </p>
+                )}
               </div>
               
               <div className="form-actions">

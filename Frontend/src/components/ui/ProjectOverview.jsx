@@ -61,36 +61,12 @@ function ProjectOverview(props) {
                                     <h3 className="detail-label">Code de Sous-Programme:</h3>
                                     <p className="detail-value">{subprogram.code}</p>
                               </div>
-                              <div className="detail-cell">
-                                    <h3 className="detail-label">Code de Programme:</h3>
-                                    <p className="detail-value">{props._program.code}</p>
-                              </div>
-                              
                               </div>
                               <div className="detail-row">
                               <div className="detail-cell">
                                     <h3 className="detail-label">Intitulé de Sous-Programme:</h3>
                                     <p className="detail-value">{subprogram.title}</p>
                               </div>
-                              <div className="detail-cell">
-                                    <h3 className="detail-label">Intitulé de Programme:</h3>
-                                    <p className="detail-value">{props._program.title}</p>
-                              </div>
-                              
-                              </div>
-                        </div>
-                        <div className="detail-column">
-                              <div className="detail-row">
-                                    <div className="detail-cell">
-                                          <h3 className="detail-label">Code de Portefeuille:</h3>
-                                          <p className="detail-value">{props._wallet.code}</p>
-                                    </div>
-                              </div>
-                              <div className="detail-row">
-                                    <div className="detail-cell">
-                                          <h3 className="detail-label">Intitulé de Portefeuille:</h3>
-                                          <p className="detail-value">{props._wallet.title}</p>
-                                    </div>
                               </div>
                         </div>
                   </div>
@@ -210,8 +186,8 @@ function ProjectOverview(props) {
                               <p className="detail-value">{operation.situation || 'on halt'}</p>
                               </div>
                               <div className="detail-cell">
-                              <h3 className="detail-label">Observation:</h3>
-                              <p className="detail-value">{operation.observation || '-'}</p>
+                              <h3 className="detail-label">Individualisée:</h3>
+                              <p className="detail-value">{operation.individualized === 1 ? 'Oui' : operation.individualized === 0 ? 'Non' : '-'}</p>
                               </div>
                               </div>
                         </div>
@@ -219,8 +195,8 @@ function ProjectOverview(props) {
                         <div className="detail-wide">
                               <div className="detail-row">
                               <div className="detail-cell detail-quarter">
-                              <h3 className="detail-label">Individualisée:</h3>
-                              <p className="detail-value">{operation.individualized || '-'}</p>
+                              <h3 className="detail-label">Observation:</h3>
+                              <p className="detail-value">{operation.observatin || '-'}</p>
                               </div>
                               </div>
                         </div>
@@ -229,15 +205,6 @@ function ProjectOverview(props) {
       }else if(props.project) {
             const { project } = props;
             return (
-                  <>
-                  {/* <div className="project-overview-simple">
-                        <h5>N° du projet: {project.id || "-"}</h5>
-                        <h5>Intitulé du projet: {project.objectif || "-"}</h5>
-                        <h5>Date de début: {project.start_date.slice(0,10) || "-"}</h5>
-                        <h5>Date d'évaluation: {project.assessment_date.slice(0,10) || "-"}</h5>
-                        <h5>Duration: {project.duration || "-"}</h5>
-                        <h5>coût: {project.cost + ".00da" || "-"}</h5>
-                  </div> */}
                   <div className="detail-grid">
                   <div className="detail-column">
                         <div className="detail-row">
@@ -280,161 +247,85 @@ function ProjectOverview(props) {
                         </div>
                         </div>
                   </div>
-                  
-                  <div className="detail-wide">
-                        <div className="detail-row">
-                        <div className="detail-cell detail-quarter">
-                        <h3 className="detail-label">Individualisée:</h3>
-                        <p className="detail-value">{ '-'}</p>
-                        </div>
+            </div>
+            );
+      }else if (props.consultation) {
+            // const { consultation } = props.consultation;
+            return(
+                  <>
+                  <div className="detail-grid">
+                        <div className="detail-column">
+                              <div className="detail-row">
+                              <div className="detail-cell">
+                              <h3 className="detail-label">Code d'Action:</h3>
+                              <p className="detail-value">{props.consultation.signature_date || "-"}</p>
+                              </div>
+                              </div>
+                              <div className="detail-row">
+                              <div className="detail-cell">
+                              <h3 className="detail-label">Intitulé d'Action:</h3>
+                              <p className="detail-value">{props.consultation.duration || "-"}</p>
+                              </div>
+                              </div>
                         </div>
                   </div>
-            </div>
-            </>
+
+                  <div>
+                        <h3 className="detail-label">Observation:</h3>
+                        <p className="detail-value">{props.consultation.observation || "-"}</p>
+                  </div>
+                  </>
             );
+      }else if(props.notice) {
+            let bomop = '-';
+            let frPDate = '-';
+            let arPDate = '-';
+
+            if(props.notice.BOMOP_date) {
+                  bomop = props.notice.BOMOP_date.slice(0,10);
+            }
+            if(props.notice.french_publication_date) {
+                  frPDate = props.notice.french_publication_date.slice(0,10);
+            }
+            if(props.notice.arab_publication_date) {
+                  arPDate = props.notice.arab_publication_date.slice(0,10);
+            }
+            
+            return(
+                  <>
+                  <div className="detail-grid">
+                        <div className="detail-column">
+                              <div className="detail-row">
+                              <div className="detail-cell">
+                              <h3 className="detail-label">Date de publication (ar):</h3>
+                              <p className="detail-value">{arPDate}</p>
+                              </div>
+                              </div>
+                              <div className="detail-row">
+                              <div className="detail-cell">
+                              <h3 className="detail-label">Date de publication (fr):</h3>
+                              <p className="detail-value">{frPDate}</p>
+                              </div>
+                              </div>
+                        </div>
+                        <div className="detail-column">
+                              <div className="detail-row">
+                              <div className="detail-cell">
+                              <h3 className="detail-label">Date de BOMOP:</h3>
+                              <p className="detail-value">{bomop}</p>
+                              </div>
+                              </div>
+                        </div>
+                  </div>
+
+                  <div>
+                        <h3 className="detail-label">Observation:</h3>
+                        <p className="detail-value">{props.notice.observation || "-"}</p>
+                  </div>
+                  </>
+            );
+
       }
-      
-
-
-      // const { 
-      //       walletId, 
-      //       programId, 
-      //       subprogramId, 
-      //       actionId 
-      // } = useParams();
-      // const [wallet,setwallet]=useState({code: '',title: '',programs: []});
-      // const [program,setprogram]=useState({code: '',title: '',wallet_code:'',subprograms: []});
-      // const [subprogram,setsubprogram]=useState({id: '',code:'',title: '',program_code:'',actions: []});
-      // const [action,setaction]=useState({code: '',type: '',subprogram_code:''});
-      // const [loading,setLoading]=useState(false);
-      // const {setNotification}=NotificationStateContext()
-      // const [errors,setErrors]=useState(null)
-      // const navigate=useNavigate()
-
-      // const [currentpage,setcurrentpage]=useState(1);
-      // const [subEntities,setsub]=useState([]);
-      // const [totalpages,settotalpages]=useState(1);
-
-
-      // useEffect(() => {
-      //       getsub();
-      //       if(actionId) {
-      //             setLoading(true);
-      //             axiosClient.get(`/actions/${actionId}`)
-      //             .then(({ data }) => {
-      //                   setLoading(false);
-      //                   setaction(data.data);
-      //             })
-      //             .catch(() => {
-      //                   setLoading(false);
-      //             });
-      //       }else
-            
-      //       if (subprogramId) {
-      //             setLoading(true);
-      //             axiosClient.get(`/subprograms/${subprogramId}`)
-      //             .then(({ data }) => {
-      //                   setLoading(false);
-      //                   setsubprogram(data.data);
-      //             })
-      //             .catch(() => {
-      //                   setLoading(false);
-      //             });
-      //       }else
-            
-      //       if (programId) {
-      //             setLoading(true);
-      //             axiosClient.get(`/programs/${programId}`)
-      //             .then(({ data }) => {
-      //                   setLoading(false);
-      //                   setprogram(data.data);
-      //             })
-      //             .catch(() => {
-      //                   setLoading(false);
-      //             });
-      //       }else
-            
-      //       if (walletId) {
-      //             setLoading(true);
-      //             axiosClient.get(`/wallets/${walletId}`)
-      //             .then(({ data }) => {
-      //                   setLoading(false);
-      //                   setwallet(data.data);
-      //             })
-      //             .catch(() => {
-      //                   setLoading(false);
-      //             });
-      //       }
-      // }, [walletId, actionId, programId, subprogramId, currentpage]);
-      
-
-      // const getsub = () => {
-      //       setLoading(true);
-            
-      //       let endpoint = '';
-      //       let filterKey = '';
-            
-      //       // if (actionId) {
-      //       //   endpoint = '/operations';
-      //       //   filterKey = 'action';
-      //       // } else 
-      //       if (subprogramId) {
-      //             endpoint = '/actions';
-      //             filterKey = 'subprogram';
-      //       } else if (programId) {
-      //             endpoint = '/subprograms';
-      //             filterKey = 'program';
-      //       } else if (walletId) {
-      //             endpoint = '/programs';
-      //             filterKey = 'wallet';
-      //       } else {
-      //             setLoading(false);
-      //             return;
-      //       }
-
-      //       axiosClient.get(`${endpoint}?page=${currentpage}`)
-      //       .then(({ data }) => {
-      //               // Filter results based on parent ID
-      //             const filteredData = data.data.filter(item => 
-      //                   item[filterKey] === (actionId || subprogramId || programId || walletId)
-      //             );
-      //             setLoading(false);
-      //             setsub(filteredData);
-      //             settotalpages(data.meta.last_page);
-      //       })
-      //       .catch((error) => {
-      //             setLoading(false);
-      //             console.error("Error getting sub-entities:", error);
-      //       setNotification({
-      //             message: "Failed to load data",
-      //             type: "error"
-      //       });
-      //       });
-      // };
-
-      // const info =  actionId ? "l'action" : subprogramId ? "le sous-program" : programId ? "le program" : walletId ? "le portefeuille" : "-";
-      // const code =  actionId ? action.code : subprogramId ? subprogram.id : programId ? program.code : walletId ? wallet.code : "-";
-      // const title =  actionId ? action.title : subprogramId ? subprogram.title : programId ? program.title : walletId ? wallet.title : "-";
-
-      // return (
-      //       <div className="project-overview">
-      //             <div className="overview-section">
-      //                   <h3>Informations sur {info}</h3>
-      //                   <h5>Code: {code}</h5>
-      //                   <h5>Intitulé: {title}</h5>
-      //             </div>
-      //             <div className="overview-section" style={{backgroundColor: "white"}}>
-      //                   <h3>les opérations</h3>
-      //                   {subEntities.length > 0 ? (
-      //                   subEntities.map((entity, index) => (
-      //                         <OperationItem key={index} entity ={entity} operationName={entity.title || "No title"} year="2024" isObserved creator="Fischer" status={index === 0 ? "Fini" : "En cours"} />    
-      //                   ))
-      //                   ) : (
-      //                         !loading ? <p>Aucune opération trouvée</p> : <div>Loading ...</div>
-      //                   )}
-      //             </div>
-      //       </div>
-      // );
 }
 
 export default ProjectOverview;

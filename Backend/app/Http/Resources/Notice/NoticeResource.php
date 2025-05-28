@@ -17,9 +17,9 @@ class NoticeResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'arab_publication_date'=>$this->arab_publication_date->toDateString(),
-            'franch_publication_date'=>$this->french_publication_date->toDateString(),
-            'BOMOP_date'=>$this->BOMOP_date->toDateString(),
+            'arab_publication_date'=>$this->arab_publication_date,
+            'french_publication_date'=>$this->french_publication_date,
+            'BOMOP_date'=>$this->BOMOP_date,
             'observation'=>$this->observation,
             'active_status'=>$this->active_status,
             'operation'=>$this->whenLoaded('operation',

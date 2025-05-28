@@ -121,6 +121,18 @@ function AllProjectLayout(props) {
                         }
                   </div>
             );
+      }else if(props.consultations) {
+            
+      }else if(props.partners) {
+            return (
+                  <div className="project-layout">
+                        <AllProjectHeader txt="partners" total={props.partners.length} loading={props.loading} />
+                        <SearchFilters txt="partner" />
+                        {!props.loading ? <AllProjectList partners={props.partners} /> :
+                              <div className="laoding">Loading...</div>
+                        }
+                  </div>
+            );
       }
 }
 

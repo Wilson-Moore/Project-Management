@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './../../../assets/styles/model.css';
 import {useEffect} from 'react';
 
-export default function OperationModel({ onClose, onSave, initialData, isUpdate = false }) {
+export default function OperationModel({ onClose, onSave, initialData, isUpdate = false, disabled = false, noOverlay = false }) {
       const [operation, setOperation] = useState(initialData);
       const [errors, setErrors] = useState(null);
       const [loading, setLoading] = useState(false);
@@ -13,10 +13,14 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
 
       const handleChange = (e) => {
       const { name, value } = e.target;
-      
-      setOperation(prev => ({ ...prev, [name]: value }));
-      };
+      // if(name = 'date_of_notification') {
+      //       setOperation(prev => ({ ...prev, [name]: value?.replace(/\-/g, '/') }));
 
+      // }else{
+            setOperation(prev => ({ ...prev, [name]: value }));
+            
+      };
+      
       const formatNumber = (number) => {
             let formatted = '';
             for (let i = 0; i < number.length; i++) {
@@ -31,6 +35,7 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
       };
 
       const formatAp = (ap, fieldName) => {
+            ap = ap.toString().replace(/\ /g, '');
             let formatted = '';
             for (let i = 0; i < ap.length; i++) {
                   // Add a space every 3 characters
@@ -41,24 +46,25 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
                         formatted += ap[i];
                   }
             }
-      
             // Dynamically update the corresponding field
-            setOperation(prev => ({ ...prev, [fieldName]: ap.replace(/\ /g, '') }));
+            setOperation(prev => ({ ...prev, [fieldName]: parseFloat(ap) }));
             if (fieldName === 'initial_ap') {
                   setFormattedIAp(formatted);
             } else if (fieldName === 'current_ap') {
                   setFormattedCAp(formatted); // Optional: Add another state if needed
             }
       };
-
+      
       useEffect(() => {
             if (initialData) {
+                  const situation = operation.situation === "in the works" ? "1" : operation.situation === "on halt" ? "2" : operation.situation === "completed" ? "3" : "1";
+                  setOperation(prev => ({ ...prev, situation : situation, date_of_notification : operation.date_of_notification?.replace(/\-/g, '/') }));
                   formatNumber(initialData.number.replace(/\./g, ''));
                   if (initialData.initial_ap) {
-                        formatAp(initialData.initial_ap.replace(/\ /g, ''), 'initial_ap');
+                        formatAp(initialData.initial_ap, 'initial_ap');
                   }
                   if (initialData.current_ap) {
-                        formatAp(initialData.current_ap.replace(/\ /g, ''), 'current_ap');
+                        formatAp(initialData.current_ap, 'current_ap');
                   }
             }
             // Add event listener for keydown
@@ -108,8 +114,8 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
       };
       
       return (
-      <div className="modal-overlay">
-            <div className="modal-container">
+      <div className="modal-overlay" style={noOverlay? {backgroundColor: 'transparent'}: {top: 0}}>
+            <div className="modal-container" style={{width: 1000 + 'px'}}>
             <div className="modal-header">
             <h2>{isUpdate ? `Update Operation: ${initialData.title}` : 'New Operation'}</h2>
             <button onClick={onClose} className="close-button">&times;</button>
@@ -122,16 +128,18 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
                   </div>
             )}
             
-            {errors && (
+            {/* {errors && (
                   <div className="error-alert">
                   {Object.keys(errors).map(key => (
                   <p key={key}>{errors[key][0]}</p>
                   ))}
                   </div>
-            )}
+            )} */}
             
             {!loading && (
-                  <form onSubmit={handleSubmit}>
+                  <form onSubmit={handleSubmit} className="halfed">
+                  <div className="half">
+
                   <div className="form-group">
                   <label htmlFor="number">Operation Number</label>
                   <input
@@ -142,6 +150,12 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
                         onChange={handleNumberChange}
                         placeholder="Enter operation number"
                   />
+                  {errors?.number && (
+                        <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                              {errors.number}
+                        </p>
+                  )}
+                  
                   </div>
                   
                   <div className="form-group">
@@ -154,6 +168,11 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
                         onChange={handleChange}
                         placeholder="Enter operation title"
                   />
+                  {errors?.title && (
+                        <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                              {errors.title}
+                        </p>
+                  )}
                   </div>
 
                   <div className="form-group">
@@ -166,6 +185,11 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
                               onChange={handleApChange}
                               placeholder="Enter operation initial ap"
                         />
+                        {errors?.initial_ap && (
+                        <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                              {errors.initial_ap}
+                        </p>
+                  )}
                   </div>
 
                   <div className="form-group">
@@ -178,18 +202,31 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
                               onChange={handleApChange}
                               placeholder="Enter operation current ap"
                         />
+                        {errors?.current_ap && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.current_ap}
+                              </p>
+                        )}
+                  </div>
                   </div>
                   
+                  <div className="half">
+
                   <div className="form-group">
                   <label htmlFor="date_of_notification">Date de notification</label>
                   <input
                         id="date_of_notification"
                         name="date_of_notification"
                         type="text"
-                        value={operation.date_of_notification}
+                        value={operation.date_of_notification?.replace(/\-/g, '/')}
                         onChange={handleChange}
                         placeholder="yyyy/mm/dd"
                         />
+                        {errors?.date_of_notification && (
+                        <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                              {errors.date_of_notification}
+                        </p>
+                  )}
                   </div>
                   
                   <div className="form-group hidden">
@@ -208,13 +245,62 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
                               id="situation"
                               name="situation"
                               type="text"
-                              value={operation.action_code}
+                              value={operation.situation}
                               onChange={handleChange}
                               placeholder="Enter operation situation"
                         >
                               <option value="1" selected>in the works</option>
                               <option value="2">on halt</option>
+                              <option value="3">completed</option>
                         </select>
+                        {errors?.situation && (
+                        <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                              {errors.situation}
+                        </p>
+                        )}
+                  </div>
+
+                  <div className="form-group">
+                        <label htmlFor="observation">Observation</label>
+                        <textarea 
+                              id="observation"
+                              name="observation"
+                              type="textArea"
+                              value={operation.observation}
+                              onChange={handleChange}
+                              placeholder="Enter operation observation"
+                        />
+                        {errors?.observation && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.observation}
+                              </p>
+                        )}
+                  </div>
+
+                  <div className="form-group">
+                  <label htmlFor="individualized">Individualized</label>
+                  <div className="radio-group">
+                        <input 
+                        type="radio" 
+                        name="individualized" 
+                        id="individualized0" 
+                        value={0}
+                        onChange={handleChange}
+                        // checked = {!operation.individualized}
+                        />
+
+                        <label htmlFor="individualized0">No</label>
+
+                        <input 
+                        type="radio" 
+                        name="individualized" 
+                        id="individualized1" 
+                        value={1}
+                        onChange={handleChange}
+                        // checked = {operation.individualized}
+                        /> 
+                        <label htmlFor="individualized1">Yes</label>
+                  </div>
                   </div>
 
                   <div className="form-actions">
@@ -231,6 +317,7 @@ export default function OperationModel({ onClose, onSave, initialData, isUpdate 
                   >
                         {isUpdate ? 'Update' : 'Create'}
                   </button>
+                  </div>
                   </div>
                   </form>
             )}

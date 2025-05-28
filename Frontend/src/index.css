@@ -133,9 +133,3 @@ body {
 .hidden {
   display: none;
 }
-
-.project-projects, .project-consultations{
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}

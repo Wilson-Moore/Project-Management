@@ -2,18 +2,20 @@
 
 namespace App\Services;
 
+use App\Traits\AdjustQuery;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 abstract class BaseService
 {
+    use AdjustQuery;
     protected Model $model;
 
     public function all(array $query_items, Request $request): LengthAwarePaginator
     {
-        return empty($query_items) ? $this->model->paginate()
-        : $this->model->where($query_items)->paginate()->appends($request->query());
+        $query=$this->adjust($query_items,$this->model->newQuery());
+        return empty($query_items) ? $this->model->paginate() : $query->paginate()->appends($request->query());
     }
 
     public function create(array $data): Model
@@ -34,7 +36,12 @@ abstract class BaseService
 
     public function delete(Model $model): void
     {
-        $model->trashed() ? $model->forceDelete() : $model->delete();
+        if (in_array(\Illuminate\Database\Eloquent\SoftDeletes::class, class_uses_recursive($model))) {
+            $model->trashed() ? $model->forceDelete() : $model->delete();
+        } else {
+            $model->delete();
+        }
+        
     }
 
     public function restore(Model $model): Model

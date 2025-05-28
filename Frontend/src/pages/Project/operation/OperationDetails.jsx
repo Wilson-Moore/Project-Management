@@ -24,7 +24,7 @@ function OperationDetails() {
             const fetchData = async () => {
                   try {
                         setLoading(true);
-                        const operationResponse = await axiosClient.get(`/operations/${operationId}?include=projects,consultations,action.subprogram.program.wallet`);
+                        const operationResponse = await axiosClient.get(`/operations/${operationId}?include=projects,consultations,documents,notices,action.subprogram.program.wallet`);
                         const operationData = operationResponse.data.data;
                         setOperation(operationData);
                         setWallet(operationData.action.subprogram.program.wallet);

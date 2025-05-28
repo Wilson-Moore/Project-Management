@@ -3,7 +3,7 @@ import { use, useState } from 'react';
 import './../../../assets/styles/model.css';
 import { useEffect } from 'react';
 
-export default function ProgramModel({ onClose, onSave, initialData, isUpdate = false }) {
+export default function ProgramModel({ onClose, onSave, initialData, isUpdate = false, disabled = false }) {
       const [program, setProgram] = useState(initialData);
       const [errors, setErrors] = useState(null);
       const [loading, setLoading] = useState(false);
@@ -65,13 +65,13 @@ export default function ProgramModel({ onClose, onSave, initialData, isUpdate = 
                   </div>
             )}
             
-            {errors && (
+            {/* {errors && (
                   <div className="error-alert">
                   {Object.keys(errors).map(key => (
                   <p key={key}>{errors[key][0]}</p>
                   ))}
                   </div>
-            )}
+            )} */}
             
             {!loading && (
                   <form onSubmit={handleSubmit}>
@@ -85,6 +85,11 @@ export default function ProgramModel({ onClose, onSave, initialData, isUpdate = 
                         onChange={handleChange}
                         placeholder="Enter program code"
                   />
+                  {errors?.code && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.code}
+                              </p>
+                        )}
                   </div>
                   
                   <div className="form-group">
@@ -97,6 +102,11 @@ export default function ProgramModel({ onClose, onSave, initialData, isUpdate = 
                         onChange={handleChange}
                         placeholder="Enter program title"
                   />
+                  {errors?.title && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.title}
+                              </p>
+                        )}
                   </div>
                   
                   <div className="form-group">
@@ -105,10 +115,16 @@ export default function ProgramModel({ onClose, onSave, initialData, isUpdate = 
                         id="wallet_code"
                         name="wallet_code"
                         type="text"
-                        value={program.wallet_code}
+                        value={program.wallet_code || program.wallet?.code || ''}
                         onChange={handleChange}
                         placeholder="Enter wallet code"
+                        disabled = {disabled}
                   />
+                  {errors?.wallet_code && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.wallet_code}
+                              </p>
+                        )}
                   </div>
 
                   <div className="form-actions">

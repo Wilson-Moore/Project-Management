@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './../../../assets/styles/model.css';
 import { useEffect } from 'react';
 
-export default function SubProgramModel({ onClose, onSave, initialData, isUpdate = false }) {
+export default function SubProgramModel({ onClose, onSave, initialData, isUpdate = false, disabled = false }) {
       const [subprogram, setSubProgram] = useState(initialData);
       const [errors, setErrors] = useState(null);
       const [loading, setLoading] = useState(false);
@@ -65,13 +65,13 @@ export default function SubProgramModel({ onClose, onSave, initialData, isUpdate
                   </div>
             )}
             
-            {errors && (
+            {/* {errors && (
                   <div className="error-alert">
                   {Object.keys(errors).map(key => (
                   <p key={key}>{errors[key][0]}</p>
                   ))}
                   </div>
-            )}
+            )} */}
             
             {!loading && (
                   <form onSubmit={handleSubmit}>
@@ -85,6 +85,11 @@ export default function SubProgramModel({ onClose, onSave, initialData, isUpdate
                         onChange={handleChange}
                         placeholder="Enter subprogram code"
                   />
+                  {errors?.code && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.code}
+                              </p>
+                        )}
                   </div>
                   
                   <div className="form-group">
@@ -97,6 +102,11 @@ export default function SubProgramModel({ onClose, onSave, initialData, isUpdate
                         onChange={handleChange}
                         placeholder="Enter subprogram title"
                   />
+                  {errors?.title && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.title}
+                              </p>
+                        )}
                   </div>
                   
                   <div className="form-group">
@@ -105,10 +115,16 @@ export default function SubProgramModel({ onClose, onSave, initialData, isUpdate
                         id="program_code"
                         name="program_code"
                         type="text"
-                        value={subprogram.program_code}
+                        value={subprogram.program_code || subprogram.program?.code || ''}
                         onChange={handleChange}
                         placeholder="Enter program code"
+                        disabled = {disabled}
                   />
+                  {errors?.program_code && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.program_code}
+                              </p>
+                        )}
                   </div>
 
                   <div className="form-actions">

@@ -14,19 +14,20 @@ return new class extends Migration
         Schema::create('partners', function (Blueprint $table) {
             $table->string("nif")->primary();
             $table->string("company_name");
-            $table->string("address");
+            $table->string("address")->nullable();
             $table->string("mobile1")->unique()->nullable();
             $table->string("mobile2")->unique()->nullable();
-            $table->string("phone")->unique();
-            $table->string("email")->unique();
-            $table->smallInteger("status");
-            $table->string("city");
-            $table->string("fax")->unique();
-            $table->smallInteger("domain");
-            $table->smallInteger("category");
+            $table->string("phone")->unique()->nullable();
+            $table->string("email")->unique()->nullable();
+            $table->smallInteger("status")->nullable();
+            $table->string("city")->nullable();
+            $table->string("fax")->unique()->nullable();
+            $table->smallInteger("domain")->nullable();
+            $table->smallInteger("category")->nullable();
             $table->boolean("micro")->default(false);
             $table->string("trade_register")->unique();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

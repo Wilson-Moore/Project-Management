@@ -4,7 +4,10 @@ namespace App\Http\Resources\Operation;
 
 use App\Http\Resources\Action\ActionResource;
 use App\Http\Resources\Consultation\ConsultationCollection;
+use App\Http\Resources\Document\DocumentCollection;
+use App\Http\Resources\Notice\NoticeCollection;
 use App\Http\Resources\Project\ProjectCollection;
+use App\Http\Resources\Revaluation\RevaluationCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -23,7 +26,6 @@ class OperationResource extends JsonResource
             'date_of_notification'=>$this->date_of_notification->toDateString(),
             'initial_ap'=>$this->initial_ap,
             'current_ap'=>$this->current_ap,
-            'revaluation'=>$this->revaluation,
             'situation'=>$this->situation_label,
             'observatin'=>$this->observation,
             'individualized'=>$this->individualized,
@@ -34,6 +36,9 @@ class OperationResource extends JsonResource
             ),
             'projects'=>ProjectCollection::make($this->whenLoaded('projects')),
             'consultations'=>ConsultationCollection::make($this->whenLoaded('consultations')),
+            'notices'=>NoticeCollection::make($this->whenLoaded('notices')),
+            'revaluations'=>RevaluationCollection::make($this->whenLoaded('revaluations')),
+            'documents'=>DocumentCollection::make($this->whenLoaded('documents')),
         ];
     }
 }

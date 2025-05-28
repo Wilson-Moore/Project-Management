@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './../../../assets/styles/model.css';
 import {useEffect} from 'react';
 
-export default function ConsultationModel({ onClose, onSave, initialData, isUpdate = false }) {
+export default function ConsultationModel({ onClose, onSave, initialData, isUpdate = false, disabled = false }) {
       const [consultation, setConsultation] = useState(initialData);
       const [errors, setErrors] = useState(null);
       const [loading, setLoading] = useState(false);
@@ -130,19 +130,19 @@ export default function ConsultationModel({ onClose, onSave, initialData, isUpda
                   </div>
             )}
             
-            {errors && (
+            {/* {errors && (
                   <div className="error-alert">
                   {Object.keys(errors).map(key => (
                   <p key={key}>{errors[key][0]}</p>
                   ))}
                   </div>
-            )}
+            )} */}
             
             {!loading && (
                   <form onSubmit={handleSubmit}>
 
                   <div className="form-group">
-                  <label htmlFor="start_date">Date de signature</label>
+                  <label htmlFor="signature_date">Date de signature</label>
                   <input
                         id="signature_date"
                         name="signature_date"
@@ -151,6 +151,11 @@ export default function ConsultationModel({ onClose, onSave, initialData, isUpda
                         onChange={handleChange}
                         placeholder="yyyy/mm/dd"
                   />
+                  {errors?.signature_date && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.signature_date}
+                              </p>
+                        )}
                   </div>
                   
                   <div className="form-group">
@@ -194,6 +199,11 @@ export default function ConsultationModel({ onClose, onSave, initialData, isUpda
                         value={consultation.duration || ''}
                   />
                   </div>
+                  {errors?.duration && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.duration}
+                              </p>
+                        )}
                   </div>
 
                   <div className="form-group">
@@ -206,6 +216,11 @@ export default function ConsultationModel({ onClose, onSave, initialData, isUpda
                         onChange={handleChange}
                         placeholder="Enter consultation observation"
                   />
+                  {errors?.observation && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.observation}
+                              </p>
+                        )}
                   </div>
                   
 
@@ -218,7 +233,13 @@ export default function ConsultationModel({ onClose, onSave, initialData, isUpda
                         value={formattedCode}
                         onChange={handleNumberChange}
                         placeholder="Enter consultation Numéro d'Opération"
+                        disabled = {disabled}
                   />
+                  {errors?.operation_number && (
+                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
+                                    {errors.operation_number}
+                              </p>
+                        )}
                   </div>
 
                   <div className="form-actions">

@@ -33,6 +33,18 @@ button, .actions-buttons a {
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.btn-logout {
+      background-color: #ff1212;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      
+}
+
+.btn-logout:hover {
+      background-color: #ed0e0e;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 .btn-secondary {
       background-color: white;
       color: var(--primary-color);
@@ -60,4 +72,18 @@ button, .actions-buttons a {
 .btn-login:hover, .btn-signup:hover {
       background-color: #3a5dbe;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-edit {
+      background-color: transparent;
+      width: 36px;
+      outline: none;
+}
+
+.btn-edit img {
+      width: inherit;
+}
+
+.btn-edit:hover img {
+      filter: brightness(0.9);
 }

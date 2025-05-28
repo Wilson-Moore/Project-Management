@@ -98,23 +98,75 @@ function ProjectMeta(props) {
                               <span className="meta-value">{operation.current_ap ? operation.current_ap + ".00da" : operation.initial_ap ? operation.initial_ap + ".00da" : ''}</span></div>
                   </div>
             );
+      }else if(props.project) {
+            return (
+                  <div className="project-meta">
+                        <div className="meta-item">
+                              <span className="meta-label">Objectif du projet :</span>
+                              <span className="meta-value">{props.project.objectif}</span></div>
+                        <div className="meta-item">
+                              <span className="meta-label">Démarrage :</span>
+                              <span className="meta-value">{props.project.start_date.slice(0,10)}</span></div>
+                        <div className="meta-item">
+                              <span className="meta-label">Évaluation :</span>
+                              <span className="meta-value">{props.project.assessment_date.slice(0,10)}</span></div>
+                        <div className="meta-item">
+                              <span className="meta-label">Coût :</span>
+                              <span className="meta-value">{props.project.cost ? props.project.cost + ".00da" : ''}</span></div>
+                  </div>
+            );
+      }else if(props.consultation) {
+            return (
+                  <div className="project-meta">
+                        <div className="meta-item">
+                              <div className="meta-label">Date de Signature :</div>
+                              <div className="meta-value">{props.consultation.signature_date}</div></div>
+                        <div className="meta-item">
+                              <div className="meta-label">Duration :</div>
+                              <div className="meta-value">{props.consultation.duration}</div></div>
+                  </div>
+            );
+      }else if(props.notice) {
+            let bomop = '-';
+            let pDate = '-';
+
+            if(props.notice.BOMOP_date) {
+                  bomop = props.notice.BOMOP_date.slice(0,10);
+            }
+            if(props.notice.french_publication_date) {
+                  pDate = props.notice.french_publication_date.slice(0,10);
+            }
+            
+            return (
+                  <div className="project-meta">
+                        <div className="meta-item">
+                              <div className="meta-label">Date de publication :</div>
+                              <div className="meta-value">{pDate}</div></div>
+                        <div className="meta-item">
+                              <div className="meta-label">Date BOMOP :</div>
+                              <div className="meta-value">{bomop }</div></div>
+                  </div>
+            );
       }
 
       return (
-            <div className="project-meta">
-                  <div className="meta-item">
-                        <span className="meta-label">Objectif du projet :</span>
-                        <span className="meta-value">{props.project.objectif}</span></div>
-                  <div className="meta-item">
-                        <span className="meta-label">Démarrage :</span>
-                        <span className="meta-value">{props.project.start_date.slice(0,10)}</span></div>
-                  <div className="meta-item">
-                        <span className="meta-label">Évaluation :</span>
-                        <span className="meta-value">{props.project.assessment_date.slice(0,10)}</span></div>
-                  <div className="meta-item">
-                        <span className="meta-label">Coût :</span>
-                        <span className="meta-value">{props.project.cost ? props.project.cost + ".00da" : ''}</span></div>
+            <div>
             </div>
+
+            // <div className="project-meta">
+            //       <div className="meta-item">
+            //             <span className="meta-label">Objectif du projet :</span>
+            //             <span className="meta-value">{props.project.objectif}</span></div>
+            //       <div className="meta-item">
+            //             <span className="meta-label">Démarrage :</span>
+            //             <span className="meta-value">{props.project.start_date.slice(0,10)}</span></div>
+            //       <div className="meta-item">
+            //             <span className="meta-label">Évaluation :</span>
+            //             <span className="meta-value">{props.project.assessment_date.slice(0,10)}</span></div>
+            //       <div className="meta-item">
+            //             <span className="meta-label">Coût :</span>
+            //             <span className="meta-value">{props.project.cost ? props.project.cost + ".00da" : ''}</span></div>
+            // </div>
       );
 }
 

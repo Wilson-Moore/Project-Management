@@ -5,17 +5,17 @@ export const BREADCRUMB_TEMPLATES = {
       actionDetails: [
       {path: "/", label: "Home", key: "home"},
       { 
-            path: "/projects/active/wallet/:walletId",
+            path: "/wallet/:walletId",
             // label: "Wallet", // Default/fallback 
             key: "walletName" 
       },
       { 
-            path: "/projects/active/wallet/:walletId/program/:programId", 
+            path: "/program/:programId", 
             // label: "Programme", 
             key: "programName" 
       },
       { 
-            path: "/projects/active/wallet/:walletId/program/:programId/subprogram/:subProgramId", 
+            path: "/subprogram/:subProgramId", 
             // label: "Sub-Programme", 
             key: "subProgramName" 
       },
@@ -130,6 +130,74 @@ export const BREADCRUMB_TEMPLATES = {
                   path: "/project/:projectId",
                   // label: "Project",
                   key: "projectName" 
+            }
+      ],
+
+      consultationDetails : [
+            {path: "/", label: "Home", key: "home"},
+            { 
+                  path: "/wallet/:walletId",
+                  // label: "Wallet", // Default/fallback 
+                  key: "walletName" 
+            },
+            { 
+                  path: "/program/:programId", 
+                  // label: "Programme", 
+                  key: "programName" 
+            },
+            { 
+                  path: "/subprogram/:subProgramId", 
+                  // label: "Sub-Programme", 
+                  key: "subProgramName" 
+            },
+            { 
+                  path: "/action/:actionId",
+                  // label: "Action", 
+                  key: "actionName" 
+            },
+            { 
+                  path: "/operation/:operationId",
+                  // label: "Operation",
+                  key: "operationName" 
+            },
+            {
+                  path: "/consultation/:consultationId",
+                  // label: "Project",
+                  key: "consultationName" 
+            }
+      ],
+
+      noticeDetails : [
+            {path: "/", label: "Home", key: "home"},
+            { 
+                  path: "/wallet/:walletId",
+                  // label: "Wallet", // Default/fallback 
+                  key: "walletName" 
+            },
+            { 
+                  path: "/program/:programId", 
+                  // label: "Programme", 
+                  key: "programName" 
+            },
+            { 
+                  path: "/subprogram/:subProgramId", 
+                  // label: "Sub-Programme", 
+                  key: "subProgramName" 
+            },
+            { 
+                  path: "/action/:actionId",
+                  // label: "Action", 
+                  key: "actionName" 
+            },
+            { 
+                  path: "/operation/:operationId",
+                  // label: "Operation",
+                  key: "operationName" 
+            },
+            {
+                  path: "/notice/:noticeId",
+                  // label: "Project",
+                  key: "noticeName" 
             }
       ]
 }

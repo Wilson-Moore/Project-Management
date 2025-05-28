@@ -6,6 +6,7 @@ use App\Enums\Partner\Domain;
 use App\Enums\Partner\Status;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Partner extends Model
@@ -46,24 +47,39 @@ class Partner extends Model
         'fax'=>'string',
         'domain'=>'integer',
         'category'=>'integer',
-        'micro'=>'intger',
+        'micro'=>'integer',
         'trade_register'=>'string',
     ];
 
     public function getStatusLabelAttribute(): string
     {
         $status=Status::tryFrom($this->status);
-        return $status->label() ?? 'unknown';
+        return $status?->label() ?? 'unknown';
     }
 
     public function getDomainLabelAttribute(): string
     {
         $domain=Domain::tryFrom($this->domain);
-        return $domain->label() ?? 'unknown';
+        return $domain?->label() ?? 'unknown';
     }
 
     public function projects(): HasMany
     {
         return $this->hasMany(Project::class,"co_contractor");
+    }
+
+    public function humanmeans(): HasMany
+    {
+        return $this->hasMany(Humanmean::class,"employer");
+    }
+
+    public function materialmeans(): HasMany
+    {
+        return $this->hasMany(Materialmean::class,"owner");
+    }
+
+    public function blacklist(): HasOne
+    {
+        return $this->hasOne(Blacklist::class,"partner_nif");
     }
 }

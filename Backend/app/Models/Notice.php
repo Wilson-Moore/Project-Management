@@ -12,7 +12,7 @@ class Notice extends Model
 
     protected $fillable = [
         'arab_publication_date',
-        'franch_publication_date',
+        'french_publication_date',
         'BOMOP_date',
         'observation',
         'operation_number',
@@ -20,7 +20,7 @@ class Notice extends Model
 
     protected $casts = [
         'arab_publication_date'=>'datetime',
-        'franch_publication_date'=>'datetime',
+        'french_publication_date'=>'datetime',
         'BOMOP_date'=>'datetime',
         'observation'=>'string',
         'operation_number'=>'string',
