@@ -37,7 +37,7 @@ function SearchFilters(props) {
       'sousprogramme': { id: '', code: '', title: '', program_code: '' },
       'action': { code: '', title: '' },
       'operation': { number: '', title: '', date_of_notification: '', initial_ap: '', current_ap: '', situation: '1', action_code: '' },
-      'projet': { objectif: '', start_date: '', assessment_date: '', cost: '', duration: '', operation_number: '' },
+      'projet': { objectif: '', cost: '', duration: '', operation_number: '' },
       'partner': { nif:'', company_name:'', address:'', mobile1:'', mobile2:'', phone:'', email:'', status:'1', city:'', fax:'', domain:'1', trade_register:''}
       };
       

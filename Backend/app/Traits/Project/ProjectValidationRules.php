@@ -16,10 +16,9 @@ trait ProjectValidationRules
                 'required','integer',
                 new ProjectCostRule($this->operation_number,$operation_service)
             ],
-            'start_date'=>['required','date'],
             'duration'=>['required',new DurationRule()],
-            'assessment_date'=>['required','date','after_or_equal:start_date'],
             'operation_number'=>['required','exists:operations,number'],
+            'co_contractor'=>['sometimes','exists:partners,nif'],
         ];
     }
 

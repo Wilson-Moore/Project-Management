@@ -138,6 +138,15 @@ function ProjectListItem(props) {
                 formattedCode += props.project.operation.number[i];
             }
         }
+
+        let startDate = '-';
+        let assessmentDate = '-';
+        if(props.project.start_date) {
+            startDate = props.project.start_date.slice(0,10);
+        }
+        if(props.project.assessment_date) {
+            assessmentDate = props.project.assessment_date.slice(0,10);
+        }
         return (
             <div className="action-item" data-id={props.project.id} data-status="in-progress" data-year="2024" data-process="administrative">
                 <div className="action-info">
@@ -148,8 +157,8 @@ function ProjectListItem(props) {
                         <span className="action-name">{props.project.objectif}</span>
                         <div className="action-meta">
                             <span>{formattedCode}</span>
-                            <span>D-début: {props.project.start_date.slice(0,10)}</span>
-                            <span>D-évaluation: {props.project.assessment_date.slice(0,10)}</span>
+                            <span>D-début: {startDate}</span>
+                            <span>D-évaluation: {assessmentDate}</span>
                         </div>
                     </div>
                 </div>

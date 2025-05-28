@@ -99,17 +99,12 @@ function ProjectMeta(props) {
                   </div>
             );
       }else if(props.project) {
+
             return (
                   <div className="project-meta">
                         <div className="meta-item">
                               <span className="meta-label">Objectif du projet :</span>
                               <span className="meta-value">{props.project.objectif}</span></div>
-                        <div className="meta-item">
-                              <span className="meta-label">Démarrage :</span>
-                              <span className="meta-value">{props.project.start_date.slice(0,10)}</span></div>
-                        <div className="meta-item">
-                              <span className="meta-label">Évaluation :</span>
-                              <span className="meta-value">{props.project.assessment_date.slice(0,10)}</span></div>
                         <div className="meta-item">
                               <span className="meta-label">Coût :</span>
                               <span className="meta-value">{props.project.cost ? props.project.cost + ".00da" : ''}</span></div>

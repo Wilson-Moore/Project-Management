@@ -42,7 +42,6 @@ Route::group(['namespace'=>'App\Http\Controllers','middleware'=>'auth:sanctum'],
     Route::apiResource("projects",ProjectController::class);
     Route::apiResource("humanmeans",HumanmeanController::class);
     Route::apiResource("materialmeans",MaterialmeanController::class);
-    Route::apiResource("ods",ODSController::class);
 
     
     Route::prefix('documents/')->group(function () {

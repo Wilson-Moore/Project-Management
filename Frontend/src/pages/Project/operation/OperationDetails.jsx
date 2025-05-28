@@ -34,7 +34,7 @@ function OperationDetails() {
                         setLoading(false);
                   } catch (error) {
                         setLoading(false);
-                        setErrors(error);
+                        navigate('/operations');
                   }
             };
             

@@ -35,7 +35,7 @@ function ProjectDetails() {
                         setLoading(false);
                   }catch (error) {
                         setLoading(false);
-                        setErrors(error);
+                        navigate('/projects');
                   }
             };
             

@@ -35,7 +35,7 @@ function SubProgramDetails() {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        setErrors(error);
+        navigate('/subprograms');
       }
     };
   

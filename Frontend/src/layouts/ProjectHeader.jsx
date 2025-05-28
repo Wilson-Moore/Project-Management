@@ -188,6 +188,7 @@ function ProjectHeader(props) {
                               </div>
                         </div>
                         <ProjectMeta project={project} _operation={props._operation} _action={props._action} _subprogram={props._subprogram} _program={props._program} _wallet={props._wallet}/>
+                        <AddNew project={project} txt="projet" edit/>
                   </div>
             );
       }else if(props.consultation) {

@@ -181,40 +181,6 @@ export default function ProjectModel({ onClose, onSave, initialData, isUpdate = 
                               </p>
                         )}
                   </div>
-
-                  <div className="form-group">
-                  <label htmlFor="start_date">Date de début</label>
-                  <input
-                        id="start_date"
-                        name="start_date"
-                        type="text"
-                        value={project.start_date}
-                        onChange={handleChange}
-                        placeholder="yyyy/mm/dd"
-                  />
-                  {errors?.start_date && (
-                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
-                                    {errors.start_date}
-                              </p>
-                        )}
-                  </div>
-                  
-                  <div className="form-group">
-                  <label htmlFor="assessment_date">date d'évaluation</label>
-                  <input
-                        id="assessment_date"
-                        name="assessment_date"
-                        type="text"
-                        value={project.assessment_date}
-                        onChange={handleChange}
-                        placeholder="yyyy/mm/dd"
-                  />
-                  {errors?.assessment_date && (
-                              <p className="error" style={{color: 'red', marginTop: -12 + "px"}}>
-                                    {errors.assessment_date}
-                              </p>
-                        )}
-                  </div>
                   
                   <div className="form-group">
                   <label htmlFor="duration">Duration</label>

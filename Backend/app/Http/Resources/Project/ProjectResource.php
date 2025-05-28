@@ -19,13 +19,15 @@ class ProjectResource extends JsonResource
             'id'=>$this->id,
             'objectif'=>$this->objectif,
             'cost'=>$this->cost,
-            'start_date'=>$this->start_date->toDateString(),
             'duration'=>$this->duration_text,
-            'assessment_date'=>$this->assessment_date->toDateString(),
             'active_status'=>$this->active_status,
             'operation'=>$this->whenLoaded('operation',
                 fn()=>new OperationResource($this->operation),
                 fn()=>['number'=>$this->operation_number]
+            ),
+            'co_contractor'=>$this->whenLoaded('partner',
+                fn()=>new OperationResource($this->partner),
+                fn()=>['nif'=>$this->co_contractor]
             ),
         ];
     }

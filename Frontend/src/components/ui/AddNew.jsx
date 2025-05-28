@@ -56,7 +56,7 @@ function AddNew (props) {
       };
       }else if(props.project) {
             const { project } = props;
-            defaultData = { 'projet': { objectif: project.objectif, start_date: project.start_date, assessment_date: project.assessment_date, cost: project.cost, duration: project.duration, co_contractor: project.co_contractor, operation_number: project.operation_number }};
+            defaultData = { 'projet': { objectif: project.objectif, cost: project.cost, duration: project.duration, co_contractor: project.co_contractor, operation_number: project.operation_number }};
       }
       
 
@@ -88,29 +88,58 @@ function AddNew (props) {
       
       // Generic save handler for all entity types
       const handleSave = (entityData, entityType) => {
-      const isUpdate = !!editingItem;
-      const endpoint = entityType.toLowerCase() + 's'; // pluralize the endpoint
+            const isUpdate = !!editingItem;
+            const endpoint = entityType.toLowerCase() + 's'; // pluralize the endpoint
       
-      // Determine the ID field to use in the URL for update requests
-      let idField = 'code';
-      if (entityType === 'operation') idField = 'number';
-      if (entityType === 'project' || entityType === 'subprogram' || entityType === 'consultation' || entityType === "notice") idField = 'id';
+            // Determine the ID field to use in the URL for update requests
+            let idField = 'code';
+            if (entityType === 'operation') idField = 'number';
+            if (entityType === 'project' || entityType === 'subprogram' || entityType === 'consultation' || entityType === "notice") idField = 'id';
       
-      const request = isUpdate
-            ? axiosClient.patch(`/${endpoint}/${entityData[idField]}`, entityData)
-            : axiosClient.post(`/${endpoint}`, entityData);
-            
-      return request.then(() => {
-            setNotification(isUpdate 
-            ? `${entityType} was successfully updated` 
-            : `${entityType} was successfully created`
-            );
-            
-            // refresh the page after saving
-            setTimeout(() => {
-                  window.location.reload();
-            }, 10);
-      });
+            let id = '';
+            // Exclude unchanged fields (id, number, code) from the PATCH request
+            const payload = { ...entityData };
+            if (isUpdate) {
+                  if (editingItem?.id === entityData.id) {
+                        id = editingItem.id;
+                        delete payload.id; // Remove 'id' if unchanged
+                  }
+                  if (editingItem?.number === entityData.number) {
+                        id = editingItem.number;
+                        delete payload.number; // Remove 'number' if unchanged
+                  }
+                  if (editingItem?.code === entityData.code) {
+                        delete payload.code; // Remove 'code' if unchanged
+                  }
+                  
+                  if(editingItem.code) {
+                        id = editingItem.code;
+                  }
+                  if(editingItem.id) {
+                        id = editingItem.id;
+                  }
+                  if(editingItem.number) {
+                        id = editingItem.number;
+                  }
+            }
+      
+            const request = isUpdate
+                  ? axiosClient.patch(`/${endpoint}/${id}`, payload) // Use modified payload
+                  : axiosClient.post(`/${endpoint}`, entityData);
+      
+            return request.then(() => {
+                  setNotification(
+                        isUpdate
+                              ? `${entityType} was successfully updated`
+                              : `${entityType} was successfully created`
+                  );
+      
+                  // Refresh the page after saving
+                  setTimeout(() => {
+                        window.location.reload();
+                  }, 10);
+
+            });
       };
 
       return (

@@ -31,7 +31,7 @@ function ActionDetails() {
                         setLoading(false);
                   } catch (error) {
                         setLoading(false);
-                        setErrors(error);
+                        navigate('/actions');
                   }
             };
             

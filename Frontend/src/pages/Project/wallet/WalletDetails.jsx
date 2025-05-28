@@ -24,7 +24,7 @@ function WalletDetails() {
       })
       .catch(() => {
         setLoading(false);
-        navigate('/');
+        navigate('/wallets');
       });
     }
   },[walletId]);

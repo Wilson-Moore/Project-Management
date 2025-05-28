@@ -144,6 +144,9 @@ function ProjectOverview(props) {
                   if (key === 'initial_ap') formattedIAp = formattedValue;
             });
 
+            if(operation.date_of_notification) {
+                  date_of_notification = operation.date_of_notification.slice(0,4);
+            }
             return (
                   <div className="detail-grid">
                         <div className="detail-column">
@@ -160,7 +163,7 @@ function ProjectOverview(props) {
                               <div className="detail-row">
                               <div className="detail-cell">
                               <h3 className="detail-label">Année de notification:</h3>
-                              <p className="detail-value">{operation.date_of_notification?.slice(0,4) || '2025'}</p>
+                              <p className="detail-value">{date_of_notification}</p>
                               </div>
                               <div className="detail-cell">
                               <h3 className="detail-label">AP Actuelle:</h3>
@@ -196,7 +199,7 @@ function ProjectOverview(props) {
                               <div className="detail-row">
                               <div className="detail-cell detail-quarter">
                               <h3 className="detail-label">Observation:</h3>
-                              <p className="detail-value">{operation.observatin || '-'}</p>
+                              <p className="detail-value">{operation.observation || '-'}</p>
                               </div>
                               </div>
                         </div>
@@ -204,6 +207,7 @@ function ProjectOverview(props) {
             );
       }else if(props.project) {
             const { project } = props;
+
             return (
                   <div className="detail-grid">
                   <div className="detail-column">
@@ -213,18 +217,8 @@ function ProjectOverview(props) {
                         <p className="detail-value">{project.id || "-"}</p>
                         </div> */}
                         <div className="detail-cell">
-                        <h3 className="detail-label">Intitulé du projet: </h3>
+                        <h3 className="detail-label">Objectif du projet: </h3>
                         <p className="detail-value">{project.objectif || "-"}</p>
-                        </div>
-                        </div>
-                        <div className="detail-row">
-                        <div className="detail-cell">
-                        <h3 className="detail-label">Date de début: </h3>
-                        <p className="detail-value">{project.start_date.slice(0,10) || "-"}</p>
-                        </div>
-                        <div className="detail-cell">
-                        <h3 className="detail-label">Date d'évaluation: </h3>
-                        <p className="detail-value">{project.assessment_date.slice(0,10) || "-"}</p>
                         </div>
                         </div>
                   </div>
@@ -238,12 +232,6 @@ function ProjectOverview(props) {
                         <div className="detail-cell">
                         <h3 className="detail-label">coût: </h3>
                         <p className="detail-value">{project.cost + ".00da" || "-"}</p>
-                        </div>
-                        </div>
-                        <div className="detail-row">
-                        <div className="detail-cell">
-                        <h3 className="detail-label">Observation:</h3>
-                        <p className="detail-value">{ '-'}</p>
                         </div>
                         </div>
                   </div>

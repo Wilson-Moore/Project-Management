@@ -14,9 +14,7 @@ class Project extends Model
     protected $fillable = [
         'objectif',
         'cost',
-        'start_date',
         'duration',
-        'assessment_date',
         'co_contractor',
         'operation_number',
     ];
@@ -24,9 +22,7 @@ class Project extends Model
     protected $casts = [
         'objectif'=>'string',
         'cost'=>'integer',
-        'start_date'=>'datetime',
         'duration'=>'string',
-        'assessment_date'=>'datetime',
         'operation_number'=>'string',
         'co_contractor'=>'string',
     ];
