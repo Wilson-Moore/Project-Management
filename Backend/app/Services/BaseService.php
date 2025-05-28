@@ -20,7 +20,6 @@ abstract class BaseService
         if (in_array(strtolower($sortDir),['asc','desc'])) {
             $query->orderBy($sortBy, $sortDir);
         }
-        $perPage=$request->input('per_page',15);
         return $query->paginate($perPage)->appends($request->query());
     }
 
