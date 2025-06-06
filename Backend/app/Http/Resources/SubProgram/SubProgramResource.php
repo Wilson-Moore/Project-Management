@@ -3,12 +3,14 @@
 namespace App\Http\Resources\Subprogram;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\Action\ActionCollection;
-use App\Http\Resources\Program\ProgramResource;
+use App\Traits\HasSparseFields;
+use App\Traits\Subprogram\SubprogramFields;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SubprogramResource extends JsonResource
 {
+    use SubprogramFields,HasSparseFields;
+
     /**
      * Transform the resource into an array.
      *
@@ -16,16 +18,6 @@ class SubprogramResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id'=>$this->id,
-            'code'=>$this->code,
-            'title'=>$this->title,
-            'active_status'=>$this->active_status,
-            'program'=>$this->whenLoaded('program',
-                fn()=>new ProgramResource($this->program),
-                fn()=>['code'=>$this->program_code]
-            ),
-            'actions'=>ActionCollection::make($this->whenLoaded('actions')),
-        ];
+        return $this->selection($this->fields(),$request);
     }
 }

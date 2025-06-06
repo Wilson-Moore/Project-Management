@@ -2,12 +2,15 @@
 
 namespace App\Http\Resources\Revaluation;
 
-use App\Http\Resources\Operation\OperationResource;
+use App\Traits\HasSparseFields;
+use App\Traits\Revaluation\RevaluationFields;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class RevaluationResource extends JsonResource
 {
+    use RevaluationFields,HasSparseFields;
+
     /**
      * Transform the resource into an array.
      *
@@ -15,13 +18,6 @@ class RevaluationResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'year'=>$this->year,
-            'amount'=>$this->amount,
-            'operation'=>$this->whenLoaded('operation',
-                fn()=>new OperationResource($this->operation),
-                fn()=>['operation_number'=>$this->operation_number]
-            ),
-        ];
+        return $this->selection($this->fields(),$request);
     }
 }

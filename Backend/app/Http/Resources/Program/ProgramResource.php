@@ -4,11 +4,13 @@ namespace App\Http\Resources\Program;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\SubProgram\SubProgramCollection;
-use App\Http\Resources\Wallet\WalletResource;
+use App\Traits\HasSparseFields;
+use App\Traits\Program\ProgramFields;
 
 class ProgramResource extends JsonResource
 {
+    use ProgramFields,HasSparseFields;
+
     /**
      * Transform the resource into an array.
      *
@@ -16,15 +18,6 @@ class ProgramResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'code'=>$this->code,
-            'title'=>$this->title,
-            'active_status'=>$this->active_status,
-            'wallet'=>$this->whenLoaded('wallet',
-                fn()=>new WalletResource($this->wallet),
-                fn()=>['code'=>$this->wallet_code]
-            ),
-            'subprograms'=>SubProgramCollection::make($this->whenLoaded('subprograms')),
-        ];
+        return $this->selection($this->fields(),$request);
     }
 }

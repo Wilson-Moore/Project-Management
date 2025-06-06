@@ -2,12 +2,15 @@
 
 namespace App\Http\Resources\Consultation;
 
-use App\Http\Resources\Operation\OperationResource;
+use App\Traits\Consultation\ConsultationFields;
+use App\Traits\HasSparseFields;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ConsultationResource extends JsonResource
 {
+    use ConsultationFields,HasSparseFields;
+    
     /**
      * Transform the resource into an array.
      *
@@ -15,16 +18,6 @@ class ConsultationResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id'=>$this->id,
-            'signature_date'=>$this->signature_date->toDateString(),
-            'duration'=>$this->duration_text,
-            'observation'=>$this->observation,
-            'active_status'=>$this->active_status,
-            'operation'=>$this->whenLoaded('operation',
-                fn()=>new OperationResource($this->operation),
-                fn()=>['number'=>$this->operation_number]
-            ),
-        ];
+        return $this->selection($this->fields(),$request);
     }
 }

@@ -2,12 +2,15 @@
 
 namespace App\Http\Resources\Blacklist;
 
-use App\Http\Resources\Partner\PartnerResource;
+use App\Traits\Blacklist\BlacklistFields;
+use App\Traits\HasSparseFields;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BlacklistResource extends JsonResource
 {
+    use BlacklistFields,HasSparseFields;
+
     /**
      * Transform the resource into an array.
      *
@@ -15,16 +18,6 @@ class BlacklistResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id'=>$this->id,
-            'entry_date'=>$this->entry_date->toDateString(),
-            'exit_date'=>$this->exit_date->toDateString(),
-            'reason'=>$this->reason,
-            'observation'=>$this->observation,
-            'partner'=>$this->whenLoaded('partner',
-                fn()=>new PartnerResource($this->partner),
-                fn()=>['nif'=>$this->partner_nif]
-            ),
-        ];;
+        return $this->selection($this->fields(),$request);
     }
 }

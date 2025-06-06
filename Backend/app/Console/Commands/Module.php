@@ -41,6 +41,7 @@ class Module extends Command
         Artisan::call("make:resource {$name}/{$name}Collection");
         $this->output->write(Artisan::output());
 
+        Artisan::call("make:trait {$name}/{$name}Fields");
         Artisan::call("make:trait {$name}/{$name}Includes");
         Artisan::call("make:trait {$name}/{$name}ValidationRules");
         $this->output->write(Artisan::output());

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->string("register_number")->primary();
             $table->integer("number");
-            $table->datetimes("signature_date");
-            $table->datetimes("notification_date");
+            $table->dateTime("signature_date");
+            $table->dateTime("notification_date");
             $table->integer("type");
             $table->string("project_id");
             $table->timestamps();
